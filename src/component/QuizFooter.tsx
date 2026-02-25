@@ -18,7 +18,7 @@ export default function QuizFooter({ isEnabled, sheetContainer, onResultPageMove
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   return (
-    <footer className="border-t border-slate-200 p-4">
+    <footer className="absolute inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white p-4">
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <Button disabled={!isEnabled} className="h-12 w-full rounded-md" onClick={() => setIsSheetOpen(true)}>
           정답 확인
@@ -33,8 +33,11 @@ export default function QuizFooter({ isEnabled, sheetContainer, onResultPageMove
           onInteractOutside={(event) => event.preventDefault()}
         >
           <SheetHeader className="text-center sm:text-center">
-            <SheetTitle className="text-center">Q2</SheetTitle>
-            <SheetDescription>정답이에요!</SheetDescription>
+            <SheetTitle className="text-center">정답이에요!</SheetTitle>
+            <SheetDescription>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+            </SheetDescription>
           </SheetHeader>
 
           <div className="mt-6">

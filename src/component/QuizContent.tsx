@@ -1,15 +1,19 @@
-﻿import type { ChangeEvent } from "react"
+﻿import type { ChangeEvent } from 'react';
 
 type QuizContentProps = {
-  choices: string[]
-  selectedChoice: string
-  onChangeChoice: (value: string) => void
-}
+  choices: string[];
+  selectedChoice: string;
+  onChangeChoice: (value: string) => void;
+};
 
-export default function QuizContent({ choices, selectedChoice, onChangeChoice }: QuizContentProps) {
+export default function QuizContent({
+  choices,
+  selectedChoice,
+  onChangeChoice,
+}: QuizContentProps) {
   const handleChoiceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChangeChoice(e.target.value)
-  }
+    onChangeChoice(e.target.value);
+  };
 
   return (
     <section className="flex-1 p-4">
@@ -26,16 +30,17 @@ export default function QuizContent({ choices, selectedChoice, onChangeChoice }:
       </div>
 
       <div className="flex h-full flex-col gap-6 p-4">
-        <div className="space-y-2">
-          <p className="text-m font-semibold text-slate-600">Q2. 테스트 퀴즈</p>
-          <div className="rounded-md border border-slate-300 bg-white p-4">
-            <p className="text-sm font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
-            </p>
-          </div>
+        <p className="text-m font-semibold text-slate-600">Q2. 테스트 퀴즈</p>
+        <img
+          src="/vite.svg"
+          alt="Vite logo"
+          className="mx-auto block h-20 w-auto"
+        />
+        <div className="rounded-md border border-slate-300 bg-white p-4">
+          <p className="text-sm font-medium">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
         </div>
 
         <div className="grid gap-2">
@@ -58,5 +63,5 @@ export default function QuizContent({ choices, selectedChoice, onChangeChoice }:
         </div>
       </div>
     </section>
-  )
+  );
 }
