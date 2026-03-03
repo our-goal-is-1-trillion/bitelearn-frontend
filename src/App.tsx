@@ -2,14 +2,14 @@
 import Quiz from "./components/features/quiz/Quiz"
 import Result from "./components/features/result/Result"
 import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
+import Home from "./components/features/home/Home"
 
-type Page = "choiceQuestion" | "quiz" | "result"
+type Page = "home" | "choiceQuestion" | "quiz" | "result"
 
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
-  // TODO: connect to router — 기본 페이지를 ChoiceQuestion으로 설정
-  const [page, setPage] = useState<Page>("choiceQuestion")
+  const [page, setPage] = useState<Page>("home")
   const [targetPage, setTargetPage] = useState<Page | null>(null)
   const [transitionStage, setTransitionStage] = useState<TransitionStage>("idle")
 
@@ -33,22 +33,28 @@ export default function App() {
     }
   }, [transitionStage, targetPage])
 
-  const handleMoveToResult = () => {
-    if (transitionStage !== "idle") {
-      return
-    }
-
-    setTargetPage("result")
+  /** 페이지 전환 (fade out → swap → fade in) */
+  const handleNavigate = (next: Page) => {
+    if (transitionStage !== "idle") return
+    setTargetPage(next)
     setTransitionStage("out")
   }
 
+  const handleMoveToResult = () => handleNavigate("result")
+
   const transitionClass =
-    transitionStage === "out" ? "page-transition-out" : transitionStage === "in" ? "page-transition-in" : ""
+    transitionStage === "out"
+      ? "page-transition-out"
+      : transitionStage === "in"
+        ? "page-transition-in"
+        : ""
 
   const renderPage = () => {
     switch (page) {
+      case "home":
+        return <Home onNavigate={handleNavigate} />
       case "choiceQuestion":
-        return <ChoiceQuestion />
+        return <ChoiceQuestion onBack={() => handleNavigate("home")} />
       case "result":
         return <Result />
       case "quiz":

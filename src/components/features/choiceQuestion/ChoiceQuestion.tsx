@@ -14,7 +14,12 @@ type Phase = "passage" | "choices" | "checking" | "result"
  * ChoiceQuestion — 객관식 문제풀기 메인 컨테이너.
  * 지문(passage) → 보기(choices) → 결과(result) 화면을 전환 관리한다.
  */
-export default function ChoiceQuestion() {
+type ChoiceQuestionProps = {
+  /** 홈으로 돌아가는 핸들러 (IA 홈에서 넘어온 경우) */
+  onBack?: () => void
+}
+
+export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
   const quizSet = MOCK_CHOICE_QUESTION_SET
   // TODO: connect to global state/API — 현재 문제 인덱스
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -112,7 +117,12 @@ export default function ChoiceQuestion() {
     } else if (phase === "choices") {
       setPhase("passage")
     } else {
-      window.history.back()
+      // passage 단계: 홈 or 브라우저 뒤로가기
+      if (onBack) {
+        onBack()
+      } else {
+        window.history.back()
+      }
     }
   }
 
