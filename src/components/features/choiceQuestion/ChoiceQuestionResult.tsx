@@ -33,7 +33,7 @@ export default function ChoiceQuestionResult({
   onNext,
 }: ChoiceQuestionResultProps) {
   return (
-    <>
+    <div className="flex h-full w-full flex-col animate-in fade-in slide-in-from-right-8 duration-500">
       {/* 스크롤 가능한 콘텐츠 영역 */}
       <section className="flex-1 overflow-y-auto px-6">
         {/* ── 정답/오답 헤더 영역 ── */}
@@ -94,6 +94,6 @@ export default function ChoiceQuestionResult({
       <ChoiceQuestionFooter onClick={onNext}>
         {isLastQuestion ? "최종 결과 확인" : "다음 문제"}
       </ChoiceQuestionFooter>
-    </>
+    </div>
   )
 }
