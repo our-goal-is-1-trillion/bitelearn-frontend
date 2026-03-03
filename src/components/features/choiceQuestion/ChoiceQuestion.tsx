@@ -45,7 +45,7 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
     setPhase("checking")
     setTimeout(() => {
       setPhase("result")
-    }, 2000)
+    }, 1400)
   }
 
   /** 다음 문제로 이동 */
