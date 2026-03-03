@@ -24,7 +24,7 @@ type IATab = {
 const IA_TABS: IATab[] = [
   {
     id: 1,
-    title: "홈",
+    title: "홈 (Home)",
     emoji: "🏠",
     colorClass: {
       bg: "bg-red-50",
@@ -35,14 +35,12 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
-      { label: "오늘의 학습" },
-      { label: "추천 아티클" },
-      { label: "진도 현황" },
+      { label: "미정" },
     ],
   },
   {
     id: 2,
-    title: "아티클",
+    title: "아티클 (Articles)",
     emoji: "📰",
     colorClass: {
       bg: "bg-indigo-50",
@@ -52,11 +50,11 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-indigo-100",
       itemBorder: "border-indigo-200",
     },
-    items: [{ label: "아티클 목록" }, { label: "아티클 상세" }],
+    items: [{ label: "미정" }],
   },
   {
     id: 3,
-    title: "학습",
+    title: "학습 (Learning)",
     emoji: "📚",
     colorClass: {
       bg: "bg-green-50",
@@ -68,14 +66,14 @@ const IA_TABS: IATab[] = [
     },
     items: [
       { label: "객관식 퀴즈", page: "choiceQuestion" },
-      { label: "빈칸 채우기" },
-      { label: "오늘의 단어" },
+      { label: "미정" },
+      { label: "미정" },
     ],
   },
   {
     id: 4,
-    title: "오답노트",
-    emoji: "📝",
+    title: "아카이브 (Archive)",
+    emoji: "�️",
     colorClass: {
       bg: "bg-orange-50",
       border: "border-orange-200",
@@ -84,11 +82,11 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-orange-100",
       itemBorder: "border-orange-200",
     },
-    items: [{ label: "오답 목록" }, { label: "다시 풀기" }],
+    items: [{ label: "미정" }],
   },
   {
     id: 5,
-    title: "마이페이지",
+    title: "마이 (My Page)",
     emoji: "👤",
     colorClass: {
       bg: "bg-slate-50",
@@ -98,11 +96,7 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-slate-100",
       itemBorder: "border-slate-200",
     },
-    items: [
-      { label: "프로필" },
-      { label: "학습 통계" },
-      { label: "설정" },
-    ],
+    items: [{ label: "미정" }],
   },
 ]
 
