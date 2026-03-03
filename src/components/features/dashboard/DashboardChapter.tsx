@@ -17,7 +17,7 @@ export default function DashboardChapter({ onBack, onBackHome }: DashboardChapte
         <section className="relative h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
           <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
             <div className="absolute inset-x-0 top-0 z-20 bg-white">
-              <QuizHeader title="챕터 설명" showBackButton onBackClick={onBack} />
+              <QuizHeader title="챕터 설명" onCloseClick={onBack} />
             </div>
 
             <section className="flex-1 overflow-y-auto px-6 pb-6 pt-6">
