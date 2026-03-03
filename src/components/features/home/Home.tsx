@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion"
+type Page = "home" | "choiceQuestion" | "dashBoard"
 
 type IAItem = {
   label: string
@@ -35,7 +35,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
-      { label: "미정" },
+      { label: "홈 대시보드", page: "dashBoard" },
     ],
   },
   {

@@ -3,8 +3,9 @@ import Quiz from "./components/features/quiz/Quiz"
 import Result from "./components/features/result/Result"
 import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
 import Home from "./components/features/home/Home"
+import Dashboard from "./components/features/dashboard/Dashboard"
 
-type Page = "home" | "choiceQuestion" | "quiz" | "result"
+type Page = "home" | "choiceQuestion" | "quiz" | "result" | "dashBoard"
 
 type TransitionStage = "idle" | "out" | "in"
 
@@ -55,6 +56,8 @@ export default function App() {
         return <Home onNavigate={handleNavigate} />
       case "choiceQuestion":
         return <ChoiceQuestion onBack={() => handleNavigate("home")} />
+      case "dashBoard":
+        return <Dashboard onBackHome={() => handleNavigate("home")} />
       case "result":
         return <Result />
       case "quiz":
