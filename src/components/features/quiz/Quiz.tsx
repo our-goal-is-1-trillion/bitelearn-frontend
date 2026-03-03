@@ -1,7 +1,7 @@
 ﻿import { useRef, useState } from "react"
-import QuizHeader from "./component/QuizHeader"
-import QuizContent from "./component/QuizContent"
-import QuizFooter from "./component/QuizFooter"
+import QuizHeader from "@/components/layout/QuizHeader"
+import QuizContent from "./QuizContent"
+import QuizFooter from "./QuizFooter"
 
 type QuizProps = {
   onResultPageMove: () => void

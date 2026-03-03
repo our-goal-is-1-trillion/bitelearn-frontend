@@ -1,13 +1,15 @@
 ﻿import { useEffect, useState } from "react"
-import Quiz from "./Quiz"
-import Result from "./Result"
+import Quiz from "./components/features/quiz/Quiz"
+import Result from "./components/features/result/Result"
+import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
 
-type Page = "quiz" | "result"
+type Page = "choiceQuestion" | "quiz" | "result"
 
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
-  const [page, setPage] = useState<Page>("quiz")
+  // TODO: connect to router — 기본 페이지를 ChoiceQuestion으로 설정
+  const [page, setPage] = useState<Page>("choiceQuestion")
   const [targetPage, setTargetPage] = useState<Page | null>(null)
   const [transitionStage, setTransitionStage] = useState<TransitionStage>("idle")
 
@@ -43,5 +45,17 @@ export default function App() {
   const transitionClass =
     transitionStage === "out" ? "page-transition-out" : transitionStage === "in" ? "page-transition-in" : ""
 
-  return <div className={transitionClass}>{page === "result" ? <Result /> : <Quiz onResultPageMove={handleMoveToResult} />}</div>
+  const renderPage = () => {
+    switch (page) {
+      case "choiceQuestion":
+        return <ChoiceQuestion />
+      case "result":
+        return <Result />
+      case "quiz":
+      default:
+        return <Quiz onResultPageMove={handleMoveToResult} />
+    }
+  }
+
+  return <div className={transitionClass}>{renderPage()}</div>
 }

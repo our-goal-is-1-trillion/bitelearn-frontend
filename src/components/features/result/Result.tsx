@@ -1,5 +1,5 @@
 ﻿import { Button } from "@/components/ui/button"
-import QuizHeader from "./component/QuizHeader"
+import QuizHeader from "@/components/layout/QuizHeader"
 
 export default function Result() {
   return (
