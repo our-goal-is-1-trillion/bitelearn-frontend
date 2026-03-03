@@ -1,34 +1,61 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+﻿import { useEffect, useState } from "react"
+import Quiz from "./components/features/quiz/Quiz"
+import Result from "./components/features/result/Result"
+import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
 
-function App() {
-  const [count, setCount] = useState(0);
+type Page = "choiceQuestion" | "quiz" | "result"
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+type TransitionStage = "idle" | "out" | "in"
+
+export default function App() {
+  // TODO: connect to router — 기본 페이지를 ChoiceQuestion으로 설정
+  const [page, setPage] = useState<Page>("choiceQuestion")
+  const [targetPage, setTargetPage] = useState<Page | null>(null)
+  const [transitionStage, setTransitionStage] = useState<TransitionStage>("idle")
+
+  useEffect(() => {
+    if (transitionStage === "out" && targetPage) {
+      const switchTimer = window.setTimeout(() => {
+        setPage(targetPage)
+        setTransitionStage("in")
+      }, 180)
+
+      return () => window.clearTimeout(switchTimer)
+    }
+
+    if (transitionStage === "in") {
+      const settleTimer = window.setTimeout(() => {
+        setTransitionStage("idle")
+        setTargetPage(null)
+      }, 260)
+
+      return () => window.clearTimeout(settleTimer)
+    }
+  }, [transitionStage, targetPage])
+
+  const handleMoveToResult = () => {
+    if (transitionStage !== "idle") {
+      return
+    }
+
+    setTargetPage("result")
+    setTransitionStage("out")
+  }
+
+  const transitionClass =
+    transitionStage === "out" ? "page-transition-out" : transitionStage === "in" ? "page-transition-in" : ""
+
+  const renderPage = () => {
+    switch (page) {
+      case "choiceQuestion":
+        return <ChoiceQuestion />
+      case "result":
+        return <Result />
+      case "quiz":
+      default:
+        return <Quiz onResultPageMove={handleMoveToResult} />
+    }
+  }
+
+  return <div className={transitionClass}>{renderPage()}</div>
 }
-
-export default App;
