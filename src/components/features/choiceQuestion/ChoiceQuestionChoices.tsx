@@ -18,6 +18,8 @@ type ChoiceQuestionChoicesProps = {
   isChecking?: boolean
   /** 정답 인덱스 */
   correctIndex?: number
+  /** 뒤로가기 핸들러 */
+  onBack?: () => void
 }
 
 /**
@@ -34,6 +36,7 @@ export default function ChoiceQuestionChoices({
   onCheckAnswer,
   isChecking = false,
   correctIndex,
+  onBack,
 }: ChoiceQuestionChoicesProps) {
   const isCtaEnabled = selectedValue !== ""
 
@@ -95,7 +98,9 @@ export default function ChoiceQuestionChoices({
       {/* Footer — "정답 확인" CTA */}
       <ChoiceQuestionFooter 
         disabled={!isCtaEnabled || isChecking} 
+        backDisabled={isChecking}
         onClick={onCheckAnswer}
+        onBack={onBack}
       >
         정답 확인
       </ChoiceQuestionFooter>

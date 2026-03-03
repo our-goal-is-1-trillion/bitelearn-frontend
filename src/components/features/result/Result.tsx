@@ -6,7 +6,7 @@ export default function Result() {
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
       <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
         <div className="absolute inset-x-0 top-0 z-20 bg-white">
-          <QuizHeader title="퀴즈 제목" showBackButton={false} />
+          <QuizHeader title="퀴즈 제목" showCloseButton={false} />
         </div>
 
         <section className="relative flex flex-1 flex-col p-6 text-center">

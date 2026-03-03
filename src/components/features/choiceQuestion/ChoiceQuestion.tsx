@@ -83,6 +83,7 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
             onCheckAnswer={handleCheckAnswer}
             isChecking={phase === "checking"}
             correctIndex={currentQuestion.correctIndex}
+            onBack={() => setPhase("passage")}
           />
         )
       case "result":
@@ -110,19 +111,12 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
     }
   }
 
-  /** 뒤로 가기 처리 */
+  /** 뒤로 가기 처리 (구 로직 대체, 사용 안됨) */
   const handleBack = () => {
-    if (phase === "result") {
-      setPhase("choices")
-    } else if (phase === "choices") {
-      setPhase("passage")
+    if (onBack) {
+      onBack()
     } else {
-      // passage 단계: 홈 or 브라우저 뒤로가기
-      if (onBack) {
-        onBack()
-      } else {
-        window.history.back()
-      }
+      window.history.back()
     }
   }
 
@@ -134,7 +128,7 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
       <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
         {/* 상단 고정 Header */}
         <div className="absolute inset-x-0 top-0 z-20 bg-white">
-          <QuizHeader title={quizSet.title} showBackButton onBackClick={handleBack} />
+          <QuizHeader title={quizSet.title} showCloseButton onCloseClick={handleBack} />
         </div>
 
         {/* 결과 화면에서는 진행도 바와 이미지를 숨김 */}
