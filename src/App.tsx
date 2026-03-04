@@ -4,8 +4,10 @@ import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
 import Home from "./components/features/home/Home"
 import Dashboard from "./components/features/dashboard/Dashboard"
 import Result from "./components/features/result/Result"
+import WordLearning from "./components/features/wordLearning/WordLearning"
+import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
 
-type Page = "home" | "choiceQuestion" | "quiz" | "result" | "dashBoard"
+type Page = "home" | "choiceQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
@@ -44,6 +46,10 @@ export default function App() {
 
   const renderPage = () => {
     switch (page) {
+      case "home":
+        return <Home onNavigate={handleNavigate} />
+      case "wordLearning":
+        return <WordLearning wordSet={MOCK_CHOICE_QUESTION_SET} onBack={() => handleNavigate("home")} />
       case "choiceQuestion":
         return <ChoiceQuestion onComplete={() => handleNavigate("result")} />
       case "result":

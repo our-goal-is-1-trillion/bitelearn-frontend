@@ -14,7 +14,13 @@ type ChoiceQuestionProps = {
 }
 
 export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
-  const quizSet = MOCK_CHOICE_QUESTION_SET
+  // 테스트를 위해 전체 데이터 중 'quiz' 타입의 문제 1개만 추출하여 사용합니다.
+  const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.type === "quiz")
+  const quizSet = {
+    ...MOCK_CHOICE_QUESTION_SET,
+    questions: quizQuestions.slice(0, 1) // 딱 1문제만 사용
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>("passage")
   const [selectedChoice, setSelectedChoice] = useState("")
@@ -70,7 +76,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
       case "checking":
         return (
           <ChoiceQuestionChoices
-            questionNumber={currentQuestion.questionNumber}
+            questionNumber={currentIndex + 1}
             question={currentQuestion.question}
             choices={currentQuestion.choices}
             selectedValue={selectedChoice}

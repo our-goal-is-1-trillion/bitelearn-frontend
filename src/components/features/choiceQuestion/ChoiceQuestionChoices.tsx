@@ -1,6 +1,6 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Check, X } from "lucide-react"
-import ChoiceQuestionFooter from "./ChoiceQuestionFooter"
+import QuizFooter from "@/components/layout/QuizFooter"
 
 type ChoiceQuestionChoicesProps = {
   questionNumber: number
@@ -83,14 +83,14 @@ export default function ChoiceQuestionChoices({
         </RadioGroup>
       </section>
 
-      <ChoiceQuestionFooter
+      <QuizFooter
         disabled={!isCtaEnabled || isChecking}
         previousDisabled={isChecking}
         onClick={onCheckAnswer}
         onPrevious={onPrevious}
       >
         정답 확인
-      </ChoiceQuestionFooter>
+      </QuizFooter>
     </>
   )
 }

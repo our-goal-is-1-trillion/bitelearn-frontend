@@ -1,4 +1,4 @@
-import ChoiceQuestionFooter from "./ChoiceQuestionFooter"
+import QuizFooter from "@/components/layout/QuizFooter"
 
 type ChoiceQuestionPassageProps = {
   /** 지문 텍스트 */
@@ -33,9 +33,9 @@ export default function ChoiceQuestionPassage({
       </section>
 
       {/* Footer — "문제 풀기" CTA */}
-      <ChoiceQuestionFooter onClick={onSolve}>
+      <QuizFooter onClick={onSolve}>
         문제 풀기
-      </ChoiceQuestionFooter>
+      </QuizFooter>
     </>
   )
 }

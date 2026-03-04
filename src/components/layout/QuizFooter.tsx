@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import type { ReactNode } from "react"
 import { ArrowLeft } from "lucide-react"
 
-type ChoiceQuestionFooterProps = {
+type QuizFooterProps = {
   disabled?: boolean
   previousDisabled?: boolean
   onClick: () => void
@@ -10,13 +10,13 @@ type ChoiceQuestionFooterProps = {
   onPrevious?: () => void
 }
 
-export default function ChoiceQuestionFooter({
+export default function QuizFooter({
   disabled = false,
   previousDisabled = false,
   onClick,
   children,
   onPrevious,
-}: ChoiceQuestionFooterProps) {
+}: QuizFooterProps) {
   return (
     <footer className="absolute inset-x-0 bottom-0 z-20 flex gap-2 border-t border-slate-200 bg-white p-4">
       {onPrevious && (

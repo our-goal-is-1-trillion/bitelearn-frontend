@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion" | "dashBoard" | "result"
+type Page = "home" | "choiceQuestion" | "dashBoard" | "result" | "wordLearning"
 
 type IAItem = {
   label: string
@@ -65,6 +65,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-green-200",
     },
     items: [
+      { label: "단어 학습", page: "wordLearning" },
       { label: "퀴즈 결과", page: "result" },
       { label: "객관식 퀴즈", page: "choiceQuestion" },
       { label: "미정" },
@@ -73,7 +74,7 @@ const IA_TABS: IATab[] = [
   {
     id: 4,
     title: "아카이브 (Archive)",
-    emoji: "�️",
+    emoji: "️",
     colorClass: {
       bg: "bg-orange-50",
       border: "border-orange-200",
