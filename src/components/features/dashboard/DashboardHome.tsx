@@ -1,4 +1,4 @@
-import DashboardBottomNav from "./DashboardBottomNav"
+import DashboardBottomNav from "@/components/layout/DashboardBottomNav"
 import DashboardCategoryList from "./DashboardCategoryList"
 import DashboardContinueCard from "./DashboardContinueCard"
 import DashboardHeader from "./DashboardHeader"
@@ -9,7 +9,6 @@ type DashboardHomeProps = {
   tabs: DashboardTab[]
   categories: DashboardCategory[]
   recommendations: DashboardRecommendation[]
-  onBack: () => void
   onMoveToChapter: () => void
 }
 

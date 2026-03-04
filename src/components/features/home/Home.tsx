@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion" | "dashBoard"
+type Page = "home" | "choiceQuestion" | "dashBoard" | "result"
 
 type IAItem = {
   label: string
@@ -65,8 +65,8 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-green-200",
     },
     items: [
+      { label: "퀴즈 결과", page: "result" },
       { label: "객관식 퀴즈", page: "choiceQuestion" },
-      { label: "미정" },
       { label: "미정" },
     ],
   },

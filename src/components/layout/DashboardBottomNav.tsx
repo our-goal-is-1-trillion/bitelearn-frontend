@@ -1,4 +1,4 @@
-import type { DashboardTab } from "./dashboard.types"
+import type { DashboardTab } from "@/components/features/dashboard/dashboard.types"
 
 type DashboardBottomNavProps = {
   tabs: DashboardTab[]

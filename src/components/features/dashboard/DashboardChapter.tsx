@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 
 type DashboardChapterProps = {
   onChapterBack: () => void
-  onBack: () => void
 }
 
 export default function DashboardChapter({ onChapterBack }: DashboardChapterProps) {
