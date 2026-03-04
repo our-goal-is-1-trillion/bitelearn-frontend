@@ -15,12 +15,6 @@ export default function DashboardChapter({ onChapterBack, onBack }: DashboardCha
         </div>
 
         <section className="hide-scrollbar flex-1 overflow-y-auto px-6 pb-6 pt-6">
-          <div className="mb-3 flex justify-end">
-            <Button variant="outline" size="sm" onClick={onBack}>
-              IA 홈으로
-            </Button>
-          </div>
-
           <article className="mt-3 rounded-md border border-slate-300 bg-white px-4 py-4">
             <p className="text-xs text-slate-500">부동산 · Lesson 12</p>
             <h2 className="mt-1 text-base font-semibold text-slate-900">우선순위 금지행위란?</h2>
