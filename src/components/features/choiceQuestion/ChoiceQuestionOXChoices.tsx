@@ -43,10 +43,14 @@ export default function ChoiceQuestionOXChoices({
     if (!isChecking) {
       return selected === value ? "selected" : "idle"
     }
-    const isAnswer = value === correctIndex
     const isSelected = selected === value
-    if (isAnswer) return "correct"
-    if (isSelected && !isAnswer) return "wrong"
+    const isAnswer = value === correctIndex
+    
+    // 사용자가 선택한 버튼만 정답/오답 피드백을 주고, 나머지는 모두 딤 처리하여 시각적 혼란을 없앰
+    if (isSelected) {
+      return isAnswer ? "correct" : "wrong"
+    }
+    
     return "dim"
   }
 
@@ -60,11 +64,11 @@ export default function ChoiceQuestionOXChoices({
       text: "",
     },
     correct: {
-      container: "border-green-400 bg-green-50 text-green-600 animate-bounce",
+      container: "border-green-500 bg-green-50 text-green-600 scale-[1.05] shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 ease-out z-10",
       text: "",
     },
     wrong: {
-      container: "border-red-400 bg-red-50 text-red-500 animate-shake",
+      container: "border-red-500 bg-red-50 text-red-500 scale-[1.05] shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all duration-300 ease-out z-10",
       text: "",
     },
     dim: {
