@@ -5,6 +5,12 @@ type ChoiceQuestionPassageProps = {
   passage: string
   /** 지문 아래 플레이버 텍스트 */
   flavorText: string
+  /**
+   * 지문 표시 모드
+   * - "text"  : 일반 텍스트 카드 (기본값)
+   * - "story" : 대화형 버블 (추후 확장 예정)
+   */
+  passageMode?: "text" | "story"
   /** "문제 풀기" 버튼 클릭 핸들러 */
   onSolve: () => void
 }
@@ -17,12 +23,13 @@ type ChoiceQuestionPassageProps = {
 export default function ChoiceQuestionPassage({
   passage,
   flavorText,
+  passageMode = "text",
   onSolve,
 }: ChoiceQuestionPassageProps) {
   return (
     <>
-      {/* 스크롤 가능한 콘텐츠 영역 */}
-      <section className="flex-1 overflow-y-auto px-6">
+      {/* 스크롤 가능한 콘텐츠 영역: data-mode 속성에 passageMode를 남겨 첨부 확장 시 CSS 분기 시 활용 */}
+      <section className="flex-1 overflow-y-auto px-6" data-mode={passageMode}>
         {/* 지문 카드 */}
         <div className="rounded-md border border-slate-300 bg-white px-4 py-4">
           <p className="text-sm leading-relaxed text-slate-900">{passage}</p>

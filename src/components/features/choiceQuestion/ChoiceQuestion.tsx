@@ -13,6 +13,21 @@ type ChoiceQuestionProps = {
   onComplete?: () => void
 }
 
+/**
+ * passageMode × choiceMode 조합으로 퀴즈 유형 레이블을 생성합니다.
+ * 추후 "story"나 "ox" 모드가 추가될 때 이 함수만 확장하면 됩니다.
+ */
+function getQuizTypeLabel(
+  passageMode: "text" | "story" | undefined,
+  choiceMode: "multiple" | "ox" | undefined
+): string {
+  const passageLabel =
+    passageMode === "story" ? "상황 지문형" : "지문형"
+  const choiceLabel =
+    choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
+  return `${choiceLabel} (${passageLabel})`
+}
+
 export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
   // 테스트를 위해 전체 데이터 중 'quiz' 타입의 문제 1개만 추출하여 사용합니다.
   const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.type === "quiz")
@@ -32,6 +47,11 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
   const currentQuestion = quizSet.questions[currentIndex]
   const isLastQuestion = currentIndex >= quizSet.questions.length - 1
   const isCorrect = selectedChoice !== "" && Number(selectedChoice) === currentQuestion.correctIndex
+
+  // 현재 문제의 모드를 읽어 기본값을 적용합니다.
+  const passageMode = currentQuestion.passageMode ?? "text"
+  const choiceMode = currentQuestion.choiceMode ?? "multiple"
+  const quizTypeLabel = getQuizTypeLabel(passageMode, choiceMode)
 
   const handleSolve = () => setPhase("choices")
 
@@ -69,6 +89,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
           <ChoiceQuestionPassage
             passage={currentQuestion.passage}
             flavorText={currentQuestion.flavorText}
+            passageMode={passageMode}
             onSolve={handleSolve}
           />
         )
@@ -79,6 +100,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
             questionNumber={currentIndex + 1}
             question={currentQuestion.question}
             choices={currentQuestion.choices}
+            choiceMode={choiceMode}
             selectedValue={selectedChoice}
             onSelectChoice={setSelectedChoice}
             onCheckAnswer={handleCheckAnswer}
@@ -106,7 +128,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
     <main ref={screenRef} className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
       <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
         <div className="absolute inset-x-0 top-0 z-20 bg-white">
-          <QuizHeader title={quizSet.title} showCloseButton onCloseClick={() => window.history.back()} />
+          <QuizHeader title={quizTypeLabel} showCloseButton onCloseClick={() => window.history.back()} />
         </div>
 
         {phase !== "result" && (

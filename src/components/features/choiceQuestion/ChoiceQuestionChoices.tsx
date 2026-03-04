@@ -6,6 +6,12 @@ type ChoiceQuestionChoicesProps = {
   questionNumber: number
   question: string
   choices: string[]
+  /**
+   * 선택지 표시 모드
+   * - "multiple" : 사지선다 RadioGroup (기본값)
+   * - "ox"      : O/X 버튼 2개 (추후 확장 예정)
+   */
+  choiceMode?: "multiple" | "ox"
   selectedValue: string
   onSelectChoice: (value: string) => void
   onCheckAnswer: () => void
@@ -18,6 +24,7 @@ export default function ChoiceQuestionChoices({
   questionNumber,
   question,
   choices,
+  choiceMode = "multiple",
   selectedValue,
   onSelectChoice,
   onCheckAnswer,
@@ -29,7 +36,7 @@ export default function ChoiceQuestionChoices({
 
   return (
     <>
-      <section className="flex-1 overflow-y-auto px-6">
+      <section className="flex-1 overflow-y-auto px-6" data-choice-mode={choiceMode}>
         <h2 className="mb-4 text-base font-semibold text-slate-600">
           Q{questionNumber}. {question}
         </h2>

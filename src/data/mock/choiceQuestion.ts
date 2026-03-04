@@ -4,6 +4,18 @@ export interface ChoiceQuestionItem {
   questionNumber: number
   /** 단계 타입 (단어장/학습 vs 퀴즈) */
   type?: "word" | "learning" | "quiz"
+  /**
+   * 지문 표시 모드
+   * - "text" : 일반 텍스트 카드 (기본값)
+   * - "story": 대화형 버블 (추후 확장 예정)
+   */
+  passageMode?: "text" | "story"
+  /**
+   * 선택지 표시 모드
+   * - "multiple" : 사지선다 RadioGroup (기본값)
+   * - "ox"      : O/X 버튼 2개 (추후 확장 예정)
+   */
+  choiceMode?: "multiple" | "ox"
   /** 지문 본문 */
   passage: string
   /** 지문 아래 플레이버 텍스트 (생각 등) */

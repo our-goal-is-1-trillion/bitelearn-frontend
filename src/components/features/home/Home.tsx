@@ -67,7 +67,7 @@ const IA_TABS: IATab[] = [
     items: [
       { label: "단어 학습", page: "wordLearning" },
       { label: "퀴즈 결과", page: "result" },
-      { label: "객관식 퀴즈", page: "choiceQuestion" },
+      { label: "지문형 객관식 퀴즈", page: "choiceQuestion" },
       { label: "미정" },
     ],
   },
