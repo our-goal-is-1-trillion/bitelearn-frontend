@@ -2,6 +2,8 @@
 export interface ChoiceQuestionItem {
   /** 문제 번호 (1-based) */
   questionNumber: number
+  /** 단계 타입 (단순 학습 vs 퀴즈) */
+  type?: "learning" | "quiz"
   /** 지문 본문 */
   passage: string
   /** 지문 아래 플레이버 텍스트 (생각 등) */
@@ -37,6 +39,7 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
   questions: [
     {
       questionNumber: 1,
+      type: "quiz",
       passage:
         '강아지가 드디어 마음에 드는 강아지집을 발견했어요! 시세보다 훨~씬 싸고, 집주인 아저씨는 "서류는 깨끗하니까 걱정 마!"라고 했어요. 그런데 보증금을 오늘 안에 내라고 재촉하네요…',
       flavorText: '"와, 이렇게 싼 집이! 빨리 계약해야 하나…?"',
@@ -57,6 +60,7 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
     },
     {
       questionNumber: 2,
+      type: "quiz",
       passage:
         '강아지가 "등기부등본"이라는 서류를 받아봤어요. 뭔가 복잡해 보이는데… 여기서 꼭 확인해야 할 것은?',
       flavorText: '"이 서류, 어디부터 봐야 하지…?"',

@@ -1,31 +1,47 @@
-type ChoiceQuestionProgressBarProps = {
-  /** 현재 문제 번호 (1-based) */
-  currentStep: number
-  /** 전체 문제 수 */
-  totalSteps: number
+import { cn } from "@/lib/utils"
+
+export type StepIndicatorInfo = {
+  type: "learning" | "quiz"
+  status: "none" | "correct" | "incorrect"
+  isCurrent: boolean
 }
 
-/** 퀴즈 진행도를 표시하는 프로그레스 바 */
+type ChoiceQuestionProgressBarProps = {
+  steps: StepIndicatorInfo[]
+}
+
+/** 퀴즈 진행도를 표시하는 Dot 인디케이터 */
 export default function ChoiceQuestionProgressBar({
-  currentStep,
-  totalSteps,
+  steps,
 }: ChoiceQuestionProgressBarProps) {
-  const progressPercent = (currentStep / totalSteps) * 100
-
   return (
-    <div className="flex items-center gap-2.5 px-6 pt-6">
-      <span className="shrink-0 text-xs text-slate-500">
-        {currentStep}/{totalSteps}
-      </span>
+    <div className="flex items-center justify-center gap-2 px-6 pt-6">
+      {steps.map((step, index) => {
+        let bgColor = "bg-slate-300" // 퀴즈 미해결 (기본 옅은 회색)
 
-      {/* 프로그레스 바 배경 */}
-      <div className="h-2 w-full rounded-full bg-slate-200">
-        {/* 프로그레스 바 채움 */}
-        <div
-          className="h-full rounded-full bg-slate-800 transition-all duration-300"
-          style={{ width: `${progressPercent}%` }}
-        />
-      </div>
+        if (step.type === "learning") {
+          bgColor = "bg-blue-500" // 학습: 파란색
+        } else if (step.type === "quiz") {
+          if (step.status === "correct") {
+            bgColor = "bg-green-500" // 정답: 녹색
+          } else if (step.status === "incorrect") {
+            bgColor = "bg-red-500" // 오답: 빨간색
+          }
+        }
+
+        const sizeClass = step.isCurrent ? "w-2.5 h-2.5" : "w-1.5 h-1.5"
+
+        return (
+          <div
+            key={index}
+            className={cn(
+              "rounded-full transition-all duration-300",
+              bgColor,
+              sizeClass
+            )}
+          />
+        )
+      })}
     </div>
   )
 }

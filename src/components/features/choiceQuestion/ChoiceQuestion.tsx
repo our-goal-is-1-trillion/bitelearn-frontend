@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import QuizHeader from "@/components/layout/QuizHeader"
-import ChoiceQuestionProgressBar from "./ChoiceQuestionProgressBar"
+import ChoiceQuestionProgressBar, { type StepIndicatorInfo } from "./ChoiceQuestionProgressBar"
 import ChoiceQuestionImage from "./ChoiceQuestionImage"
 import ChoiceQuestionPassage from "./ChoiceQuestionPassage"
 import ChoiceQuestionChoices from "./ChoiceQuestionChoices"
@@ -25,6 +25,9 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>("passage")
   const [selectedChoice, setSelectedChoice] = useState("")
+  const [metrics, setMetrics] = useState<("none" | "correct" | "incorrect")[]>(
+    Array(quizSet.questions.length).fill("none")
+  )
   const screenRef = useRef<HTMLElement | null>(null)
 
   const currentQuestion = quizSet.questions[currentIndex]
@@ -43,6 +46,11 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
   /** 정답 확인 클릭 → 결과 화면으로 전환 */
   const handleCheckAnswer = () => {
     setPhase("checking")
+    setMetrics((prev) => {
+      const next = [...prev]
+      next[currentIndex] = isCorrect ? "correct" : "incorrect"
+      return next
+    })
     setTimeout(() => {
       setPhase("result")
     }, 1400)
@@ -120,6 +128,12 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
     }
   }
 
+  const indicatorSteps: StepIndicatorInfo[] = quizSet.questions.map((q, idx) => ({
+    type: q.type || "quiz",
+    status: metrics[idx],
+    isCurrent: idx === currentIndex,
+  }))
+
   return (
     <main
       ref={screenRef}
@@ -134,11 +148,8 @@ export default function ChoiceQuestion({ onBack }: ChoiceQuestionProps) {
         {/* 결과 화면에서는 진행도 바와 이미지를 숨김 */}
         {phase !== "result" && (
           <>
-            {/* 진행도 바 */}
-            <ChoiceQuestionProgressBar
-              currentStep={currentIndex + 1}
-              totalSteps={totalSteps}
-            />
+            {/* 진행도 바 (닷 인디케이터) */}
+            <ChoiceQuestionProgressBar steps={indicatorSteps} />
 
             {/* 문제 이미지 */}
             <ChoiceQuestionImage
