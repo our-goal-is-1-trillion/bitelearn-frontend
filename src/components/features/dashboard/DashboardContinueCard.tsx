@@ -10,11 +10,11 @@ export default function DashboardContinueCard({
 }: DashboardContinueCardProps) {
   return (
     <article className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-4 shadow-sm">
-      <p className="text-base font-semibold text-slate-900 py-2">이어하기</p>
+      <p className="text-base font-semibold text-slate-900 py-2">이어서 학습해보세요! 🚩</p>
 
       <div className="flex items-center justify-between px-3 py-3">
         <div className="space-y-1">
-          <p className="mt-1 text-xs text-slate-500">부동산 · 중급</p>
+          <p className="mt-1 text-xs text-slate-500">부동산 · 주거</p>
           <p className="text-sm font-semibold text-slate-900">전세사기 예방</p>
           <p className="mt-1 text-xs text-slate-500">완료율 68%</p>
         </div>

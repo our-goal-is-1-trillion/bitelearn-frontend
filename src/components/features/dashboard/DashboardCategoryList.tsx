@@ -7,7 +7,7 @@ type DashboardCategoryListProps = {
 export default function DashboardCategoryList({ categories }: DashboardCategoryListProps) {
   return (
     <article className="my-4">
-      <p className="text-base font-semibold text-slate-900">4대 인생 방어막</p>
+      <p className="text-base font-semibold text-slate-900">4대 인생 방어막🛡️</p>
       <div className="mt-3 grid grid-cols-2 gap-3">
         {categories.map((category) => (
           <div

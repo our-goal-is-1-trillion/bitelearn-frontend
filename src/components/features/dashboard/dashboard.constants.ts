@@ -10,21 +10,21 @@ export const DASHBOARD_TABS: DashboardTab[] = [
 ]
 
 export const DASHBOARD_CATEGORIES: DashboardCategory[] = [
-  { name: "부동산·주거", lessons: 12, percent: 72 },
-  { name: "고용·생활금융", lessons: 8, percent: 38 },
-  { name: "커리어·세무", lessons: 15, percent: 84 },
-  { name: "투자·자산운용", lessons: 15, percent: 84 },
+  { name: "부동산 · 주거", lessons: 12, percent: 72 },
+  { name: "생활금융 · 고용", lessons: 8, percent: 38 },
+  { name: "커리어 · 세무", lessons: 15, percent: 84 },
+  { name: "자산운용 · 투자", lessons: 15, percent: 84 },
 ]
 
 export const DASHBOARD_TODAY_RECOMMENDATIONS: DashboardRecommendation[] = [
   {
     title: "신용점수 빠르게 올리는 3가지 습관",
-    category: "금융",
-    durationMinutes: 9,
+    category: "생활금융 · 고용",
+    difficulty: "중급",
   },
   {
     title: "전세 계약 전 꼭 확인해야 할 체크리스트",
-    category: "부동산",
-    durationMinutes: 12,
+    category: "부동산 · 주거",
+    difficulty: "초급",
   },
 ]

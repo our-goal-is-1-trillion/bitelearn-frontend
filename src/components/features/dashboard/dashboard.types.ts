@@ -17,5 +17,5 @@ export type DashboardCategory = {
 export type DashboardRecommendation = {
   title: string
   category: string
-  durationMinutes: number
+  difficulty: string
 }
