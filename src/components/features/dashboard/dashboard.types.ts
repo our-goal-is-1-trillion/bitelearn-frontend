@@ -13,3 +13,9 @@ export type DashboardCategory = {
   lessons: number
   percent: number
 }
+
+export type DashboardRecommendation = {
+  title: string
+  category: string
+  durationMinutes: number
+}

@@ -6,12 +6,15 @@ type DashboardCategoryListProps = {
 
 export default function DashboardCategoryList({ categories }: DashboardCategoryListProps) {
   return (
-    <article className="rounded-md border border-slate-300 bg-white px-4 py-4">
-      <p className="text-base font-semibold text-slate-900">학습 카테고리</p>
-      <div className="mt-3 space-y-2">
+    <article className="my-4">
+      <p className="text-base font-semibold text-slate-900">4대 인생 방어막</p>
+      <div className="mt-3 grid grid-cols-2 gap-3">
         {categories.map((category) => (
-          <div key={category.name} className="rounded-md border border-slate-200 bg-white px-3 py-3">
-            <div className="mb-2 flex items-center justify-between">
+          <div
+            key={category.name}
+            className="aspect-[4/3] flex flex-col justify-end rounded-md border border-slate-200 bg-white px-3 py-3"
+          >
+            <div className="mb-2">
               <p className="text-sm font-semibold text-slate-900">{category.name}</p>
               <p className="text-xs text-slate-400">{category.lessons} Chapters</p>
             </div>

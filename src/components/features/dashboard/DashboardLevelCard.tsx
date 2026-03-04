@@ -1,7 +1,7 @@
 export default function DashboardLevelCard() {
   return (
-    <article className="rounded-md border border-slate-300 bg-white px-4 py-4">
-      <p className="mt-1 text-lg font-semibold text-slate-900">Lv. 7 Explorer</p>
+    <article className="border rounded-md px-4 py-4">
+      <p className="text-lg font-semibold text-slate-900">Lv. 7 Explorer</p>
       <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
         <span>XP 1,480 / 2,000</span>
         <span>74%</span>

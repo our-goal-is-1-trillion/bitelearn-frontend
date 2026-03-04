@@ -92,3 +92,12 @@
 .page-transition-in {
   animation: page-in 260ms ease-out forwards;
 }
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
