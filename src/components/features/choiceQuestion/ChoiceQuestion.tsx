@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import QuizHeader from "@/components/layout/QuizHeader"
-import ChoiceQuestionProgressBar, { type StepIndicatorInfo } from "./ChoiceQuestionProgressBar"
+import ChoiceQuestionIndicator, { type StepIndicatorInfo } from "./ChoiceQuestionIndicator"
 import ChoiceQuestionImage from "./ChoiceQuestionImage"
 import ChoiceQuestionPassage from "./ChoiceQuestionPassage"
 import ChoiceQuestionChoices from "./ChoiceQuestionChoices"
@@ -105,8 +105,10 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
         {phase !== "result" && (
           <>
-            <ChoiceQuestionProgressBar steps={indicatorSteps} />
-            <ChoiceQuestionImage src={currentQuestion.imageUrl} alt={currentQuestion.imageAlt} />
+            {/* 진행도 바 (닷 인디케이터) */}
+            <ChoiceQuestionIndicator steps={indicatorSteps} />
+
+            {/* 문제 이미지 */}<ChoiceQuestionImage src={currentQuestion.imageUrl} alt={currentQuestion.imageAlt} />
           </>
         )}
 

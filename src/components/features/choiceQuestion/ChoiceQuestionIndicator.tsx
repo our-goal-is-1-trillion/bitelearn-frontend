@@ -6,14 +6,14 @@ export type StepIndicatorInfo = {
   isCurrent: boolean
 }
 
-type ChoiceQuestionProgressBarProps = {
+type ChoiceQuestionIndicatorProps = {
   steps: StepIndicatorInfo[]
 }
 
 /** 퀴즈 진행도를 표시하는 Dot 인디케이터 */
-export default function ChoiceQuestionProgressBar({
+export default function ChoiceQuestionIndicator({
   steps,
-}: ChoiceQuestionProgressBarProps) {
+}: ChoiceQuestionIndicatorProps) {
   return (
     <div className="flex items-center justify-center gap-2 px-6 pt-6">
       {steps.map((step, index) => {
