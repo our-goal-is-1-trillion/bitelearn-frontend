@@ -4,6 +4,7 @@ import ChoiceQuestionIndicator, { type StepIndicatorInfo } from "./ChoiceQuestio
 import ChoiceQuestionImage from "./ChoiceQuestionImage"
 import ChoiceQuestionPassage from "./ChoiceQuestionPassage"
 import ChoiceQuestionChoices from "./ChoiceQuestionChoices"
+import ChoiceQuestionOXChoices from "./ChoiceQuestionOXChoices"
 import ChoiceQuestionResult from "./ChoiceQuestionResult"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
@@ -55,11 +56,23 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
   const handleSolve = () => setPhase("choices")
 
-  const handleCheckAnswer = () => {
+  /**
+   * 정답 확인 핸들러.
+   * - multiple 모드: 선택된 value(문자열)를 이미 state에서 읽음
+   * - ox 모드: OXChoices 컴포넌트가 선택 인덱스를 직접 전달
+   */
+  const handleCheckAnswer = (selectedIndex?: number) => {
+    // OX 모드에서 선택된 인덱스를 직접 받아 state에 반영
+    const resolvedChoice =
+      selectedIndex !== undefined ? String(selectedIndex) : selectedChoice
+    if (resolvedChoice === "") return
+
+    const correct = Number(resolvedChoice) === currentQuestion.correctIndex
+    setSelectedChoice(resolvedChoice)
     setPhase("checking")
     setMetrics((prev) => {
       const next = [...prev]
-      next[currentIndex] = isCorrect ? "correct" : "incorrect"
+      next[currentIndex] = correct ? "correct" : "incorrect"
       return next
     })
     setTimeout(() => setPhase("result"), 1400)
@@ -95,6 +108,18 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
         )
       case "choices":
       case "checking":
+        if (choiceMode === "ox") {
+          return (
+            <ChoiceQuestionOXChoices
+              questionNumber={currentIndex + 1}
+              question={currentQuestion.question}
+              correctIndex={currentQuestion.correctIndex}
+              onCheckAnswer={handleCheckAnswer}
+              isChecking={phase === "checking"}
+              onPrevious={() => setPhase("passage")}
+            />
+          )
+        }
         return (
           <ChoiceQuestionChoices
             questionNumber={currentIndex + 1}

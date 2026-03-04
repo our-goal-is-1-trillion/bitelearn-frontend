@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
+import OxQuestion from "./components/features/oxQuestion/OxQuestion"
 import Home from "./components/features/home/Home"
 import Dashboard from "./components/features/dashboard/Dashboard"
 import Result from "./components/features/result/Result"
 import WordLearning from "./components/features/wordLearning/WordLearning"
 import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
 
-type Page = "home" | "choiceQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
+type Page = "home" | "choiceQuestion" | "oxQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
@@ -52,11 +53,12 @@ export default function App() {
         return <WordLearning wordSet={MOCK_CHOICE_QUESTION_SET} onBack={() => handleNavigate("home")} />
       case "choiceQuestion":
         return <ChoiceQuestion onComplete={() => handleNavigate("result")} />
+      case "oxQuestion":
+        return <OxQuestion onComplete={() => handleNavigate("result")} />
       case "result":
         return <Result />
       case "dashBoard":
         return <Dashboard />
-      case "home":
       default:
         return <Home onNavigate={handleNavigate} />
     }

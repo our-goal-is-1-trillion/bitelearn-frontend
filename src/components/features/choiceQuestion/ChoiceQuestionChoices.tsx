@@ -14,7 +14,7 @@ type ChoiceQuestionChoicesProps = {
   choiceMode?: "multiple" | "ox"
   selectedValue: string
   onSelectChoice: (value: string) => void
-  onCheckAnswer: () => void
+  onCheckAnswer: (selectedIndex?: number) => void
   isChecking?: boolean
   correctIndex?: number
   onPrevious?: () => void

@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion" | "dashBoard" | "result" | "wordLearning"
+type Page = "home" | "choiceQuestion" | "oxQuestion" | "dashBoard" | "result" | "wordLearning"
 
 type IAItem = {
   label: string
@@ -68,6 +68,7 @@ const IA_TABS: IATab[] = [
       { label: "단어 학습", page: "wordLearning" },
       { label: "퀴즈 결과", page: "result" },
       { label: "지문형 객관식 퀴즈", page: "choiceQuestion" },
+      { label: "지문형 OX 퀴즈", page: "oxQuestion" },
       { label: "미정" },
     ],
   },
