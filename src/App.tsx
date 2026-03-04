@@ -57,7 +57,7 @@ export default function App() {
       case "choiceQuestion":
         return <ChoiceQuestion onBack={() => handleNavigate("home")} />
       case "dashBoard":
-        return <Dashboard onBackHome={() => handleNavigate("home")} />
+        return <Dashboard onBack={() => handleNavigate("home")} />
       case "result":
         return <Result />
       case "quiz":
