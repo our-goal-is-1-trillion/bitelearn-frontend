@@ -6,7 +6,7 @@ type DashboardChapterProps = {
   onBack: () => void
 }
 
-export default function DashboardChapter({ onChapterBack, onBack }: DashboardChapterProps) {
+export default function DashboardChapter({ onChapterBack }: DashboardChapterProps) {
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
       <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
