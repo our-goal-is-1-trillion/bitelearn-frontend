@@ -1,5 +1,4 @@
 ﻿import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
 
 export type IAPath =
@@ -25,18 +24,6 @@ type IAProps = {
   onNavigate?: (page: IAPath) => void
 }
 
-const PAGE_TO_ROUTE: Record<IAPath, string> = {
-  home: "/home",
-  choiceQuestion: "/quiz/choice",
-  documentChoiceQuestion: "/quiz/choice",
-  documentClickQuestion: "/quiz/choice",
-  oxQuestion: "/quiz/ox",
-  conversationQuestion: "/quiz/conversation",
-  result: "/quiz/result",
-  dashBoard: "/home",
-  wordLearning: "/home",
-}
-
 const items: IAItem[] = [
   { label: "온보딩 스크린", action: "onboarding" },
   { label: "대시보드", page: "dashBoard" },
@@ -48,7 +35,6 @@ const items: IAItem[] = [
 ]
 
 export default function IA({ onNavigate }: IAProps) {
-  const navigate = useNavigate()
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   const handleSelect = (item: IAItem) => {
@@ -57,13 +43,8 @@ export default function IA({ onNavigate }: IAProps) {
       return
     }
 
-    if (!item.page) return
-    if (onNavigate) {
-      onNavigate(item.page)
-      return
-    }
-
-    navigate(PAGE_TO_ROUTE[item.page])
+    if (!item.page || !onNavigate) return
+    onNavigate(item.page)
   }
 
   return (
