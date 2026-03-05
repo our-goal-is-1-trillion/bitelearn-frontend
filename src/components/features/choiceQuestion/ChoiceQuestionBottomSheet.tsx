@@ -10,20 +10,20 @@ import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
 type Phase = "passage" | "choices" | "checking" | "result"
 
-type ChoiceQuestionBottomSheetProps = {
-  onComplete?: () => void
+type ChoiceQuestionProps = {
+  onComplete?: (total: number, correctCount: number) => void
 }
 
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | "conversation" | undefined,
-  choiceMode: "multiple" | "ox" | undefined
+  passageMode: "text" | "story" | "conversation" | "document" | undefined,
+  choiceMode: "multiple" | "ox" | "document_select" | undefined
 ): string {
   const passageLabel = passageMode === "story" ? "상황 지문형" : "지문형"
   const choiceLabel = choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
   return `${choiceLabel} (${passageLabel} - Bottom Sheet)`
 }
 
-export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestionBottomSheetProps) {
+export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestionProps) {
   const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.type === "quiz")
   const quizSet = {
     ...MOCK_CHOICE_QUESTION_SET,
@@ -46,7 +46,9 @@ export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestion
   const choiceMode = currentQuestion.choiceMode ?? "multiple"
   const quizTypeLabel = getQuizTypeLabel(passageMode, choiceMode)
 
-  const handleSolve = () => setPhase("choices")
+  const handleSolve = () => {
+    setPhase("choices")
+  }
 
   const handleCheckAnswer = (selectedIndex?: number | React.MouseEvent) => {
     const isEvent = selectedIndex && typeof selectedIndex !== "number";
@@ -67,7 +69,10 @@ export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestion
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      if (onComplete) onComplete()
+      if (onComplete) {
+        const correctCount = metrics.filter((m) => m === "correct").length
+        onComplete(quizSet.questions.length, correctCount)
+      }
       return
     }
 
@@ -136,7 +141,7 @@ export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestion
                       questionNumber={currentIndex + 1}
                       question={currentQuestion.question}
                       choices={currentQuestion.choices}
-                      choiceMode={choiceMode}
+                      choiceMode={choiceMode as "multiple" | "document_select"}
                       selectedValue={selectedChoice}
                       onSelectChoice={setSelectedChoice}
                       onCheckAnswer={handleCheckAnswer}

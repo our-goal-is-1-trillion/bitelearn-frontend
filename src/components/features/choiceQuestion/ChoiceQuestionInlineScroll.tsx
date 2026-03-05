@@ -11,12 +11,12 @@ import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 type Phase = "passage" | "choices" | "checking" | "result"
 
 type ChoiceQuestionInlineScrollProps = {
-  onComplete?: () => void
+  onComplete?: (total: number, correctCount: number) => void
 }
 
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | "conversation" | undefined,
-  choiceMode: "multiple" | "ox" | undefined
+  passageMode: "text" | "story" | "conversation" | "document" | undefined,
+  choiceMode: "multiple" | "ox" | "document_select" | undefined
 ): string {
   const passageLabel = passageMode === "story" ? "상황 지문형" : "지문형"
   const choiceLabel = choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
@@ -65,7 +65,10 @@ export default function ChoiceQuestionInlineScroll({ onComplete }: ChoiceQuestio
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      if (onComplete) onComplete()
+      if (onComplete) {
+        const correctCount = metrics.filter((m) => m === "correct").length
+        onComplete(quizSet.questions.length, correctCount)
+      }
       return
     }
 
@@ -122,7 +125,7 @@ export default function ChoiceQuestionInlineScroll({ onComplete }: ChoiceQuestio
                   questionNumber={currentIndex + 1}
                   question={currentQuestion.question}
                   choices={currentQuestion.choices}
-                  choiceMode={choiceMode}
+                  choiceMode={choiceMode as "multiple" | "document_select"}
                   selectedValue={selectedChoice}
                   onSelectChoice={setSelectedChoice}
                   onCheckAnswer={handleCheckAnswer}

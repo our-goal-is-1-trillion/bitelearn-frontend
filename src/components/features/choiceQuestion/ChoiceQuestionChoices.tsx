@@ -10,8 +10,9 @@ type ChoiceQuestionChoicesProps = {
    * 선택지 표시 모드
    * - "multiple" : 사지선다 RadioGroup (기본값)
    * - "ox"      : O/X 버튼 2개 (추후 확장 예정)
+   * - "document_select" : 서류형 선택 객관식
    */
-  choiceMode?: "multiple" | "ox"
+  choiceMode?: "multiple" | "ox" | "document_select"
   selectedValue: string
   onSelectChoice: (value: string) => void
   onCheckAnswer: (selectedIndex?: number) => void

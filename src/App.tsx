@@ -15,6 +15,12 @@ import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
 import QuizLayoutWrapper from "./components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "./components/layout/QuizLayoutWrapper"
 
+export type QuizResultData = {
+  total: number
+  correct: number
+  timeSpent?: number
+}
+
 type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
@@ -22,6 +28,7 @@ export default function App() {
   const [page, setPage] = useState<Page>("home")
   const [targetPage, setTargetPage] = useState<Page | null>(null)
   const [transitionStage, setTransitionStage] = useState<TransitionStage>("idle")
+  const [quizResult, setQuizResult] = useState<QuizResultData | null>(null)
 
   useEffect(() => {
     if (transitionStage === "out" && targetPage) {
@@ -45,8 +52,14 @@ export default function App() {
 
   const handleNavigate = (next: Page) => {
     if (transitionStage !== "idle") return
+    if (next !== "result") setQuizResult(null) // Reset on leaving result
     setTargetPage(next)
     setTransitionStage("out")
+  }
+
+  const handleCompleteQuiz = (total: number, correct: number) => {
+    setQuizResult({ total, correct, timeSpent: 125 }) // 125초 임의 데이터
+    handleNavigate("result")
   }
 
   const transitionClass =
@@ -66,9 +79,9 @@ export default function App() {
             currentVariant={page as QuizVariant}
             onVariantChange={(variant) => handleNavigate(variant)}
           >
-            {page === "choiceQuestion" && <ChoiceQuestion onComplete={() => handleNavigate("result")} />}
-            {page === "choiceQuestionBottomSheet" && <ChoiceQuestionBottomSheet onComplete={() => handleNavigate("result")} />}
-            {page === "choiceQuestionInline" && <ChoiceQuestionInlineScroll onComplete={() => handleNavigate("result")} />}
+            {page === "choiceQuestion" && <ChoiceQuestion onComplete={handleCompleteQuiz} />}
+            {page === "choiceQuestionBottomSheet" && <ChoiceQuestionBottomSheet onComplete={handleCompleteQuiz} />}
+            {page === "choiceQuestionInline" && <ChoiceQuestionInlineScroll onComplete={handleCompleteQuiz} />}
           </QuizLayoutWrapper>
         )
       case "oxQuestion":
@@ -79,15 +92,15 @@ export default function App() {
             currentVariant={page as QuizVariant}
             onVariantChange={(variant) => handleNavigate(variant)}
           >
-            {page === "oxQuestion" && <OxQuestion onComplete={() => handleNavigate("result")} />}
-            {page === "oxQuestionBottomSheet" && <OxQuestionBottomSheet onComplete={() => handleNavigate("result")} />}
-            {page === "oxQuestionInline" && <OxQuestionInlineScroll onComplete={() => handleNavigate("result")} />}
+            {page === "oxQuestion" && <OxQuestion onComplete={handleCompleteQuiz} />}
+            {page === "oxQuestionBottomSheet" && <OxQuestionBottomSheet onComplete={handleCompleteQuiz} />}
+            {page === "oxQuestionInline" && <OxQuestionInlineScroll onComplete={handleCompleteQuiz} />}
           </QuizLayoutWrapper>
         )
       case "conversationQuestion":
-        return <ConversationQuestion onComplete={() => handleNavigate("result")} />
+        return <ConversationQuestion onComplete={handleCompleteQuiz} />
       case "result":
-        return <Result />
+        return <Result resultData={quizResult} onFinish={() => handleNavigate("home")} />
       case "dashBoard":
         return <Dashboard />
       default:

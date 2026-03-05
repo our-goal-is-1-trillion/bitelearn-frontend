@@ -10,15 +10,15 @@ import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 type Phase = "passage" | "choices" | "checking" | "result"
 
 type ConversationQuestionProps = {
-  onComplete?: () => void
+  onComplete?: (total: number, correctCount: number) => void
 }
 
 /**
  * passageMode × choiceMode 조합으로 퀴즈 유형 레이블을 생성합니다.
  */
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | "conversation" | undefined,
-  choiceMode: "multiple" | "ox" | undefined
+  passageMode: "text" | "story" | "conversation" | "document" | undefined,
+  choiceMode: "multiple" | "ox" | "document_select" | undefined
 ): string {
   const passageLabel = passageMode === "conversation" ? "대화 지문형" : "지문형"
   const choiceLabel = choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
@@ -70,7 +70,10 @@ export default function ConversationQuestion({ onComplete }: ConversationQuestio
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      if (onComplete) onComplete()
+      if (onComplete) {
+        const correctCount = metrics.filter((m) => m === "correct").length
+        onComplete(quizSet.questions.length, correctCount)
+      }
       return
     }
 

@@ -11,7 +11,7 @@ import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 type Phase = "passage" | "choices" | "checking" | "result"
 
 type ChoiceQuestionProps = {
-  onComplete?: () => void
+  onComplete?: (total: number, correctCount: number) => void
 }
 
 /**
@@ -19,8 +19,8 @@ type ChoiceQuestionProps = {
  * 추후 "story"나 "ox" 모드가 추가될 때 이 함수만 확장하면 됩니다.
  */
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | "conversation" | undefined,
-  choiceMode: "multiple" | "ox" | undefined
+  passageMode: "text" | "story" | "conversation" | "document" | undefined,
+  choiceMode: "multiple" | "ox" | "document_select" | undefined
 ): string {
   const passageLabel =
     passageMode === "story" ? "상황 지문형" : "지문형"
@@ -81,7 +81,10 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      if (onComplete) onComplete()
+      if (onComplete) {
+        const correctCount = metrics.filter((m) => m === "correct").length
+        onComplete(quizSet.questions.length, correctCount)
+      }
       return
     }
 
@@ -126,7 +129,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
             questionNumber={currentIndex + 1}
             question={currentQuestion.question}
             choices={currentQuestion.choices}
-            choiceMode={choiceMode}
+            choiceMode={choiceMode as "multiple" | "document_select"}
             selectedValue={selectedChoice}
             onSelectChoice={setSelectedChoice}
             onCheckAnswer={handleCheckAnswer}

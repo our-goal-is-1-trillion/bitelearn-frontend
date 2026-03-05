@@ -9,7 +9,7 @@ import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 type Phase = "passage" | "choices" | "checking" | "result"
 
 type OxQuestionInlineScrollProps = {
-  onComplete?: () => void
+  onComplete?: (total: number, correctCount: number) => void
 }
 
 export default function OxQuestionInlineScroll({ onComplete }: OxQuestionInlineScrollProps) {
@@ -63,7 +63,10 @@ export default function OxQuestionInlineScroll({ onComplete }: OxQuestionInlineS
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      if (onComplete) onComplete()
+      if (onComplete) {
+        const correctCount = metrics.filter((m) => m === "correct").length
+        onComplete(quizSet.questions.length, correctCount)
+      }
       return
     }
     setCurrentIndex((prev) => prev + 1)
