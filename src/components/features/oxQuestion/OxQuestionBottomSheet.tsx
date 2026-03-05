@@ -30,6 +30,15 @@ export default function OxQuestionBottomSheet({ onComplete }: OxQuestionBottomSh
   )
   const screenRef = useRef<HTMLElement | null>(null)
 
+  if (quizSet.questions.length === 0) {
+    return (
+      <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900 flex items-center justify-center">
+        <p className="text-slate-500">OX 퀴즈 데이터가 없습니다.</p>
+        <button className="absolute top-4 left-4 p-2" onClick={() => window.history.back()}>←</button>
+      </main>
+    )
+  }
+
   const currentQuestion = quizSet.questions[currentIndex]
   const isLastQuestion = currentIndex >= quizSet.questions.length - 1
   const isCorrect =

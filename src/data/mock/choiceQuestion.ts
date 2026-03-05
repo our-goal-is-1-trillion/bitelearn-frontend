@@ -313,6 +313,8 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
     {
       questionNumber: 17,
       type: "quiz",
+      choiceMode: "ox",
+      passageMode: "text",
       passage:
         "[Scene 4]\n드디어 모바일 뱅킹으로 계약금을 쏠 시간!\n퍼그 아저씨: 형이 바쁘니까, 그냥 여기 내(퍼그) 통장이나 중개사 통장으로 보내줘~",
       flavorText: '"가족 통장이니까 문제없지?"',
