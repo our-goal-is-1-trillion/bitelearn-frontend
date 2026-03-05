@@ -12,6 +12,7 @@ export type DocumentCardData = {
   footerNotice?: string
 }
 
+
 /** 객관식 퀴즈 문제 하나의 데이터 타입 */
 export interface ChoiceQuestionItem {
   /** 문제 번호 (1-based) */
@@ -195,7 +196,7 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
     {
       questionNumber: 8,
       type: "quiz",
-      passageMode: "document",
+      passageMode: "text",
       choiceMode: "document_select",
       passage: "[Scene 2: 서류 판독 트레이닝]\n불독 아저씨가 건넨 서류의 '갑구'를 살펴봅니다.",
       flavorText: "이 서류에서 당장 계약을 멈춰야 하는 가장 위험한 '부분'을 찾아 눌러보세요!",
@@ -255,8 +256,6 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
       type: "quiz",
       passageMode: "document",
       choiceMode: "multiple",
-      passage: "[Scene 3: 빚 계산하기]\n세 번째 집! 드디어 갑구가 깨끗합니다. 이제 빚이 얼마나 있는지 '을구'를 봅니다.",
-      flavorText: "불독: '나 5천만 원 갚아서 이제 빚 2억 5천만 원이야! 영수증 봐봐~'",
       documentCard: {
         header: "등 기 사 항 전 부 증 명 서",
         subHeader: "토지 및 건물 — 가상 문서",
@@ -269,6 +268,8 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
         ],
         footerNotice: "본 문서는 학습용 가상 서류입니다. 개인정보는 포함되어 있지 않습니다."
       },
+      passage: "[Scene 3: 빚 계산하기]\n세 번째 집! 드디어 갑구가 깨끗합니다. 이제 빚이 얼마나 있는지 '을구'를 봅니다.",
+      flavorText: "불독: '나 5천만 원 갚아서 이제 빚 2억 5천만 원이야! 영수증 봐봐~'",
       imageUrl: "",
       imageAlt: "",
       question: "불독 아저씨의 말을 듣고, 내 보증금이 안전할지 따져볼 때 기준으로 삼아야 할 빚 금액은?",
@@ -403,3 +404,5 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
     }
   ]
 }
+
+
