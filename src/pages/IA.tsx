@@ -1,9 +1,12 @@
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
 
 type IAItem = {
   label: string
-  /** undefined = 준비 중, path = 이동할 URL 경로 */
+  /** undefined = 준비 중, path = 이동할 URL 경로, action = 특수 동작 */
   path?: string
+  action?: string
 }
 
 type IATab = {
@@ -35,6 +38,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
+      { label: "온보딩 스크린", action: "onboarding" },
       { label: "홈 대시보드", path: "/home" },
       { label: "로그인", path: "/login" },
       { label: "회원가입", path: "/signup" },
@@ -112,16 +116,19 @@ const IA_TABS: IATab[] = [
  */
 export default function IA() {
   const navigate = useNavigate()
+  const [showOnboarding, setShowOnboarding] = useState(false)
 
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-slate-100 text-slate-900">
       <div className="flex h-full flex-col">
         {/* 상단 헤더 */}
-        <header className="shrink-0 bg-white px-5 py-4 shadow-sm">
-          <h1 className="text-lg font-bold text-slate-800">🗺️ BiteLearn IA</h1>
-          <p className="mt-0.5 text-xs text-slate-400">
-            항목을 눌러 화면으로 이동하세요
-          </p>
+        <header className="shrink-0 bg-white px-5 py-4 shadow-sm flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-bold text-slate-800">🗺️ BiteLearn IA</h1>
+            <p className="mt-0.5 text-xs text-slate-400">
+              항목을 눌러 화면으로 이동하세요
+            </p>
+          </div>
         </header>
 
         {/* 탭 카드 목록 */}
@@ -145,13 +152,16 @@ export default function IA() {
                 {/* 하위 항목 목록 */}
                 <div className="flex flex-col gap-1.5 p-3">
                   {tab.items.map((item) => {
-                    const isEnabled = item.path !== undefined
+                    const isEnabled = item.path !== undefined || item.action !== undefined
 
                     return (
                       <button
                         key={item.label}
                         disabled={!isEnabled}
-                        onClick={() => isEnabled && navigate(item.path!)}
+                        onClick={() => {
+                          if (item.action === "onboarding") setShowOnboarding(true)
+                          else if (item.path) navigate(item.path)
+                        }}
                         className={`flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm transition-colors
                           ${tab.colorClass.itemBorder}
                           ${
@@ -181,6 +191,7 @@ export default function IA() {
           </div>
         </section>
       </div>
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
     </main>
   )
 }
