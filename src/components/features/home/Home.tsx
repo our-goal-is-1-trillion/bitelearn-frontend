@@ -51,7 +51,7 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-indigo-100",
       itemBorder: "border-indigo-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "전세사기 방지 컨텐츠 보기", page: "article" }],
   },
   {
     id: 3,

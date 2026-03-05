@@ -18,6 +18,7 @@ import ConversationQuestion from "@/components/features/conversationQuestion/Con
 import QuizLayoutWrapper from "@/components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "@/components/layout/QuizLayoutWrapper"
 import Result from "@/pages/Result"
+import ArticleDetail from "@/components/features/article/ArticleDetail"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
 export type QuizResultData = {
@@ -99,6 +100,9 @@ export default function App() {
             onBack={() => handleNavigate("home")}
           />
         )
+
+      case "article":
+        return <ArticleDetail onBack={() => handleNavigate("home")} />
 
       case "choiceQuestion":
       case "choiceQuestionBottomSheet":
