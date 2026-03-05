@@ -13,6 +13,8 @@ type ChoiceQuestionPassageProps = {
   passageMode?: "text" | "story"
   /** "문제 풀기" 버튼 클릭 핸들러 */
   onSolve: () => void
+  /** 스크롤형 인라인 퀴즈 등에서 "문제 풀기" 버튼을 안 보이게 할 때 사용 */
+  hideSolveButton?: boolean
 }
 
 /**
@@ -25,6 +27,7 @@ export default function ChoiceQuestionPassage({
   flavorText,
   passageMode = "text",
   onSolve,
+  hideSolveButton = false,
 }: ChoiceQuestionPassageProps) {
   return (
     <>
@@ -39,10 +42,12 @@ export default function ChoiceQuestionPassage({
         <p className="mt-6 text-sm text-black">{flavorText}</p>
       </section>
 
-      {/* Footer — "문제 풀기" CTA */}
-      <QuizFooter onClick={onSolve}>
-        문제 풀기
-      </QuizFooter>
+      {/* Footer — "문제 풀기" CTA (숨김 처리되지 않았을 때만 렌더링) */}
+      {!hideSolveButton && (
+        <QuizFooter onClick={onSolve}>
+          문제 풀기
+        </QuizFooter>
+      )}
     </>
   )
 }

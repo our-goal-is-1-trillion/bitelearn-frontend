@@ -61,10 +61,11 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
    * - multiple 모드: 선택된 value(문자열)를 이미 state에서 읽음
    * - ox 모드: OXChoices 컴포넌트가 선택 인덱스를 직접 전달
    */
-  const handleCheckAnswer = (selectedIndex?: number) => {
+  const handleCheckAnswer = (selectedIndex?: number | React.MouseEvent) => {
     // OX 모드에서 선택된 인덱스를 직접 받아 state에 반영
+    const isEvent = selectedIndex && typeof selectedIndex !== "number";
     const resolvedChoice =
-      selectedIndex !== undefined ? String(selectedIndex) : selectedChoice
+      !isEvent && selectedIndex !== undefined ? String(selectedIndex) : selectedChoice
     if (resolvedChoice === "") return
 
     const correct = Number(resolvedChoice) === currentQuestion.correctIndex

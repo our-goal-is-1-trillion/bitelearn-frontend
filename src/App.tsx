@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
+import ChoiceQuestionBottomSheet from "./components/features/choiceQuestion/ChoiceQuestionBottomSheet"
+import ChoiceQuestionInlineScroll from "./components/features/choiceQuestion/ChoiceQuestionInlineScroll"
 import OxQuestion from "./components/features/oxQuestion/OxQuestion"
 import Home from "./components/features/home/Home"
 import Dashboard from "./components/features/dashboard/Dashboard"
 import Result from "./components/features/result/Result"
 import WordLearning from "./components/features/wordLearning/WordLearning"
 import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
+import QuizLayoutWrapper from "./components/layout/QuizLayoutWrapper"
+import type { QuizVariant } from "./components/layout/QuizLayoutWrapper"
 
-type Page = "home" | "choiceQuestion" | "oxQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
@@ -52,7 +56,18 @@ export default function App() {
       case "wordLearning":
         return <WordLearning wordSet={MOCK_CHOICE_QUESTION_SET} onBack={() => handleNavigate("home")} />
       case "choiceQuestion":
-        return <ChoiceQuestion onComplete={() => handleNavigate("result")} />
+      case "choiceQuestionBottomSheet":
+      case "choiceQuestionInline":
+        return (
+          <QuizLayoutWrapper
+            currentVariant={page as QuizVariant}
+            onVariantChange={(variant) => handleNavigate(variant)}
+          >
+            {page === "choiceQuestion" && <ChoiceQuestion onComplete={() => handleNavigate("result")} />}
+            {page === "choiceQuestionBottomSheet" && <ChoiceQuestionBottomSheet onComplete={() => handleNavigate("result")} />}
+            {page === "choiceQuestionInline" && <ChoiceQuestionInlineScroll onComplete={() => handleNavigate("result")} />}
+          </QuizLayoutWrapper>
+        )
       case "oxQuestion":
         return <OxQuestion onComplete={() => handleNavigate("result")} />
       case "result":
