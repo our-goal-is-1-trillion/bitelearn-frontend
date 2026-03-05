@@ -1,13 +1,18 @@
-import { useNavigate } from "react-router-dom"
-import DashboardChapter from "@/components/features/dashboard/DashboardChapter"
+﻿import DashboardChapter from "@/components/features/dashboard/DashboardChapter"
 
-export default function DashboardChapterPage() {
-  const navigate = useNavigate()
+type DashboardChapterPageProps = {
+  onChapterBack?: () => void
+  onStartLearning?: () => void
+}
 
+export default function DashboardChapterPage({
+  onChapterBack,
+  onStartLearning,
+}: DashboardChapterPageProps) {
   return (
     <DashboardChapter
-      onChapterBack={() => navigate("/home")}
-      onStartLearning={() => navigate("/quiz/choice")}
+      onChapterBack={onChapterBack ?? (() => {})}
+      onStartLearning={onStartLearning ?? (() => {})}
     />
   )
 }
