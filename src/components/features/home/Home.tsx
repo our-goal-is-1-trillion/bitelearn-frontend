@@ -35,6 +35,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
+      { label: "온보딩 스크린", page: "__onboarding__" as unknown as Page },
       { label: "홈 대시보드", page: "dashBoard" },
     ],
   },
@@ -115,6 +116,8 @@ type HomeProps = {
  * 구현된 화면으로 바로 이동할 수 있다.
  */
 export default function Home({ onNavigate }: HomeProps) {
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-slate-100 text-slate-900">
       <div className="flex h-full flex-col">
@@ -153,7 +156,13 @@ export default function Home({ onNavigate }: HomeProps) {
                       <button
                         key={item.label}
                         disabled={!isEnabled}
-                        onClick={() => isEnabled && onNavigate(item.page!)}
+                        onClick={() => {
+                          if ((item.page as unknown as string) === "__onboarding__") {
+                            setShowOnboarding(true)
+                          } else if (isEnabled) {
+                            onNavigate(item.page!)
+                          }
+                        }}
                         className={`flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm transition-colors
                           ${tab.colorClass.itemBorder}
                           ${
@@ -183,6 +192,7 @@ export default function Home({ onNavigate }: HomeProps) {
           </div>
         </section>
       </div>
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
     </main>
   )
 }

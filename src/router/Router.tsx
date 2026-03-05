@@ -11,6 +11,7 @@ import Signup from '@/pages/Signup';
 import NotFound from '@/pages/NotFound';
 import Home from '@/pages/Home';
 import HomeLogined from '@/pages/HomeLogined';
+import OnboardingPage from '@/pages/OnboardingPage';
 import DashboardChapterPage from '@/pages/DashboardChapter';
 import ChoiceQuizPage from '@/pages/ChoiceQuizPage';
 import OxQuestion from '@/pages/OxQuestion';
@@ -56,6 +57,7 @@ export default function Router() {
         <Route path="/ia" element={<IA />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home-logined" element={<HomeLogined />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
