@@ -1,7 +1,10 @@
 ﻿import { Button } from "@/components/ui/button"
 import QuizHeader from "@/components/layout/QuizHeader"
+import { useNavigate } from "react-router-dom"
 
 export default function Result() {
+  const navigate = useNavigate()
+
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
       <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
@@ -29,7 +32,9 @@ export default function Result() {
         </section>
 
         <footer className="absolute inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white p-4">
-          <Button className="h-12 w-full rounded-md">퀴즈 종료</Button>
+          <Button className="h-12 w-full rounded-md" onClick={() => navigate("/home")}>
+            퀴즈 종료
+          </Button>
         </footer>
       </div>
     </main>

@@ -28,8 +28,8 @@ export default function ChoiceQuestionChoices({
   const isCtaEnabled = selectedValue !== ""
 
   return (
-    <>
-      <section className="flex-1 overflow-y-auto px-6">
+    <div className="flex min-h-0 flex-1 flex-col">
+      <section className="flex-1 overflow-y-auto px-6 pb-4">
         <h2 className="mb-4 text-base font-semibold text-slate-600">
           Q{questionNumber}. {question}
         </h2>
@@ -91,6 +91,6 @@ export default function ChoiceQuestionChoices({
       >
         정답 확인
       </ChoiceQuestionFooter>
-    </>
+    </div>
   )
 }
