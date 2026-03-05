@@ -1,4 +1,7 @@
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "resultPerfect" | "resultClose" | "resultFail" | "wordLearning" | "article"
+import { useState } from "react"
+import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
+
+export type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "resultPerfect" | "resultClose" | "resultFail" | "wordLearning" | "article"
 
 type IAItem = {
   label: string
