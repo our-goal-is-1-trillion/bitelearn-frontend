@@ -18,7 +18,7 @@ export default function QuizFooter({
   onPrevious,
 }: QuizFooterProps) {
   return (
-    <footer className="absolute inset-x-0 bottom-0 z-20 flex gap-2 border-t border-slate-200 bg-white p-4">
+    <footer className="shrink-0 flex gap-2 border-t border-slate-200 bg-white p-4">
       {onPrevious && (
         <Button
           variant="outline"

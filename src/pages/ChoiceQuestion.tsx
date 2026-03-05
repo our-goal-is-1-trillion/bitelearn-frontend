@@ -1,11 +1,14 @@
 import { useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import QuizHeader from "@/components/layout/QuizHeader"
-import ChoiceQuestionIndicator, { type StepIndicatorInfo } from "./ChoiceQuestionIndicator"
-import ChoiceQuestionImage from "./ChoiceQuestionImage"
-import ChoiceQuestionPassage from "./ChoiceQuestionPassage"
-import ChoiceQuestionChoices from "./ChoiceQuestionChoices"
-import ChoiceQuestionOXChoices from "./ChoiceQuestionOXChoices"
-import ChoiceQuestionResult from "./ChoiceQuestionResult"
+import ChoiceQuestionIndicator, {
+  type StepIndicatorInfo,
+} from "@/components/features/choiceQuestion/ChoiceQuestionIndicator"
+import ChoiceQuestionImage from "@/components/features/choiceQuestion/ChoiceQuestionImage"
+import ChoiceQuestionPassage from "@/components/features/choiceQuestion/ChoiceQuestionPassage"
+import ChoiceQuestionChoices from "@/components/features/choiceQuestion/ChoiceQuestionChoices"
+import ChoiceQuestionOXChoices from "@/components/features/choiceQuestion/ChoiceQuestionOXChoices"
+import ChoiceQuestionResult from "@/components/features/choiceQuestion/ChoiceQuestionResult"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
 type Phase = "passage" | "choices" | "checking" | "result"
@@ -30,6 +33,7 @@ function getQuizTypeLabel(
 }
 
 export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
+  const navigate = useNavigate()
   // 테스트를 위해 전체 데이터 중 'quiz' 타입의 문제 1개만 추출하여 사용합니다.
   const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.type === "quiz")
   const quizSet = {
@@ -155,9 +159,9 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
   return (
     <main ref={screenRef} className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
-      <div className="relative flex h-full flex-col border border-slate-200 pb-20 pt-14">
+      <div className="relative flex h-full flex-col border border-slate-200 pt-14">
         <div className="absolute inset-x-0 top-0 z-20 bg-white">
-          <QuizHeader title={quizTypeLabel} showCloseButton onCloseClick={() => window.history.back()} />
+          <QuizHeader title={quizTypeLabel} showCloseButton onCloseClick={() => navigate("/home")} />
         </div>
 
         {phase !== "result" && (
@@ -174,3 +178,5 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
     </main>
   )
 }
+
+

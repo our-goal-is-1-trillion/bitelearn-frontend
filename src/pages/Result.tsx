@@ -1,14 +1,19 @@
 ﻿import { useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import QuizHeader from "@/components/layout/QuizHeader"
-import type { QuizResultData } from "@/App"
 
-interface ResultProps {
-  resultData: QuizResultData | null
-  onFinish?: () => void
+export type QuizResultData = {
+  total: number
+  correct: number
+  timeSpent?: number
 }
 
-export default function Result({ resultData, onFinish }: ResultProps) {
+export default function Result() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const resultData = location.state as QuizResultData | null
+
   const [progress, setProgress] = useState(45) // Mock initial progress
 
   const total = resultData?.total ?? 0
@@ -82,7 +87,7 @@ export default function Result({ resultData, onFinish }: ResultProps) {
         </section>
 
         <footer className="absolute inset-x-0 bottom-0 z-20 bg-white px-4 pb-8 pt-4">
-          <Button onClick={onFinish} className="h-14 w-full rounded-xl bg-indigo-600 text-lg font-semibold hover:bg-indigo-700">
+          <Button onClick={() => navigate("/home")} className="h-14 w-full rounded-xl bg-indigo-600 text-lg font-semibold hover:bg-indigo-700">
             홈으로 돌아가기
           </Button>
         </footer>

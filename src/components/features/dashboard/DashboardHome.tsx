@@ -10,6 +10,13 @@ type DashboardHomeProps = {
   categories: DashboardCategory[]
   recommendations: DashboardRecommendation[]
   onMoveToChapter: () => void
+  onMoveToLogin: () => void
+  headerTitle?: string
+  headerSubtitle?: string
+  continueHeadline?: string
+  continueCategory?: string
+  continueLessonTitle?: string
+  continueMeta?: string
 }
 
 export default function DashboardHome({
@@ -17,14 +24,31 @@ export default function DashboardHome({
   categories,
   recommendations,
   onMoveToChapter,
+  onMoveToLogin,
+  headerTitle,
+  headerSubtitle,
+  continueHeadline,
+  continueCategory,
+  continueLessonTitle,
+  continueMeta,
 }: DashboardHomeProps) {
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
       <div className="relative flex h-full flex-col border border-slate-200 pb-20">
         <section className="hide-scrollbar flex-1 overflow-y-auto px-5 pb-6 pt-6">
           <div className="flex flex-col gap-3">
-            <DashboardHeader />
-            <DashboardContinueCard onContinue={onMoveToChapter} />
+            <DashboardHeader
+              onProfileClick={onMoveToLogin}
+              title={headerTitle}
+              subtitle={headerSubtitle}
+            />
+            <DashboardContinueCard
+              onContinue={onMoveToChapter}
+              headline={continueHeadline}
+              category={continueCategory}
+              lessonTitle={continueLessonTitle}
+              meta={continueMeta}
+            />
             <DashboardCategoryList categories={categories} />
             <DashboardTodayRecommendation recommendations={recommendations} onContinue={onMoveToChapter} />
           </div>

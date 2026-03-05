@@ -33,9 +33,9 @@ export default function ChoiceQuestionResult({
   onNext,
 }: ChoiceQuestionResultProps) {
   return (
-    <div className="flex h-full w-full flex-col animate-in fade-in slide-in-from-right-8 duration-500">
+    <div className="flex min-h-0 flex-1 flex-col animate-in fade-in slide-in-from-right-8 duration-500">
       {/* 스크롤 가능한 콘텐츠 영역 */}
-      <section className="flex-1 overflow-y-auto px-6">
+      <section className="flex-1 overflow-y-auto px-6 pb-4">
         {/* ── 정답/오답 헤더 영역 ── */}
         {isCorrect ? (
           /* 정답 레이아웃: 캐릭터 중앙 + "맞았습니다!" */
