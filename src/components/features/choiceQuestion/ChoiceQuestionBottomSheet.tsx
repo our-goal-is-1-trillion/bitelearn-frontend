@@ -15,7 +15,7 @@ type ChoiceQuestionBottomSheetProps = {
 }
 
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | undefined,
+  passageMode: "text" | "story" | "conversation" | undefined,
   choiceMode: "multiple" | "ox" | undefined
 ): string {
   const passageLabel = passageMode === "story" ? "상황 지문형" : "지문형"
@@ -102,7 +102,7 @@ export default function ChoiceQuestionBottomSheet({ onComplete }: ChoiceQuestion
             <ChoiceQuestionPassage
               passage={currentQuestion.passage}
               flavorText={currentQuestion.flavorText}
-              passageMode={passageMode}
+              passageMode={passageMode as "text" | "story"}
               onSolve={handleSolve}
             />
 

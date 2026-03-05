@@ -15,7 +15,7 @@ type ChoiceQuestionInlineScrollProps = {
 }
 
 function getQuizTypeLabel(
-  passageMode: "text" | "story" | undefined,
+  passageMode: "text" | "story" | "conversation" | undefined,
   choiceMode: "multiple" | "ox" | undefined
 ): string {
   const passageLabel = passageMode === "story" ? "상황 지문형" : "지문형"
@@ -101,7 +101,7 @@ export default function ChoiceQuestionInlineScroll({ onComplete }: ChoiceQuestio
               <ChoiceQuestionPassage
                 passage={currentQuestion.passage}
                 flavorText={currentQuestion.flavorText}
-                passageMode={passageMode}
+                passageMode={passageMode as "text" | "story"}
                 onSolve={() => {}} // 인라인이므로 풀기 버튼의 스크린 전환 역할 비활성화 가능하지만 하위호환 유지
                 hideSolveButton={true} // 스크롤형에서는 onSolve 버튼 숨김을 위한 prop (ChoiceQuestionPassage 수정 필요)
               />

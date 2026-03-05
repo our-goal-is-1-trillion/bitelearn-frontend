@@ -6,6 +6,7 @@ import ChoiceQuestionInlineScroll from "./components/features/choiceQuestion/Cho
 import OxQuestion from "./components/features/oxQuestion/OxQuestion"
 import OxQuestionBottomSheet from "./components/features/oxQuestion/OxQuestionBottomSheet"
 import OxQuestionInlineScroll from "./components/features/oxQuestion/OxQuestionInlineScroll"
+import ConversationQuestion from "./components/features/conversationQuestion/ConversationQuestion"
 import Home from "./components/features/home/Home"
 import Dashboard from "./components/features/dashboard/Dashboard"
 import Result from "./components/features/result/Result"
@@ -14,7 +15,7 @@ import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
 import QuizLayoutWrapper from "./components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "./components/layout/QuizLayoutWrapper"
 
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "quiz" | "result" | "dashBoard" | "wordLearning"
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
@@ -83,6 +84,8 @@ export default function App() {
             {page === "oxQuestionInline" && <OxQuestionInlineScroll onComplete={() => handleNavigate("result")} />}
           </QuizLayoutWrapper>
         )
+      case "conversationQuestion":
+        return <ConversationQuestion onComplete={() => handleNavigate("result")} />
       case "result":
         return <Result />
       case "dashBoard":
