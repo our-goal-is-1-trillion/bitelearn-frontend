@@ -1,3 +1,17 @@
+/** 객관식 퀴즈 문서 UI 항목 타입 */
+export type DocumentCardField = {
+  label: string
+  value: string
+}
+
+export type DocumentCardData = {
+  header: string
+  subHeader: string
+  sectionTitle: string
+  fields: DocumentCardField[]
+  footerNotice?: string
+}
+
 /** 객관식 퀴즈 문제 하나의 데이터 타입 */
 export interface ChoiceQuestionItem {
   /** 문제 번호 (1-based) */

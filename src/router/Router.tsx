@@ -30,6 +30,14 @@ function ConversationQuizPage() {
   )
 }
 
+function ResultPageWrapper() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const state = location.state as { total: number; correct: number; timeSpent?: number } | null
+  
+  return <Result resultData={state} onFinish={() => navigate('/ia')} />
+}
+
 /** IA 홈으로 돌아가는 전역 플로팅 버튼. / 또는 /ia 경로에서는 숨김 */
 function IAHomeButton() {
   const navigate = useNavigate()
@@ -65,7 +73,11 @@ export default function Router() {
         <Route path="/quiz/choice" element={<ChoiceQuizPage />} />
         <Route path="/quiz/ox" element={<OxQuestion />} />
         <Route path="/quiz/conversation" element={<ConversationQuizPage />} />
-        <Route path="/quiz/result" element={<Result />} />
+        <Route path="/quiz/result" element={<ResultPageWrapper />} />
+        {/* IA에서 테스트용으로 접근하기 위한 결과 화면 라우트 */}
+        <Route path="/resultPerfect" element={<Result resultData={null} variant="perfect" onFinish={() => window.location.href = '/ia'} />} />
+        <Route path="/resultClose" element={<Result resultData={null} variant="close" onFinish={() => window.location.href = '/ia'} />} />
+        <Route path="/resultFail" element={<Result resultData={null} variant="fail" onFinish={() => window.location.href = '/ia'} />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
