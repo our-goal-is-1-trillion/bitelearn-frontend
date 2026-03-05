@@ -12,12 +12,14 @@ import HomeLogined from '@/pages/HomeLogined';
 import DashboardChapterPage from '@/pages/DashboardChapter';
 import ChoiceQuestion from '@/pages/ChoiceQuestion';
 import Result from '@/pages/Result';
+import IA from '@/pages/IA';
 
 export default function Router() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<IA />} />
+        <Route path="/ia" element={<IA />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home-logined" element={<HomeLogined />} />
 

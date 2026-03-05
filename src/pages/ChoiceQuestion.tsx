@@ -85,8 +85,15 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
+      const correctCount = metrics.filter((m) => m === "correct").length
+      navigate("/quiz/result", { 
+        state: { 
+          total: quizSet.questions.length, 
+          correct: correctCount, 
+          timeSpent: 125 
+        } 
+      })
       if (onComplete) {
-        const correctCount = metrics.filter((m) => m === "correct").length
         onComplete(quizSet.questions.length, correctCount)
       }
       return
