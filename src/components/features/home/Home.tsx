@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream
 type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning"
+=======
+import { useState } from "react"
+import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
+
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning" | "article"
+>>>>>>> Stashed changes
 
 type IAItem = {
   label: string
@@ -50,7 +57,7 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-indigo-100",
       itemBorder: "border-indigo-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "전세사기 방지 컨텐츠 보기", page: "article" }],
   },
   {
     id: 3,
