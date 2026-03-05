@@ -1,4 +1,16 @@
-﻿/** 객관식 퀴즈 문제 하나의 데이터 타입 */
+﻿export interface DocumentCardField {
+  label: string
+  value: string
+}
+
+export interface DocumentCardData {
+  header: string
+  subHeader: string
+  sectionTitle: string
+  fields: DocumentCardField[]
+  footerNotice?: string
+}
+/** 객관식 퀴즈 문제 하나의 데이터 타입 */
 export interface ChoiceQuestionItem {
   /** 문제 번호 (1-based) */
   questionNumber: number
@@ -389,4 +401,5 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
     }
   ]
 }
+
 

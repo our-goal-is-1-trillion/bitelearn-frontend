@@ -18,6 +18,8 @@ type ChoiceQuestionResultProps = {
   explanation: string
   documentCard?: DocumentCardData
   correctIndex?: number
+  correctAnswerText?: string
+  selectedAnswerText?: string
   characterImageUrl?: string
   isLastQuestion: boolean
   onNext: () => void
@@ -28,6 +30,8 @@ export default function ChoiceQuestionResult({
   explanation,
   documentCard,
   correctIndex,
+  correctAnswerText,
+  selectedAnswerText,
   characterImageUrl = "/vite.svg",
   isLastQuestion,
   onNext,
@@ -70,6 +74,20 @@ export default function ChoiceQuestionResult({
             {documentCard.footerNotice ? (
               <p className="mt-3 text-xs text-slate-500">{documentCard.footerNotice}</p>
             ) : null}
+          </div>
+        )}
+
+        {!isCorrect && selectedAnswerText && (
+          <div className="mb-3 rounded-md border border-[#e2caca] bg-[#f8e1e1] px-4 py-4">
+            <p className="text-sm font-normal text-slate-900">내가 선택한 답</p>
+            <p className="mt-4 text-sm leading-relaxed text-slate-900">{selectedAnswerText}</p>
+          </div>
+        )}
+
+        {correctAnswerText && (
+          <div className="mb-3 rounded-md border border-[#cbe2ca] bg-[#e6f8e1] px-4 py-4">
+            <p className="text-sm font-normal text-slate-900">정답</p>
+            <p className="mt-4 text-sm leading-relaxed text-slate-900">{correctAnswerText}</p>
           </div>
         )}
 
