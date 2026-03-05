@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Home from "@/components/features/home/Home"
 import DashboardHome from "@/components/features/dashboard/DashboardHome"
@@ -15,6 +15,8 @@ import OxQuestion from "@/components/features/oxQuestion/OxQuestion"
 import OxQuestionBottomSheet from "@/components/features/oxQuestion/OxQuestionBottomSheet"
 import OxQuestionInlineScroll from "@/components/features/oxQuestion/OxQuestionInlineScroll"
 import ConversationQuestion from "@/components/features/conversationQuestion/ConversationQuestion"
+import DocumentChoiceQuestion from "@/components/features/documentChoiceQuestion/DocumentChoiceQuestion"
+import DocumentClickQuestion from "@/components/features/documentClickQuestion/DocumentClickQuestion"
 import QuizLayoutWrapper from "@/components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "@/components/layout/QuizLayoutWrapper"
 import Result from "@/pages/Result"
@@ -35,6 +37,8 @@ export type Page =
   | "oxQuestionBottomSheet"
   | "oxQuestionInline"
   | "conversationQuestion"
+  | "documentChoiceQuestion"
+  | "documentClickQuestion"
   | "result"
   | "dashBoard"
   | "wordLearning"
@@ -139,6 +143,12 @@ export default function App() {
       case "conversationQuestion":
         return <ConversationQuestion onComplete={handleCompleteQuiz} />
 
+      case "documentChoiceQuestion":
+        return <DocumentChoiceQuestion onComplete={handleCompleteQuiz} />
+
+      case "documentClickQuestion":
+        return <DocumentClickQuestion onComplete={handleCompleteQuiz} />
+
       case "result":
         return (
           <Result
@@ -187,3 +197,4 @@ export default function App() {
     </div>
   )
 }
+

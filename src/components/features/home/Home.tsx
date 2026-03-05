@@ -1,8 +1,20 @@
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning"
+﻿type Page =
+  | "home"
+  | "choiceQuestion"
+  | "choiceQuestionBottomSheet"
+  | "choiceQuestionInline"
+  | "oxQuestion"
+  | "oxQuestionBottomSheet"
+  | "oxQuestionInline"
+  | "conversationQuestion"
+  | "dashBoard"
+  | "result"
+  | "wordLearning"
+  | "documentChoiceQuestion"
+  | "documentClickQuestion"
 
 type IAItem = {
   label: string
-  /** undefined = 준비 중, pageName = 이동할 페이지 */
   page?: Page
 }
 
@@ -24,7 +36,7 @@ type IATab = {
 const IA_TABS: IATab[] = [
   {
     id: 1,
-    title: "홈 (Home)",
+    title: "홈",
     emoji: "🏠",
     colorClass: {
       bg: "bg-red-50",
@@ -34,13 +46,11 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-red-100",
       itemBorder: "border-red-200",
     },
-    items: [
-      { label: "홈 대시보드", page: "dashBoard" },
-    ],
+    items: [{ label: "대시보드", page: "dashBoard" }],
   },
   {
     id: 2,
-    title: "아티클 (Articles)",
+    title: "아티클",
     emoji: "📰",
     colorClass: {
       bg: "bg-indigo-50",
@@ -50,12 +60,12 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-indigo-100",
       itemBorder: "border-indigo-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "준비 중" }],
   },
   {
     id: 3,
-    title: "학습 (Learning)",
-    emoji: "📚",
+    title: "학습",
+    emoji: "📘",
     colorClass: {
       bg: "bg-green-50",
       border: "border-green-200",
@@ -67,16 +77,17 @@ const IA_TABS: IATab[] = [
     items: [
       { label: "단어 학습", page: "wordLearning" },
       { label: "퀴즈 결과", page: "result" },
-      { label: "지문형 객관식 퀴즈 (A/B/C UI UX테스트)", page: "choiceQuestion" },
-      { label: "지문형 OX 퀴즈 (A/B/C UI UX테스트)", page: "oxQuestion" },
-      { label: "대화형 객관식 퀴즈", page: "conversationQuestion" },
-      { label: "미정" },
+      { label: "지문형 객관식", page: "choiceQuestion" },
+      { label: "지문형 OX", page: "oxQuestion" },
+      { label: "대화형 객관식", page: "conversationQuestion" },
+      { label: "문서형 객관식", page: "documentChoiceQuestion" },
+      { label: "문서 클릭", page: "documentClickQuestion" },
     ],
   },
   {
     id: 4,
-    title: "아카이브 (Archive)",
-    emoji: "️",
+    title: "아카이브",
+    emoji: "🗂",
     colorClass: {
       bg: "bg-orange-50",
       border: "border-orange-200",
@@ -85,11 +96,11 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-orange-100",
       itemBorder: "border-orange-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "준비 중" }],
   },
   {
     id: 5,
-    title: "마이 (My Page)",
+    title: "마이",
     emoji: "👤",
     colorClass: {
       bg: "bg-slate-50",
@@ -99,7 +110,7 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-slate-100",
       itemBorder: "border-slate-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "준비 중" }],
   },
 ]
 
@@ -107,24 +118,15 @@ type HomeProps = {
   onNavigate: (page: Page) => void
 }
 
-/**
- * IA(Information Architecture) 홈 화면.
- * 5개 탭의 기능 구조를 카드 형태로 시각화하고,
- * 구현된 화면으로 바로 이동할 수 있다.
- */
 export default function Home({ onNavigate }: HomeProps) {
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-slate-100 text-slate-900">
       <div className="flex h-full flex-col">
-        {/* 상단 헤더 */}
         <header className="shrink-0 bg-white px-5 py-4 shadow-sm">
-          <h1 className="text-lg font-bold text-slate-800">🗺️ BiteLearn IA</h1>
-          <p className="mt-0.5 text-xs text-slate-400">
-            항목을 눌러 화면으로 이동하세요
-          </p>
+          <h1 className="text-lg font-bold text-slate-800">BiteLearn IA</h1>
+          <p className="mt-0.5 text-xs text-slate-400">항목을 눌러 화면으로 이동하세요.</p>
         </header>
 
-        {/* 탭 카드 목록 */}
         <section className="flex-1 overflow-y-auto p-4">
           <div className="flex flex-col gap-3">
             {IA_TABS.map((tab) => (
@@ -132,17 +134,11 @@ export default function Home({ onNavigate }: HomeProps) {
                 key={tab.id}
                 className={`overflow-hidden rounded-xl border ${tab.colorClass.bg} ${tab.colorClass.border}`}
               >
-                {/* 탭 헤더 */}
-                <div
-                  className={`flex items-center gap-2 px-4 py-2.5 ${tab.colorClass.header}`}
-                >
+                <div className={`flex items-center gap-2 px-4 py-2.5 ${tab.colorClass.header}`}>
                   <span className="text-sm">{tab.emoji}</span>
-                  <span className="text-sm font-semibold text-white">
-                    Tab {tab.id} — {tab.title}
-                  </span>
+                  <span className="text-sm font-semibold text-white">Tab {tab.id} · {tab.title}</span>
                 </div>
 
-                {/* 하위 항목 목록 */}
                 <div className="flex flex-col gap-1.5 p-3">
                   {tab.items.map((item) => {
                     const isEnabled = item.page !== undefined
@@ -162,15 +158,11 @@ export default function Home({ onNavigate }: HomeProps) {
                       >
                         <span>{item.label}</span>
                         {isEnabled ? (
-                          <span
-                            className={`rounded-full px-2 py-0.5 text-xs font-medium ${tab.colorClass.badge}`}
-                          >
-                            이동 →
+                          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${tab.colorClass.badge}`}>
+                            이동
                           </span>
                         ) : (
-                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-400">
-                            준비 중
-                          </span>
+                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-400">준비 중</span>
                         )}
                       </button>
                     )
