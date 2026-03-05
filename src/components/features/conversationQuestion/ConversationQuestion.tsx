@@ -39,6 +39,8 @@ export default function ConversationQuestion({ onComplete }: ConversationQuestio
   const [metrics, setMetrics] = useState<("none" | "correct" | "incorrect")[]>(
     Array(quizSet.questions.length).fill("none")
   )
+  // 이미 대화를 다 본 문제 번호를 기억 → 뒤로 돌아올 때 애니메이션 스킵
+  const [seenPassages, setSeenPassages] = useState<Set<number>>(new Set())
   const screenRef = useRef<HTMLElement | null>(null)
 
   const currentQuestion = quizSet.questions[currentIndex]
@@ -49,7 +51,11 @@ export default function ConversationQuestion({ onComplete }: ConversationQuestio
   const choiceMode = currentQuestion.choiceMode ?? "multiple"
   const quizTypeLabel = getQuizTypeLabel(passageMode, choiceMode)
 
-  const handleSolve = () => setPhase("choices")
+  const handleSolve = () => {
+    // 이 문제 대화를 다 봤다고 기록
+    setSeenPassages((prev) => new Set(prev).add(currentIndex))
+    setPhase("choices")
+  }
 
   const handleCheckAnswer = (selectedIndex?: number | React.MouseEvent) => {
     const isEvent = selectedIndex && typeof selectedIndex !== "number";
@@ -95,6 +101,7 @@ export default function ConversationQuestion({ onComplete }: ConversationQuestio
           <ConversationQuestionPassage
             questionData={currentQuestion}
             onSolve={handleSolve}
+            skipAnimation={seenPassages.has(currentIndex)}
           />
         )
       case "choices":
