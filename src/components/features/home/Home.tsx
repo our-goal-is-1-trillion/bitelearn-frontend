@@ -1,11 +1,4 @@
-<<<<<<< Updated upstream
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning"
-=======
-import { useState } from "react"
-import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
-
 type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning" | "article"
->>>>>>> Stashed changes
 
 type IAItem = {
   label: string
