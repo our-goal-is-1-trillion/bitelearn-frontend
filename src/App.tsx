@@ -1,5 +1,189 @@
-import Router from '@/router/Router';
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import Home from "@/components/features/home/Home"
+import DashboardHome from "@/components/features/dashboard/DashboardHome"
+import {
+  DASHBOARD_CATEGORIES,
+  DASHBOARD_TABS,
+  DASHBOARD_TODAY_RECOMMENDATIONS,
+} from "@/components/features/dashboard/dashboard.constants"
+import WordLearning from "@/components/features/wordLearning/WordLearning"
+import ChoiceQuestion from "@/pages/ChoiceQuestion"
+import ChoiceQuestionBottomSheet from "@/components/features/choiceQuestion/ChoiceQuestionBottomSheet"
+import ChoiceQuestionInlineScroll from "@/components/features/choiceQuestion/ChoiceQuestionInlineScroll"
+import OxQuestion from "@/components/features/oxQuestion/OxQuestion"
+import OxQuestionBottomSheet from "@/components/features/oxQuestion/OxQuestionBottomSheet"
+import OxQuestionInlineScroll from "@/components/features/oxQuestion/OxQuestionInlineScroll"
+import ConversationQuestion from "@/components/features/conversationQuestion/ConversationQuestion"
+import QuizLayoutWrapper from "@/components/layout/QuizLayoutWrapper"
+import type { QuizVariant } from "@/components/layout/QuizLayoutWrapper"
+import Result from "@/pages/Result"
+import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
+
+export type QuizResultData = {
+  total: number
+  correct: number
+  timeSpent?: number
+}
+
+export type Page =
+  | "home"
+  | "choiceQuestion"
+  | "choiceQuestionBottomSheet"
+  | "choiceQuestionInline"
+  | "oxQuestion"
+  | "oxQuestionBottomSheet"
+  | "oxQuestionInline"
+  | "conversationQuestion"
+  | "result"
+  | "dashBoard"
+  | "wordLearning"
+
+type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
-  return <Router />;
+  const [page, setPage] = useState<Page>("home")
+  const [targetPage, setTargetPage] = useState<Page | null>(null)
+  const [transitionStage, setTransitionStage] = useState<TransitionStage>("idle")
+  const [quizResult, setQuizResult] = useState<QuizResultData | null>(null)
+
+  useEffect(() => {
+    if (transitionStage === "out" && targetPage) {
+      const t = window.setTimeout(() => {
+        setPage(targetPage)
+        setTransitionStage("in")
+      }, 180)
+      return () => window.clearTimeout(t)
+    }
+    if (transitionStage === "in") {
+      const t = window.setTimeout(() => {
+        setTransitionStage("idle")
+        setTargetPage(null)
+      }, 260)
+      return () => window.clearTimeout(t)
+    }
+  }, [transitionStage, targetPage])
+
+  const handleNavigate = (next: Page) => {
+    if (transitionStage !== "idle") return
+    if (next !== "result") setQuizResult(null)
+    setTargetPage(next)
+    setTransitionStage("out")
+  }
+
+  const handleCompleteQuiz = (total: number, correct: number) => {
+    setQuizResult({ total, correct, timeSpent: 125 })
+    handleNavigate("result")
+  }
+
+  const transitionClass =
+    transitionStage === "out"
+      ? "page-transition-out"
+      : transitionStage === "in"
+        ? "page-transition-in"
+        : ""
+
+  const renderPage = () => {
+    switch (page) {
+      case "home":
+        return <Home onNavigate={handleNavigate} />
+
+      case "wordLearning":
+        return (
+          <WordLearning
+            wordSet={MOCK_CHOICE_QUESTION_SET}
+            onBack={() => handleNavigate("home")}
+          />
+        )
+
+      case "choiceQuestion":
+      case "choiceQuestionBottomSheet":
+      case "choiceQuestionInline":
+        return (
+          <QuizLayoutWrapper
+            currentVariant={page as QuizVariant}
+            onVariantChange={(v) => handleNavigate(v as Page)}
+          >
+            {page === "choiceQuestion" && (
+              <ChoiceQuestion onComplete={handleCompleteQuiz} />
+            )}
+            {page === "choiceQuestionBottomSheet" && (
+              <ChoiceQuestionBottomSheet onComplete={handleCompleteQuiz} />
+            )}
+            {page === "choiceQuestionInline" && (
+              <ChoiceQuestionInlineScroll onComplete={handleCompleteQuiz} />
+            )}
+          </QuizLayoutWrapper>
+        )
+
+      case "oxQuestion":
+      case "oxQuestionBottomSheet":
+      case "oxQuestionInline":
+        return (
+          <QuizLayoutWrapper
+            currentVariant={page as QuizVariant}
+            onVariantChange={(v) => handleNavigate(v as Page)}
+          >
+            {page === "oxQuestion" && (
+              <OxQuestion onComplete={handleCompleteQuiz} />
+            )}
+            {page === "oxQuestionBottomSheet" && (
+              <OxQuestionBottomSheet onComplete={handleCompleteQuiz} />
+            )}
+            {page === "oxQuestionInline" && (
+              <OxQuestionInlineScroll onComplete={handleCompleteQuiz} />
+            )}
+          </QuizLayoutWrapper>
+        )
+
+      case "conversationQuestion":
+        return <ConversationQuestion onComplete={handleCompleteQuiz} />
+
+      case "result":
+        return (
+          <Result
+            resultData={quizResult}
+            onFinish={() => handleNavigate("home")}
+          />
+        )
+
+      case "dashBoard":
+        return (
+          <DashboardHome
+            tabs={DASHBOARD_TABS}
+            categories={DASHBOARD_CATEGORIES}
+            recommendations={DASHBOARD_TODAY_RECOMMENDATIONS}
+            onMoveToChapter={() => handleNavigate("home")}
+            onMoveToLogin={() => handleNavigate("home")}
+            headerTitle="BiteLearn"
+            headerSubtitle="로그인하고 맞춤 학습을 시작해보세요."
+            continueHeadline="학습이 처음인 당신을 위해"
+            continueCategory="부동산 · 주거"
+            continueLessonTitle="전세사기 예방 기초"
+            continueMeta="처음 시작 · 약 5분"
+          />
+        )
+
+      default:
+        return <Home onNavigate={handleNavigate} />
+    }
+  }
+
+  const showIAButton = page !== "home"
+
+  return (
+    <div className={transitionClass}>
+      {showIAButton && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="fixed left-4 top-4 z-30"
+          onClick={() => handleNavigate("home")}
+        >
+          🗺️ IA 홈으로
+        </Button>
+      )}
+      {renderPage()}
+    </div>
+  )
 }
