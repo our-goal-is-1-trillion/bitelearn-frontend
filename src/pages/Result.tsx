@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import QuizHeader from "@/components/layout/QuizHeader"
+import { motion } from "framer-motion"
 
 export type QuizResultData = {
   total: number
@@ -8,94 +9,275 @@ export type QuizResultData = {
   timeSpent?: number
 }
 
+// 3가지 결과 변형 타입
+export type ResultVariant = "perfect" | "close" | "fail"
+
 interface ResultProps {
   resultData: QuizResultData | null
   onFinish?: () => void
+  variant?: ResultVariant
 }
 
-export default function Result({ resultData, onFinish }: ResultProps) {
-  const [progress, setProgress] = useState(45)
+// 변형별 콘텐츠 정의
+const VARIANT_CONFIG = {
+  perfect: {
+    bg: "from-yellow-50 via-amber-50 to-orange-50",
+    headerBg: "bg-gradient-to-r from-amber-400 to-yellow-300",
+    image: "/images/result/dog_perfect.png",
+    emoji: "🪙✨",
+    title: "야호! 멍멍이의 소중한 500 바이트를\n완벽하게 지켰어요!",
+    titleColor: "text-amber-700",
+    description: "사기꾼도 울고 갈 완벽한 지식!\n오늘 멍멍이는 위험한 함정들을 요리조리 피해서 바이트를 안전하게 지켜냈습니다. 멋진 어른이네요!",
+    biteSaved: "+500 B",
+    biteLost: "-0 B",
+    savedColor: "text-emerald-600",
+    lostColor: "text-slate-400",
+    accuracy: 100,
+    total: 5,
+    correct: 5,
+    timeSpent: 78,
+    primaryBtn: "다음 함정 피하러 가기",
+    secondaryBtn: "멍멍이 하우스로 🏠",
+    progressLabel: "으른 레벨업 게이지",
+    progressValue: 92,
+    progressColor: "bg-amber-400",
+    statLabel: "멍멍이의 지갑 방어율",
+    confetti: true,
+  },
+  close: {
+    bg: "from-blue-50 via-indigo-50 to-blue-50",
+    headerBg: "bg-gradient-to-r from-indigo-400 to-blue-300",
+    image: "/images/result/dog_close.png",
+    emoji: "💦",
+    title: "휴우~ 아슬아슬하게\n바이트 방어 성공!",
+    titleColor: "text-indigo-700",
+    description: "몇 개는 헷갈려서 바이트를 조금 흘렸지만, 치명적인 손해는 막았어요.\n틀린 부분만 다시 주우러 가볼까요?",
+    biteSaved: "+260 B",
+    biteLost: "-240 B",
+    savedColor: "text-emerald-600",
+    lostColor: "text-red-400",
+    accuracy: 60,
+    total: 5,
+    correct: 3,
+    timeSpent: 130,
+    primaryBtn: "잃어버린 바이트 찾으러 가기",
+    secondaryBtn: "오늘은 여기서 쉴래 🏠",
+    progressLabel: "으른 레벨업 게이지",
+    progressValue: 55,
+    progressColor: "bg-indigo-500",
+    statLabel: "멍멍이의 지갑 방어율",
+    confetti: false,
+  },
+  fail: {
+    bg: "from-slate-50 via-red-50 to-slate-50",
+    headerBg: "bg-gradient-to-r from-red-400 to-rose-400",
+    image: "/images/result/dog_fail.png",
+    emoji: "😭",
+    title: "앗... 나쁜 어른들에게\n500 바이트를 털렸어요",
+    titleColor: "text-red-700",
+    description: "세상 물정 모르는 멍멍이, 결국 함정에 빠져 소중한 바이트가 털려버렸네요.\n얼른 다시 공부해서 잃어버린 내 바이트를 되찾아올까요?",
+    biteSaved: "+0 B",
+    biteLost: "-500 B",
+    savedColor: "text-slate-400",
+    lostColor: "text-red-500",
+    accuracy: 0,
+    total: 5,
+    correct: 0,
+    timeSpent: 210,
+    primaryBtn: "잃어버린 바이트 찾으러 가기",
+    secondaryBtn: "오늘은 여기서 쉴래 🏠",
+    progressLabel: "으른 레벨업 게이지",
+    progressValue: 8,
+    progressColor: "bg-red-400",
+    statLabel: "멍멍이의 지갑 방어율",
+    confetti: false,
+  },
+} as const
 
-  const total = resultData?.total ?? 0
-  const correct = resultData?.correct ?? 0
-  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0
-  const timeSpent = resultData?.timeSpent ?? 125
+// 코인 애니메이션 컴포넌트
+function CoinParticles() {
+  const coins = [
+    { x: "10%", delay: 0, rotate: 15 },
+    { x: "25%", delay: 0.1, rotate: -10 },
+    { x: "45%", delay: 0.2, rotate: 5 },
+    { x: "65%", delay: 0.05, rotate: -20 },
+    { x: "80%", delay: 0.15, rotate: 10 },
+    { x: "55%", delay: 0.3, rotate: -5 },
+  ]
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {coins.map((coin, i) => (
+        <motion.div
+          key={i}
+          initial={{ y: -40, opacity: 0 }}
+          animate={{ y: 820, opacity: [0, 1, 1, 0], rotate: coin.rotate }}
+          transition={{ duration: 2.8, delay: coin.delay, ease: "easeIn" }}
+          className="absolute text-2xl"
+          style={{ left: coin.x }}
+        >
+          🪙
+        </motion.div>
+      ))}
+    </div>
+  )
+}
 
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60)
-    const s = seconds % 60
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
-  }
+const formatTime = (seconds: number) => {
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
+}
+
+export default function Result({ resultData, onFinish, variant = "perfect" }: ResultProps) {
+  const [animated, setAnimated] = useState(false)
+  const cfg = VARIANT_CONFIG[variant]
+
+  const total = resultData?.total ?? cfg.total
+  const correct = resultData?.correct ?? cfg.correct
+  const timeSpent = resultData?.timeSpent ?? cfg.timeSpent
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : cfg.accuracy
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (accuracy > 0) {
-        setProgress((prev) => Math.min(100, prev + Math.max(5, Math.round(accuracy * 0.2))))
-      }
-    }, 600)
-    return () => clearTimeout(timer)
-  }, [accuracy])
+    const t = setTimeout(() => setAnimated(true), 400)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
-    <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900 shadow-sm">
-      <div className="relative flex h-full flex-col pb-20 pt-14">
-        <div className="absolute inset-x-0 top-0 z-20 bg-white">
-          <QuizHeader title="학습 결과" showCloseButton={false} />
-        </div>
+    <main className={`relative mx-auto flex h-[812px] w-[375px] flex-col overflow-hidden bg-gradient-to-b ${cfg.bg} text-slate-900 shadow-sm`}>
+      {cfg.confetti && <CoinParticles />}
 
-        <section className="relative flex flex-1 flex-col p-6 text-center overflow-y-auto">
-          <div className="flex flex-col items-center justify-center pt-8 pb-10">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold text-slate-800">학습 완료!</h2>
-            <p className="mt-2 text-slate-500">
-              총 {total}문제 중 {correct}문제를 맞혔습니다.
-            </p>
+      {/* 헤더 - 고정 높이, 불투명 */}
+      <div className="relative z-20 shrink-0">
+        <QuizHeader title="오늘의 생존 결과! 🐾" showCloseButton={false} />
+      </div>
+
+      {/* 스크롤 가능한 본문 */}
+      <div className="flex-1 overflow-y-auto">
+        {/* 일러스트 + 타이틀 영역 */}
+        <section className="flex flex-col items-center px-6 pt-4 pb-2 text-center">
+          <motion.div
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="mb-4 h-44 w-44"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL.replace(/\/$/, "")}${cfg.image}`}
+              alt="result dog illustration"
+              className="h-full w-full object-contain"
+            />
+          </motion.div>
+
+          <div className="text-3xl mb-2">{cfg.emoji}</div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className={`text-[22px] font-extrabold leading-snug tracking-tight whitespace-pre-line ${cfg.titleColor}`}
+          >
+            {cfg.title}
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mt-3 text-sm leading-relaxed text-slate-600 whitespace-pre-line"
+          >
+            {cfg.description}
+          </motion.p>
+        </section>
+
+        {/* 바이트 손익 카드 */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+          className="mx-5 mt-4 rounded-2xl border border-white bg-white/70 p-5 shadow-md backdrop-blur-sm"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-sm font-bold text-slate-700">{cfg.progressLabel}</span>
+            <span className="text-sm font-bold text-indigo-700">{cfg.progressValue}% 📈</span>
           </div>
 
-          <div className="mb-8 rounded-2xl bg-slate-50 p-6 shadow-sm border border-slate-100">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-sm font-semibold text-slate-700">단원 학습 달성률</span>
-              <span className="text-sm font-bold text-indigo-600">{progress}%</span>
-            </div>
-            <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
-              <div
-                className="h-full rounded-full bg-indigo-600 transition-all duration-1000 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            {accuracy > 0 && (
-              <p className="mt-3 text-xs text-slate-500">
-                방금 퀴즈로 달성률이 올랐어요! 🎉
-              </p>
+          {/* 레벨업 게이지 - 바이트 코인 느낌 */}
+          <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: animated ? `${cfg.progressValue}%` : 0 }}
+              transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+              className={`h-full rounded-full ${cfg.progressColor}`}
+            />
+            {/* 코인 아이콘 맨 끝 */}
+            {animated && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 2, type: "spring" }}
+                className="absolute top-1/2 -translate-y-1/2 text-base"
+                style={{ left: `calc(${cfg.progressValue}% - 10px)` }}
+              >
+                🪙
+              </motion.span>
             )}
           </div>
 
-          <div className="mt-auto grid w-full grid-cols-2 gap-3">
-            <div className="rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium text-slate-500">정답률</p>
-              <p className="mt-1 text-xl font-bold text-slate-800">{accuracy}%</p>
+          {/* 바이트 손익 표시 */}
+          <div className="mt-4 flex gap-3">
+            <div className="flex-1 rounded-xl bg-emerald-50 px-3 py-2 text-center">
+              <p className="text-[11px] font-medium text-slate-500">지켜낸 바이트</p>
+              <p className={`mt-0.5 text-[17px] font-extrabold ${cfg.savedColor}`}>{cfg.biteSaved}</p>
             </div>
-            <div className="rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium text-slate-500">소요 시간</p>
-              <p className="mt-1 text-xl font-bold text-slate-800">{formatTime(timeSpent)}</p>
+            <div className="flex-1 rounded-xl bg-red-50 px-3 py-2 text-center">
+              <p className="text-[11px] font-medium text-slate-500">잃어버린 바이트</p>
+              <p className={`mt-0.5 text-[17px] font-extrabold ${cfg.lostColor}`}>{cfg.biteLost}</p>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <footer className="absolute inset-x-0 bottom-0 z-20 bg-white px-4 pb-8 pt-4">
-          <Button
-            onClick={onFinish}
-            className="h-14 w-full rounded-xl bg-indigo-600 text-lg font-semibold hover:bg-indigo-700"
-          >
-            홈으로 돌아가기
-          </Button>
-        </footer>
+        {/* 통계 그리드 */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="mx-5 mt-4 grid grid-cols-3 gap-3"
+        >
+          <div className="rounded-xl border border-white bg-white/70 p-3 text-center shadow-sm backdrop-blur-sm">
+            <p className="text-[11px] font-medium text-slate-500">{cfg.statLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-800">{accuracy}%</p>
+          </div>
+          <div className="rounded-xl border border-white bg-white/70 p-3 text-center shadow-sm backdrop-blur-sm">
+            <p className="text-[11px] font-medium text-slate-500">5개의 함정 중</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-800">{correct}개 회피</p>
+          </div>
+          <div className="rounded-xl border border-white bg-white/70 p-3 text-center shadow-sm backdrop-blur-sm">
+            <p className="text-[11px] font-medium text-slate-500">머리 굴린 시간 ⏱</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-800">{formatTime(timeSpent)}</p>
+          </div>
+        </motion.section>
+        {/* 끝 패딩 */}
+        <div className="h-4" />
       </div>
+
+      {/* 하단 CTA 버튼 - shrink-0 으로 항상 보임 */}
+      <footer className="relative z-20 shrink-0 border-t border-white/60 bg-white/80 px-5 pb-8 pt-4 backdrop-blur-md">
+        <div className="flex flex-col gap-2">
+          <Button
+            className={`h-14 w-full rounded-2xl text-[16px] font-bold text-white shadow-md
+              ${variant === "perfect" ? "bg-amber-500 hover:bg-amber-600" : "bg-indigo-600 hover:bg-indigo-700"}
+            `}
+          >
+            {cfg.primaryBtn}
+          </Button>
+          <button
+            onClick={onFinish}
+            className="w-full py-2 text-[14px] font-medium text-slate-500 hover:text-slate-700 transition-colors"
+          >
+            {cfg.secondaryBtn}
+          </button>
+        </div>
+      </footer>
     </main>
   )
 }
