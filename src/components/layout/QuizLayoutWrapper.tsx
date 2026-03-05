@@ -1,7 +1,13 @@
 import type { ReactNode } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export type QuizVariant = "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline"
+export type QuizVariant = 
+  | "choiceQuestion" 
+  | "choiceQuestionBottomSheet" 
+  | "choiceQuestionInline"
+  | "oxQuestion"
+  | "oxQuestionBottomSheet"
+  | "oxQuestionInline"
 
 type QuizLayoutWrapperProps = {
   children: ReactNode
@@ -31,9 +37,19 @@ export default function QuizLayoutWrapper({
             <SelectValue placeholder="레이아웃 선택" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="choiceQuestion">A안 (기본 화면)</SelectItem>
-            <SelectItem value="choiceQuestionBottomSheet">B안 (바텀 시트)</SelectItem>
-            <SelectItem value="choiceQuestionInline">C안 (스크롤)</SelectItem>
+            {currentVariant.startsWith("choice") ? (
+              <>
+                <SelectItem value="choiceQuestion">A안 (기본 화면)</SelectItem>
+                <SelectItem value="choiceQuestionBottomSheet">B안 (바텀 시트)</SelectItem>
+                <SelectItem value="choiceQuestionInline">C안 (스크롤)</SelectItem>
+              </>
+            ) : (
+              <>
+                <SelectItem value="oxQuestion">A안 (기본 화면)</SelectItem>
+                <SelectItem value="oxQuestionBottomSheet">B안 (바텀 시트)</SelectItem>
+                <SelectItem value="oxQuestionInline">C안 (스크롤)</SelectItem>
+              </>
+            )}
           </SelectContent>
         </Select>
       </div>

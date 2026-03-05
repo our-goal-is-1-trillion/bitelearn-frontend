@@ -4,6 +4,8 @@ import ChoiceQuestion from "./components/features/choiceQuestion/ChoiceQuestion"
 import ChoiceQuestionBottomSheet from "./components/features/choiceQuestion/ChoiceQuestionBottomSheet"
 import ChoiceQuestionInlineScroll from "./components/features/choiceQuestion/ChoiceQuestionInlineScroll"
 import OxQuestion from "./components/features/oxQuestion/OxQuestion"
+import OxQuestionBottomSheet from "./components/features/oxQuestion/OxQuestionBottomSheet"
+import OxQuestionInlineScroll from "./components/features/oxQuestion/OxQuestionInlineScroll"
 import Home from "./components/features/home/Home"
 import Dashboard from "./components/features/dashboard/Dashboard"
 import Result from "./components/features/result/Result"
@@ -12,7 +14,7 @@ import { MOCK_CHOICE_QUESTION_SET } from "./data/mock/choiceQuestion"
 import QuizLayoutWrapper from "./components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "./components/layout/QuizLayoutWrapper"
 
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "quiz" | "result" | "dashBoard" | "wordLearning"
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "quiz" | "result" | "dashBoard" | "wordLearning"
 type TransitionStage = "idle" | "out" | "in"
 
 export default function App() {
@@ -69,7 +71,18 @@ export default function App() {
           </QuizLayoutWrapper>
         )
       case "oxQuestion":
-        return <OxQuestion onComplete={() => handleNavigate("result")} />
+      case "oxQuestionBottomSheet":
+      case "oxQuestionInline":
+        return (
+          <QuizLayoutWrapper
+            currentVariant={page as QuizVariant}
+            onVariantChange={(variant) => handleNavigate(variant)}
+          >
+            {page === "oxQuestion" && <OxQuestion onComplete={() => handleNavigate("result")} />}
+            {page === "oxQuestionBottomSheet" && <OxQuestionBottomSheet onComplete={() => handleNavigate("result")} />}
+            {page === "oxQuestionInline" && <OxQuestionInlineScroll onComplete={() => handleNavigate("result")} />}
+          </QuizLayoutWrapper>
+        )
       case "result":
         return <Result />
       case "dashBoard":
