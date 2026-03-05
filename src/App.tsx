@@ -37,6 +37,9 @@ export type Page =
   | "oxQuestionInline"
   | "conversationQuestion"
   | "result"
+  | "resultPerfect"
+  | "resultClose"
+  | "resultFail"
   | "dashBoard"
   | "wordLearning"
   | "article"
@@ -151,6 +154,14 @@ export default function App() {
             onFinish={() => handleNavigate("home")}
           />
         )
+
+      case "resultPerfect":
+        return <Result resultData={null} variant="perfect" onFinish={() => handleNavigate("home")} />
+      case "resultClose":
+        return <Result resultData={null} variant="close" onFinish={() => handleNavigate("home")} />
+      case "resultFail":
+        return <Result resultData={null} variant="fail" onFinish={() => handleNavigate("home")} />
+
 
       case "dashBoard":
         return (

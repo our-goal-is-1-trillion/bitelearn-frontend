@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning" | "article"
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "resultPerfect" | "resultClose" | "resultFail" | "wordLearning" | "article"
 
 type IAItem = {
   label: string
@@ -35,6 +35,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
+      { label: "온보딩 스크린", page: "__onboarding__" as unknown as Page },
       { label: "홈 대시보드", page: "dashBoard" },
     ],
   },
@@ -66,7 +67,9 @@ const IA_TABS: IATab[] = [
     },
     items: [
       { label: "단어 학습", page: "wordLearning" },
-      { label: "퀴즈 결과", page: "result" },
+      { label: "퀴즈 결과 · 완벽 방어! 🪙✨ (정답률 80~100%)", page: "resultPerfect" },
+      { label: "퀴즈 결과 · 아슬아슬 방어 💦 (정답률 40~79%)", page: "resultClose" },
+      { label: "퀴즈 결과 · 탈탈 털림... 😭 (정답률 0~39%)", page: "resultFail" },
       { label: "지문형 객관식 퀴즈 (A/B/C UI UX테스트)", page: "choiceQuestion" },
       { label: "지문형 OX 퀴즈 (A/B/C UI UX테스트)", page: "oxQuestion" },
       { label: "대화형 객관식 퀴즈", page: "conversationQuestion" },
@@ -113,6 +116,8 @@ type HomeProps = {
  * 구현된 화면으로 바로 이동할 수 있다.
  */
 export default function Home({ onNavigate }: HomeProps) {
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-slate-100 text-slate-900">
       <div className="flex h-full flex-col">
@@ -151,7 +156,13 @@ export default function Home({ onNavigate }: HomeProps) {
                       <button
                         key={item.label}
                         disabled={!isEnabled}
-                        onClick={() => isEnabled && onNavigate(item.page!)}
+                        onClick={() => {
+                          if ((item.page as unknown as string) === "__onboarding__") {
+                            setShowOnboarding(true)
+                          } else if (isEnabled) {
+                            onNavigate(item.page!)
+                          }
+                        }}
                         className={`flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm transition-colors
                           ${tab.colorClass.itemBorder}
                           ${
@@ -181,6 +192,7 @@ export default function Home({ onNavigate }: HomeProps) {
           </div>
         </section>
       </div>
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
     </main>
   )
 }
