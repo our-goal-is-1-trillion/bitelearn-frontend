@@ -1,14 +1,20 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Check, X } from "lucide-react"
-import ChoiceQuestionFooter from "./ChoiceQuestionFooter"
+import QuizFooter from "@/components/layout/QuizFooter"
 
 type ChoiceQuestionChoicesProps = {
   questionNumber: number
   question: string
   choices: string[]
+  /**
+   * 선택지 표시 모드
+   * - "multiple" : 사지선다 RadioGroup (기본값)
+   * - "ox"      : O/X 버튼 2개 (추후 확장 예정)
+   */
+  choiceMode?: "multiple" | "ox"
   selectedValue: string
   onSelectChoice: (value: string) => void
-  onCheckAnswer: () => void
+  onCheckAnswer: (selectedIndex?: number) => void
   isChecking?: boolean
   correctIndex?: number
   onPrevious?: () => void
@@ -18,6 +24,7 @@ export default function ChoiceQuestionChoices({
   questionNumber,
   question,
   choices,
+  choiceMode = "multiple",
   selectedValue,
   onSelectChoice,
   onCheckAnswer,
@@ -28,8 +35,8 @@ export default function ChoiceQuestionChoices({
   const isCtaEnabled = selectedValue !== ""
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <section className="flex-1 overflow-y-auto px-6 pb-4">
+    <>
+      <section className="flex-1 overflow-y-auto px-6" data-choice-mode={choiceMode}>
         <h2 className="mb-4 text-base font-semibold text-slate-600">
           Q{questionNumber}. {question}
         </h2>
@@ -83,14 +90,14 @@ export default function ChoiceQuestionChoices({
         </RadioGroup>
       </section>
 
-      <ChoiceQuestionFooter
+      <QuizFooter
         disabled={!isCtaEnabled || isChecking}
         previousDisabled={isChecking}
         onClick={onCheckAnswer}
         onPrevious={onPrevious}
       >
         정답 확인
-      </ChoiceQuestionFooter>
-    </div>
+      </QuizFooter>
+    </>
   )
 }

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 
 export type StepIndicatorInfo = {
-  type: "learning" | "quiz"
+  type: "word" | "learning" | "quiz"
   status: "none" | "correct" | "incorrect"
   isCurrent: boolean
 }

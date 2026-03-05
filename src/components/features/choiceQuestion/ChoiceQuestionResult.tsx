@@ -1,4 +1,4 @@
-import ChoiceQuestionFooter from "./ChoiceQuestionFooter"
+import QuizFooter from "@/components/layout/QuizFooter"
 
 type ChoiceQuestionResultProps = {
   /** 정답 여부 */
@@ -91,9 +91,9 @@ export default function ChoiceQuestionResult({
       </section>
 
       {/* Footer — "다음 문제" CTA */}
-      <ChoiceQuestionFooter onClick={onNext}>
+      <QuizFooter onClick={onNext}>
         {isLastQuestion ? "최종 결과 확인" : "다음 문제"}
-      </ChoiceQuestionFooter>
+      </QuizFooter>
     </div>
   )
 }
