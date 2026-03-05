@@ -14,6 +14,7 @@ export default function ConversationQuestionPassage({
   onSolve,
 }: ConversationQuestionPassageProps) {
   const conversations = questionData.conversations || []
+  const conversationSpeakers = questionData.conversationSpeakers || []
   const conversationInfoBox = questionData.conversationInfoBox
 
   return (
@@ -22,26 +23,28 @@ export default function ConversationQuestionPassage({
         <div className="flex flex-col gap-4 mt-6 pb-6">
           {conversations.length > 0 ? (
             conversations.map((conv) => {
-              const isMe = conv.sender === "me"
+              const speaker = conversationSpeakers.find((s) => s.id === conv.speakerId)
+              const isLeft = speaker?.position === "left"
+              const alignClass = isLeft ? "justify-start" : "justify-end"
+              const bubbleClass = isLeft
+                ? "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
+                : "bg-[#64748B] text-white rounded-br-none"
+
               return (
                 <div
                   key={conv.id}
-                  className={`flex w-full ${isMe ? "justify-end" : "justify-start"} items-start gap-2`}
+                  className={`flex w-full ${alignClass} items-start gap-2`}
                 >
-                  {!isMe && conv.profileImageUrl && (
+                  {isLeft && speaker?.profileImageUrl && (
                     <img 
-                      src={conv.profileImageUrl} 
-                      alt="profile" 
+                      src={speaker.profileImageUrl} 
+                      alt={speaker.name || "profile"} 
                       className="w-10 h-10 rounded-full object-cover shrink-0" 
                     />
                   )}
                   {/* 말풍선 */}
                   <div
-                    className={`max-w-[75%] px-4 py-3 rounded-2xl text-[15px] leading-[1.4] ${
-                      isMe
-                        ? "bg-[#64748B] text-white rounded-br-none"
-                        : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
-                    }`}
+                    className={`max-w-[75%] px-4 py-3 rounded-2xl text-[15px] leading-[1.4] ${bubbleClass}`}
                   >
                     {conv.message.split("\n").map((line, i) => (
                       <span key={i}>
@@ -51,11 +54,11 @@ export default function ConversationQuestionPassage({
                     ))}
                   </div>
 
-                  {/* "나"의 프로필 이미지 (우측) */}
-                  {isMe && conv.profileImageUrl && (
+                  {/* 우측 프로필 이미지 */}
+                  {!isLeft && speaker?.profileImageUrl && (
                     <img 
-                      src={conv.profileImageUrl} 
-                      alt="profile" 
+                      src={speaker.profileImageUrl} 
+                      alt={speaker.name || "profile"} 
                       className="w-10 h-10 rounded-full object-cover shrink-0" 
                     />
                   )}

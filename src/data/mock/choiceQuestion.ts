@@ -21,12 +21,18 @@ export interface ChoiceQuestionItem {
   passage: string
   /** 지문 아래 플레이버 텍스트 (생각 등) */
   flavorText: string
+  /** 대화 참여자 정보 (passageMode가 "conversation"일 때 사용) */
+  conversationSpeakers?: {
+    id: string
+    name?: string
+    position: "left" | "right"
+    profileImageUrl?: string
+  }[]
   /** 대화형 지문 목록 (passageMode가 "conversation"일 때 사용) */
   conversations?: {
     id: string
-    sender: "me" | "other"
+    speakerId: string
     message: string
-    profileImageUrl?: string
   }[]
   /** 대화형 지문 하단 안내 박스 */
   conversationInfoBox?: {
@@ -62,61 +68,6 @@ export interface ChoiceQuestionSet {
 export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
   title: "[2단계: 계약] 도장 찍기 전, 멍멍이의 마지막 방어선!",
   questions: [
-    {
-      questionNumber: 18,
-      type: "quiz",
-      passageMode: "conversation",
-      choiceMode: "multiple",
-      passage: "[Scene 5: 전입신고의 중요성]",
-      flavorText: "",
-      conversations: [
-        {
-          id: "c1",
-          sender: "other",
-          message: "그런데 학생. 혹시\n전입신고 할 생각이에요?",
-          profileImageUrl: "http://localhost:3845/assets/c8e49c3b73be838e1055616209c0668bf4224bdb.png",
-        },
-        {
-          id: "c2",
-          sender: "me",
-          message: "네, 그러려고요. 왜요?",
-          profileImageUrl: "http://localhost:3845/assets/96f8a8f6f64f255dd3f04ff9273f4207f50dd0a0.png",
-        },
-        {
-          id: "c3",
-          sender: "other",
-          message: "전입신고 안 할수는 없을까?",
-          profileImageUrl: "http://localhost:3845/assets/c8e49c3b73be838e1055616209c0668bf4224bdb.png",
-        },
-        {
-          id: "c4",
-          sender: "other",
-          message: "세금이랑 건강보험 때문에 그래.\n학생한테 부탁좀 할게.",
-          profileImageUrl: "http://localhost:3845/assets/c8e49c3b73be838e1055616209c0668bf4224bdb.png",
-        },
-        {
-          id: "c5",
-          sender: "other",
-          message: "대신 월세 5만원 깎아줄게요.\n학생, 그렇게 해줄거지?",
-          profileImageUrl: "http://localhost:3845/assets/c8e49c3b73be838e1055616209c0668bf4224bdb.png",
-        },
-      ],
-      conversationInfoBox: {
-        title: "전입신고를 거부하는 경우",
-        content: "전입신고를 하지 않으면, 대항력과 우선변제권을 상실해서 보증금을 통째로 날릴 수도 있어요.",
-      },
-      imageUrl: "",
-      imageAlt: "",
-      question: "집주인이 전입신고를 하지 말라고 부탁할 때 가장 올바른 대처법은?",
-      choices: [
-        "월세를 깎아준다고 하니 오히려 좋다! 알겠다고 한다.",
-        "전입신고는 무조건 해야 한다고 단호하게 거절한다.",
-        "부모님과 상의해 보겠다고 하고 몰래 전입신고를 한다.",
-        "동사무소 직원이 안 된다고 했다며 거짓말을 한다."
-      ],
-      correctIndex: 1,
-      explanation: "전입신고는 주택임대차보호법의 보호를 받기 위한 필수 요건입니다. 어떠한 경우라도 전입신고를 하지 않는 조건의 계약은 피해야 합니다.",
-    },
     // --- 1부: 생존 단어장 (단어 모드) ---
     {
       questionNumber: 1,
@@ -372,6 +323,68 @@ export const MOCK_CHOICE_QUESTION_SET: ChoiceQuestionSet = {
       correctIndex: 1,
       explanation:
         "정답은 X입니다! 돈은 하늘이 두 쪽 나도, 무조건 서류 '갑구'에 적힌 진짜 집주인(불독) 명의의 통장으로만 입금해야 합니다.",
+    },
+    {
+      questionNumber: 18,
+      type: "quiz",
+      passageMode: "conversation",
+      choiceMode: "multiple",
+      passage: "[Scene 5: 전입신고의 중요성]",
+      flavorText: "",
+      conversationSpeakers: [
+        {
+          id: "me",
+          position: "right",
+          profileImageUrl: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=400&q=80", // 강아지
+        },
+        {
+          id: "other",
+          position: "left",
+          profileImageUrl: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=400&q=80", // 불독
+        }
+      ],
+      conversations: [
+        {
+          id: "c1",
+          speakerId: "other",
+          message: "그런데 학생. 혹시\n전입신고 할 생각이에요?",
+        },
+        {
+          id: "c2",
+          speakerId: "me",
+          message: "네, 그러려고요. 왜요?",
+        },
+        {
+          id: "c3",
+          speakerId: "other",
+          message: "전입신고 안 할수는 없을까?",
+        },
+        {
+          id: "c4",
+          speakerId: "other",
+          message: "세금이랑 건강보험 때문에 그래.\n학생한테 부탁좀 할게.",
+        },
+        {
+          id: "c5",
+          speakerId: "other",
+          message: "대신 월세 5만원 깎아줄게요.\n학생, 그렇게 해줄거지?",
+        },
+      ],
+      conversationInfoBox: {
+        title: "전입신고를 거부하는 경우",
+        content: "전입신고를 하지 않으면, 대항력과 우선변제권을 상실해서 보증금을 통째로 날릴 수도 있어요.",
+      },
+      imageUrl: "",
+      imageAlt: "",
+      question: "집주인이 전입신고를 하지 말라고 부탁할 때 가장 올바른 대처법은?",
+      choices: [
+        "월세를 깎아준다고 하니 오히려 좋다! 알겠다고 한다.",
+        "전입신고는 무조건 해야 한다고 단호하게 거절한다.",
+        "부모님과 상의해 보겠다고 하고 몰래 전입신고를 한다.",
+        "동사무소 직원이 안 된다고 했다며 거짓말을 한다."
+      ],
+      correctIndex: 1,
+      explanation: "전입신고는 주택임대차보호법의 보호를 받기 위한 필수 요건입니다. 어떠한 경우라도 전입신고를 하지 않는 조건의 계약은 피해야 합니다.",
     },
   ],
 }
