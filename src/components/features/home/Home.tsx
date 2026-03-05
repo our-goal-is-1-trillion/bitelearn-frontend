@@ -1,4 +1,4 @@
-type Page = "home" | "choiceQuestion" | "dashBoard" | "result"
+type Page = "home" | "choiceQuestion" | "choiceQuestionBottomSheet" | "choiceQuestionInline" | "oxQuestion" | "oxQuestionBottomSheet" | "oxQuestionInline" | "conversationQuestion" | "dashBoard" | "result" | "wordLearning"
 
 type IAItem = {
   label: string
@@ -65,15 +65,18 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-green-200",
     },
     items: [
+      { label: "단어 학습", page: "wordLearning" },
       { label: "퀴즈 결과", page: "result" },
-      { label: "객관식 퀴즈", page: "choiceQuestion" },
+      { label: "지문형 객관식 퀴즈 (A/B/C UI UX테스트)", page: "choiceQuestion" },
+      { label: "지문형 OX 퀴즈 (A/B/C UI UX테스트)", page: "oxQuestion" },
+      { label: "대화형 객관식 퀴즈", page: "conversationQuestion" },
       { label: "미정" },
     ],
   },
   {
     id: 4,
     title: "아카이브 (Archive)",
-    emoji: "�️",
+    emoji: "️",
     colorClass: {
       bg: "bg-orange-50",
       border: "border-orange-200",
@@ -143,6 +146,7 @@ export default function Home({ onNavigate }: HomeProps) {
                 <div className="flex flex-col gap-1.5 p-3">
                   {tab.items.map((item) => {
                     const isEnabled = item.page !== undefined
+
                     return (
                       <button
                         key={item.label}

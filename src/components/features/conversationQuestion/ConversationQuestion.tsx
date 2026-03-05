@@ -1,40 +1,36 @@
 import { useRef, useState } from "react"
 import QuizHeader from "@/components/layout/QuizHeader"
-import ChoiceQuestionIndicator, { type StepIndicatorInfo } from "./ChoiceQuestionIndicator"
-import ChoiceQuestionImage from "./ChoiceQuestionImage"
-import ChoiceQuestionPassage from "./ChoiceQuestionPassage"
-import ChoiceQuestionChoices from "./ChoiceQuestionChoices"
-import ChoiceQuestionOXChoices from "./ChoiceQuestionOXChoices"
-import ChoiceQuestionResult from "./ChoiceQuestionResult"
+import ChoiceQuestionIndicator, { type StepIndicatorInfo } from "../choiceQuestion/ChoiceQuestionIndicator"
+import ConversationQuestionPassage from "./ConversationQuestionPassage"
+import ChoiceQuestionChoices from "../choiceQuestion/ChoiceQuestionChoices"
+import ChoiceQuestionOXChoices from "../choiceQuestion/ChoiceQuestionOXChoices"
+import ChoiceQuestionResult from "../choiceQuestion/ChoiceQuestionResult"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
 type Phase = "passage" | "choices" | "checking" | "result"
 
-type ChoiceQuestionProps = {
+type ConversationQuestionProps = {
   onComplete?: () => void
 }
 
 /**
  * passageMode × choiceMode 조합으로 퀴즈 유형 레이블을 생성합니다.
- * 추후 "story"나 "ox" 모드가 추가될 때 이 함수만 확장하면 됩니다.
  */
 function getQuizTypeLabel(
   passageMode: "text" | "story" | "conversation" | undefined,
   choiceMode: "multiple" | "ox" | undefined
 ): string {
-  const passageLabel =
-    passageMode === "story" ? "상황 지문형" : "지문형"
-  const choiceLabel =
-    choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
+  const passageLabel = passageMode === "conversation" ? "대화 지문형" : "지문형"
+  const choiceLabel = choiceMode === "ox" ? "OX 퀴즈" : "객관식 퀴즈"
   return `${choiceLabel} (${passageLabel})`
 }
 
-export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
-  // 테스트를 위해 전체 데이터 중 'quiz' 타입의 문제 1개만 추출하여 사용합니다.
-  const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.type === "quiz")
+export default function ConversationQuestion({ onComplete }: ConversationQuestionProps) {
+  // 대화형 지문 컴포넌트는 passageMode가 'conversation'인 문제만 필터링하여 보여줍니다.
+  const quizQuestions = MOCK_CHOICE_QUESTION_SET.questions.filter((q) => q.passageMode === "conversation")
   const quizSet = {
     ...MOCK_CHOICE_QUESTION_SET,
-    questions: quizQuestions.slice(0, 1) // 딱 1문제만 사용
+    questions: quizQuestions.length > 0 ? quizQuestions : MOCK_CHOICE_QUESTION_SET.questions.slice(0, 1)
   }
 
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -49,20 +45,13 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
   const isLastQuestion = currentIndex >= quizSet.questions.length - 1
   const isCorrect = selectedChoice !== "" && Number(selectedChoice) === currentQuestion.correctIndex
 
-  // 현재 문제의 모드를 읽어 기본값을 적용합니다.
-  const passageMode = currentQuestion.passageMode ?? "text"
+  const passageMode = currentQuestion.passageMode ?? "conversation"
   const choiceMode = currentQuestion.choiceMode ?? "multiple"
   const quizTypeLabel = getQuizTypeLabel(passageMode, choiceMode)
 
   const handleSolve = () => setPhase("choices")
 
-  /**
-   * 정답 확인 핸들러.
-   * - multiple 모드: 선택된 value(문자열)를 이미 state에서 읽음
-   * - ox 모드: OXChoices 컴포넌트가 선택 인덱스를 직접 전달
-   */
   const handleCheckAnswer = (selectedIndex?: number | React.MouseEvent) => {
-    // OX 모드에서 선택된 인덱스를 직접 받아 state에 반영
     const isEvent = selectedIndex && typeof selectedIndex !== "number";
     const resolvedChoice =
       !isEvent && selectedIndex !== undefined ? String(selectedIndex) : selectedChoice
@@ -100,10 +89,8 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
     switch (phase) {
       case "passage":
         return (
-          <ChoiceQuestionPassage
-            passage={currentQuestion.passage}
-            flavorText={currentQuestion.flavorText}
-            passageMode={passageMode as "text" | "story"}
+          <ConversationQuestionPassage
+            questionData={currentQuestion}
             onSolve={handleSolve}
           />
         )
@@ -159,10 +146,7 @@ export default function ChoiceQuestion({ onComplete }: ChoiceQuestionProps) {
 
         {phase !== "result" && (
           <>
-            {/* 진행도 바 (닷 인디케이터) */}
             <ChoiceQuestionIndicator steps={indicatorSteps} />
-
-            {/* 문제 이미지 */}<ChoiceQuestionImage src={currentQuestion.imageUrl} alt={currentQuestion.imageAlt} />
           </>
         )}
 
