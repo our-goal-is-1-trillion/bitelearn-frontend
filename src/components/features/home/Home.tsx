@@ -22,6 +22,7 @@ export type Page =
   | "login"
   | "signup"
   | "mypage"
+  | "chapterList"
 
 type IAAction = "onboarding"
 
@@ -90,6 +91,7 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-green-200",
     },
     items: [
+      { label: "챕터 목록 (학습 탭)", page: "chapterList" },
       { label: "단어 학습", page: "wordLearning" },
       { label: "챕터 결과 · 완벽 방어! (정답률 80~100%)", page: "resultPerfect" },
       { label: "챕터 결과 · 아슬아슬 방어 (정답률 40~79%)", page: "resultClose" },
