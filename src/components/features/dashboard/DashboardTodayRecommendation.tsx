@@ -12,7 +12,7 @@ export default function DashboardTodayRecommendation({
 }: DashboardTodayRecommendationProps) {
   return (
     <section className="my-4">
-      <p className="text-base font-semibold text-slate-900">오늘의 추천 학습👇</p>
+      <p className="text-base font-bold text-slate-900">오늘의 추천 학습👇</p>
       <div className="mt-3 flex flex-col gap-2">
         {recommendations.map((recommendation, index) => (
           <DashboardTodayRecommendationCard

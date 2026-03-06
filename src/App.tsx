@@ -20,6 +20,8 @@ import DocumentClickQuestion from "@/components/features/documentClickQuestion/D
 import QuizLayoutWrapper from "@/components/layout/QuizLayoutWrapper"
 import type { QuizVariant } from "@/components/layout/QuizLayoutWrapper"
 import Result from "@/pages/Result"
+import Login from "@/pages/Login"
+import Signup from "@/pages/Signup"
 import ArticleDetail from "@/components/features/article/ArticleDetail"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
@@ -47,6 +49,8 @@ export type Page =
   | "dashBoard"
   | "wordLearning"
   | "article"
+  | "login"
+  | "signup"
 
 type TransitionStage = "idle" | "out" | "in"
 
@@ -180,13 +184,29 @@ export default function App() {
             categories={DASHBOARD_CATEGORIES}
             recommendations={DASHBOARD_TODAY_RECOMMENDATIONS}
             onMoveToChapter={() => handleNavigate("home")}
-            onMoveToLogin={() => handleNavigate("home")}
+            onMoveToLogin={() => handleNavigate("login")}
             headerTitle="BiteLearn"
             headerSubtitle="로그인하고 맞춤 학습을 시작해보세요."
             continueHeadline="학습이 처음인 당신을 위해"
             continueCategory="부동산 · 주거"
             continueLessonTitle="전세사기 예방 기초"
             continueMeta="처음 시작 · 약 5분"
+          />
+        )
+
+      case "login":
+        return (
+          <Login
+            onBack={() => handleNavigate("home")}
+            onSignup={() => handleNavigate("signup")}
+          />
+        )
+
+      case "signup":
+        return (
+          <Signup
+            onLogin={() => handleNavigate("login")}
+            onSuccess={() => handleNavigate("login")}
           />
         )
 
@@ -213,4 +233,3 @@ export default function App() {
     </div>
   )
 }
-

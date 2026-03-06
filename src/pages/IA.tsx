@@ -3,6 +3,7 @@ import OnboardingModal from "@/components/features/onboarding/OnboardingModal"
 
 export type IAPath =
   | "home"
+  | "login"
   | "choiceQuestion"
   | "documentChoiceQuestion"
   | "documentClickQuestion"
@@ -27,6 +28,7 @@ type IAProps = {
 const items: IAItem[] = [
   { label: "온보딩 스크린", action: "onboarding" },
   { label: "대시보드", page: "dashBoard" },
+  { label: "로그인", page: "login" },
   { label: "지문형 객관식", page: "choiceQuestion" },
   { label: "서류 오답 찾기", page: "documentChoiceQuestion" },
   { label: "지문형 OX", page: "oxQuestion" },

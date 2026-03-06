@@ -17,6 +17,7 @@ import ChoiceQuizPage from '@/pages/ChoiceQuizPage';
 import OxQuestion from '@/pages/OxQuestion';
 import Result from '@/pages/Result';
 import IA from '@/pages/IA';
+import type { IAPath } from '@/pages/IA';
 import ConversationQuestion from '@/components/features/conversationQuestion/ConversationQuestion';
 
 function ConversationQuizPage() {
@@ -36,6 +37,39 @@ function ResultPageWrapper() {
   const state = location.state as { total: number; correct: number; timeSpent?: number } | null
   
   return <Result resultData={state} onFinish={() => navigate('/ia')} />
+}
+
+function IAPage() {
+  const navigate = useNavigate()
+
+  const handleNavigate = (page: IAPath) => {
+    const routeMap: Partial<Record<IAPath, string>> = {
+      home: '/home',
+      login: '/login',
+      dashBoard: '/home',
+      choiceQuestion: '/quiz/choice',
+      oxQuestion: '/quiz/ox',
+      conversationQuestion: '/quiz/conversation',
+      result: '/resultPerfect',
+    }
+
+    const next = routeMap[page]
+    if (!next) return
+    navigate(next)
+  }
+
+  return <IA onNavigate={handleNavigate} />
+}
+
+function HomePage() {
+  const navigate = useNavigate()
+
+  return (
+    <Home
+      onMoveToChapter={() => navigate('/chapter')}
+      onMoveToLogin={() => navigate('/login')}
+    />
+  )
 }
 
 /** IA 홈으로 돌아가는 전역 플로팅 버튼. / 또는 /ia 경로에서는 숨김 */
@@ -61,9 +95,9 @@ export default function Router() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <IAHomeButton />
       <Routes>
-        <Route path="/" element={<IA />} />
-        <Route path="/ia" element={<IA />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<IAPage />} />
+        <Route path="/ia" element={<IAPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/home-logined" element={<HomeLogined />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
 

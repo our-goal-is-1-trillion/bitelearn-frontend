@@ -10,20 +10,18 @@ export default function DashboardHeader({
   subtitle = "오늘도 학습을 이어가볼까요?",
 }: DashboardHeaderProps) {
   return (
-    <header>
-      <div className="flex justify-between items-center my-4">
+    <header className="py-4">
+      <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="mt-1 text-xl font-semibold text-slate-900">{title}</h2>
-          <p className="text-xs text-slate-500">{subtitle}</p>
+          <h2 className="text-[21px] font-bold leading-tight tracking-tight text-slate-900">{title}</h2>
+          <p className="text-[13px] text-slate-500">{subtitle}</p>
         </div>
-        <div>
-          <button
-            type="button"
-            aria-label="로그인 화면으로 이동"
-            className="h-10 w-10 rounded-full bg-slate-300"
-            onClick={onProfileClick}
-          />
-        </div>
+        <button
+          type="button"
+          aria-label="로그인 화면으로 이동"
+          className="h-10 w-10 rounded-full border border-slate-200 bg-white shadow-sm transition-colors hover:bg-slate-50"
+          onClick={onProfileClick}
+        />
       </div>
     </header>
   )

@@ -17,18 +17,18 @@ export default function DashboardContinueCard({
   meta = "완료율 68%",
 }: DashboardContinueCardProps) {
   return (
-    <article className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-4 shadow-sm">
-      <p className="text-base font-semibold text-slate-900 py-2">{headline}</p>
+    <article className="rounded-2xl border border-indigo-100 bg-indigo-50/50 px-4 py-4 shadow-sm">
+      <p className="py-1 text-base font-bold text-slate-900">{headline}</p>
 
-      <div className="flex items-center justify-between px-3 py-3">
+      <div className="mt-2 flex items-center justify-between rounded-xl bg-white px-3 py-3">
         <div className="space-y-1">
-          <p className="mt-1 text-xs text-slate-500">{category}</p>
-          <p className="text-sm font-semibold text-slate-900">{lessonTitle}</p>
-          <p className="mt-1 text-xs text-slate-500">{meta}</p>
+          <p className="text-xs text-slate-500">{category}</p>
+          <p className="text-sm font-bold text-slate-900">{lessonTitle}</p>
+          <p className="text-xs text-slate-500">{meta}</p>
         </div>
         <Button
           size="icon"
-          className="h-9 w-9 rounded-full"
+          className="h-9 w-9 rounded-full bg-indigo-600 text-white hover:bg-indigo-700"
           onClick={onContinue}
           aria-label="계속 학습하기"
         >

@@ -33,10 +33,10 @@ export default function DashboardHome({
   continueMeta,
 }: DashboardHomeProps) {
   return (
-    <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white text-slate-900">
-      <div className="relative flex h-full flex-col border border-slate-200 pb-20">
+    <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden bg-white font-sans text-slate-900">
+      <div className="relative flex h-full flex-col border border-slate-100 bg-gradient-to-b from-slate-50 to-white pb-24 shadow-sm">
         <section className="hide-scrollbar flex-1 overflow-y-auto px-5 pb-6 pt-6">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             <DashboardHeader
               onProfileClick={onMoveToLogin}
               title={headerTitle}

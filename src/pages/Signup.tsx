@@ -1,45 +1,146 @@
-﻿import type { FormEvent } from "react"
+﻿import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+
+const signupSchema = z
+  .object({
+    nickname: z.string().trim().min(2, { message: '닉네임은 2자 이상이어야 합니다.' }),
+    email: z.string().trim().email({ message: '유효한 이메일 주소를 입력해 주세요.' }),
+    password: z.string().min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' }),
+    passwordConfirm: z.string().min(1, { message: '비밀번호 확인을 입력해 주세요.' }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    path: ['passwordConfirm'],
+    message: '비밀번호가 일치하지 않습니다.',
+  });
+
+type SignupFormValues = z.infer<typeof signupSchema>;
 
 type SignupProps = {
-  onBack?: () => void
-  onLogin?: () => void
-  onSuccess?: () => void
-}
+  onLogin?: () => void;
+  onSuccess?: () => void;
+};
 
-export default function Signup({ onBack, onLogin, onSuccess }: SignupProps) {
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    onSuccess?.()
-  }
+export default function Signup({ onLogin, onSuccess }: SignupProps) {
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      nickname: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
+  });
+
+  const onSubmit = (data: SignupFormValues) => {
+    const { passwordConfirm, ...submitData } = data;
+    console.log('회원가입 입력값:', submitData);
+    alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
+
+    if (onSuccess) {
+      onSuccess();
+      return;
+    }
+  };
 
   return (
-    <main className="mx-auto flex h-[812px] w-[375px] flex-col bg-white p-6 text-slate-900">
+    <main className="relative mx-auto h-[812px] w-[375px] overflow-y-auto border border-slate-100 bg-white px-6 py-8 text-slate-900 shadow-sm">
       <button
         type="button"
-        className="mb-4 self-start rounded border px-3 py-1 text-sm"
-        onClick={onBack}
+        aria-label="닫기"
+        className="absolute right-4 top-4 text-xl font-medium text-slate-400"
       >
-        뒤로
+        ✕
       </button>
-      <h1 className="mb-2 text-xl font-semibold">회원가입</h1>
-      <p className="mb-6 text-sm text-slate-500">새 계정을 만들고 학습을 시작하세요.</p>
+      <h2 className="mb-6 text-center text-2xl font-bold">회원가입</h2>
 
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <input className="rounded border px-3 py-2" type="email" placeholder="이메일" required />
-        <input className="rounded border px-3 py-2" type="password" placeholder="비밀번호" required />
-        <input className="rounded border px-3 py-2" type="password" placeholder="비밀번호 확인" required />
-        <input className="rounded border px-3 py-2" type="text" placeholder="닉네임" required />
-        <button className="mt-2 rounded bg-slate-900 px-3 py-2 text-white" type="submit">
-          가입하기
-        </button>
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>이메일</FormLabel>
+                <FormControl>
+                  <Input type="email" autoComplete="email" placeholder="example@mail.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <p className="mt-6 text-sm text-slate-600">
-        이미 계정이 있나요? {" "}
-        <button type="button" className="font-semibold text-blue-600" onClick={onLogin}>
-          로그인
-        </button>
-      </p>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>비밀번호</FormLabel>
+                <FormControl>
+                  <Input type="password" autoComplete="new-password" placeholder="********" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>비밀번호 확인</FormLabel>
+                <FormControl>
+                  <Input type="password" autoComplete="new-password" placeholder="********" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="nickname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>닉네임</FormLabel>
+                <FormControl>
+                  <Input placeholder="멋진개발자" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="mt-6 w-full" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? '가입 처리 중...' : '가입하기'}
+          </Button>
+        </form>
+      </Form>
+
+      <div className="mt-6 text-center text-sm text-gray-600">
+        이미 계정이 있으신가요?{' '}
+        {onLogin ? (
+          <button type="button" onClick={onLogin} className="font-semibold text-blue-600 hover:underline">
+            로그인하기
+          </button>
+        ) : (
+          <a href="/login" className="font-semibold text-blue-600 hover:underline">
+            로그인하기
+          </a>
+        )}
+      </div>
     </main>
-  )
+  );
 }

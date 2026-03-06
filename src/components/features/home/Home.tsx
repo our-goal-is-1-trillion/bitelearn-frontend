@@ -19,6 +19,8 @@ export type Page =
   | "article"
   | "documentChoiceQuestion"
   | "documentClickQuestion"
+  | "login"
+  | "signup"
 
 type IAAction = "onboarding"
 
@@ -126,6 +128,23 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-slate-200",
     },
     items: [{ label: "미정" }],
+  },
+  {
+    id: 6,
+    title: "로그인/회원가입 (Login/Signup)",
+    emoji: "🔑",
+    colorClass: {
+      bg: "bg-slate-50",
+      border: "border-slate-200",
+      header: "bg-slate-400",
+      badge: "bg-slate-100 text-slate-600",
+      itemHover: "hover:bg-slate-100",
+      itemBorder: "border-slate-200",
+    },
+    items: [
+      { label: "로그인", page: "login" },
+      { label: "회원가입", page: "signup" }
+    ],
   },
 ]
 
