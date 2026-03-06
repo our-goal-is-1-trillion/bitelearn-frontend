@@ -21,6 +21,7 @@ export type Page =
   | "documentClickQuestion"
   | "login"
   | "signup"
+  | "mypage"
 
 type IAAction = "onboarding"
 
@@ -127,7 +128,7 @@ const IA_TABS: IATab[] = [
       itemHover: "hover:bg-slate-100",
       itemBorder: "border-slate-200",
     },
-    items: [{ label: "미정" }],
+    items: [{ label: "마이페이지", page: "mypage" }],
   },
   {
     id: 6,

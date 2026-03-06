@@ -22,6 +22,7 @@ import type { QuizVariant } from "@/components/layout/QuizLayoutWrapper"
 import Result from "@/pages/Result"
 import Login from "@/pages/Login"
 import Signup from "@/pages/Signup"
+import Mypage from "@/pages/Mypage"
 import ArticleDetail from "@/components/features/article/ArticleDetail"
 import { MOCK_CHOICE_QUESTION_SET } from "@/data/mock/choiceQuestion"
 
@@ -51,6 +52,7 @@ export type Page =
   | "article"
   | "login"
   | "signup"
+  | "mypage"
 
 type TransitionStage = "idle" | "out" | "in"
 
@@ -209,6 +211,9 @@ export default function App() {
             onSuccess={() => handleNavigate("login")}
           />
         )
+
+      case "mypage":
+        return <Mypage />
 
       default:
         return <Home onNavigate={handleNavigate} />
