@@ -11,7 +11,6 @@ import AuthLayout from '@/layouts/AuthLayout';
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Signup from '@/pages/Signup';
-import NotFound from '@/pages/NotFound';
 import WordLearningRoute from '@/pages/wordLearning/WordLearningRoute';
 
 export default function Router() {
@@ -29,8 +28,6 @@ export default function Router() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Route>
-
-          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
