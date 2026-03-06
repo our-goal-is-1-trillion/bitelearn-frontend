@@ -60,7 +60,6 @@ const IA_TABS: IATab[] = [
       itemBorder: "border-red-200",
     },
     items: [
-      { label: "온보딩 스크린", action: "onboarding" },
       { label: "홈 대시보드", page: "dashBoard" },
     ],
   },
@@ -92,9 +91,9 @@ const IA_TABS: IATab[] = [
     },
     items: [
       { label: "단어 학습", page: "wordLearning" },
-      { label: "퀴즈 결과 · 완벽 방어! (정답률 80~100%)", page: "resultPerfect" },
-      { label: "퀴즈 결과 · 아슬아슬 방어 (정답률 40~79%)", page: "resultClose" },
-      { label: "퀴즈 결과 · 탈탈 털림... (정답률 0~39%)", page: "resultFail" },
+      { label: "챕터 결과 · 완벽 방어! (정답률 80~100%)", page: "resultPerfect" },
+      { label: "챕터 결과 · 아슬아슬 방어 (정답률 40~79%)", page: "resultClose" },
+      { label: "챕터 결과 · 탈탈 털림... (정답률 0~39%)", page: "resultFail" },
       { label: "지문형 객관식 퀴즈 (A/B/C UI UX테스트)", page: "choiceQuestion" },
       { label: "지문형 OX 퀴즈 (A/B/C UI UX테스트)", page: "oxQuestion" },
       { label: "대화형 객관식 퀴즈", page: "conversationQuestion" },
@@ -130,23 +129,6 @@ const IA_TABS: IATab[] = [
     },
     items: [{ label: "마이페이지", page: "mypage" }],
   },
-  {
-    id: 6,
-    title: "로그인/회원가입 (Login/Signup)",
-    emoji: "🔑",
-    colorClass: {
-      bg: "bg-slate-50",
-      border: "border-slate-200",
-      header: "bg-slate-400",
-      badge: "bg-slate-100 text-slate-600",
-      itemHover: "hover:bg-slate-100",
-      itemBorder: "border-slate-200",
-    },
-    items: [
-      { label: "로그인", page: "login" },
-      { label: "회원가입", page: "signup" }
-    ],
-  },
 ]
 
 type HomeProps = {
@@ -163,6 +145,32 @@ export default function Home({ onNavigate }: HomeProps) {
           <h1 className="text-lg font-bold text-slate-800">🗺️ BiteLearn IA</h1>
           <p className="mt-0.5 text-xs text-slate-400">항목을 눌러 화면으로 이동하세요</p>
         </header>
+
+        <section className="shrink-0 border-b bg-white p-4">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Core Flows</h2>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                onClick={() => setShowOnboarding(true)}
+                className="flex items-center justify-center rounded-lg border border-indigo-200 bg-indigo-50 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
+              >
+                온보딩
+              </button>
+              <button
+                onClick={() => onNavigate("login")}
+                className="flex items-center justify-center rounded-lg border border-slate-200 bg-white py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                로그인
+              </button>
+              <button
+                onClick={() => onNavigate("signup")}
+                className="flex items-center justify-center rounded-lg border border-slate-200 bg-white py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                회원가입
+              </button>
+            </div>
+          </div>
+        </section>
 
         <section className="flex-1 overflow-y-auto p-4">
           <div className="flex flex-col gap-3">

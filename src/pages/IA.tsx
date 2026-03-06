@@ -33,7 +33,7 @@ const items: IAItem[] = [
   { label: "서류 오답 찾기", page: "documentChoiceQuestion" },
   { label: "지문형 OX", page: "oxQuestion" },
   { label: "대화형 객관식", page: "conversationQuestion" },
-  { label: "퀴즈 결과", page: "result" },
+  { label: "챕터 결과", page: "result" },
 ]
 
 export default function IA({ onNavigate }: IAProps) {
