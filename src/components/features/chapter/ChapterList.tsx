@@ -19,12 +19,6 @@ const LEARNING_TABS = [
   { label: "마이", icon: UserRound, active: false },
 ]
 
-const DIFFICULTY_STYLE = {
-  초급: "bg-slate-100 text-slate-600",
-  중급: "bg-slate-700 text-white",
-  고급: "bg-slate-900 text-white",
-}
-
 // ─── Stage circle ─────────────────────────────────────────────
 function StageCircle({ chapter }: { chapter: Chapter }) {
   const base = "relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold"
@@ -164,9 +158,6 @@ function ChapterCard({
           <span className="flex items-center gap-1 text-[10px] text-slate-400">
             <Clock size={10} />
             {chapter.estimatedMinutes}분
-          </span>
-          <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${DIFFICULTY_STYLE[chapter.difficulty]}`}>
-            {chapter.difficulty}
           </span>
           <span className="text-[10px] text-slate-400">
             {chapter.questionCount}문제
