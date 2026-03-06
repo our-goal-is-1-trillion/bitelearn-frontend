@@ -2,6 +2,7 @@ import { DASHBOARD_TABS } from "@/components/features/dashboard/dashboard.consta
 import DashboardBottomNav from "@/components/layout/DashboardBottomNav"
 import { ChevronRight } from "lucide-react"
 import { useState } from "react"
+import AccountInfoPage from "@/components/features/mypage/MyAccountInfo"
 
 type MenuItem = {
   label: string
@@ -38,6 +39,7 @@ const MENU_ITEMS: MenuItem[] = [
 ]
 
 export default function Mypage() {
+  const [currentPage, setCurrentPage] = useState<"main" | "accountInfo">("main")
   const mypageTabs = DASHBOARD_TABS.map((tab) => ({
     ...tab,
     active: tab.label === "마이",
@@ -53,12 +55,17 @@ export default function Mypage() {
 
   return (
     <main className="relative mx-auto h-[812px] w-[375px] overflow-hidden border border-slate-200 bg-white text-slate-900 shadow-sm">
-      <section className="h-full overflow-y-auto px-5 py-6 pb-24">
+      {currentPage === "main" ? (
+      <section className="hide-scrollbar h-full overflow-y-auto px-5 py-6 pb-24">
         <header className="mb-5">
           <h1 className="text-xl font-bold">마이페이지</h1>
         </header>
 
-        <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+        <button
+          type="button"
+          onClick={() => setCurrentPage("accountInfo")}
+          className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left shadow-sm"
+        >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-100 text-xl">
@@ -73,7 +80,7 @@ export default function Mypage() {
               <ChevronRight className="h-5 w-5 text-slate-500" />
             </div>
           </div>
-        </section>
+        </button>
 
         <section className="mt-4 grid grid-cols-3 gap-2">
           <article className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-center shadow-sm">
@@ -138,8 +145,11 @@ export default function Mypage() {
         </section>
 
       </section>
+      ) : (
+        <AccountInfoPage onBack={() => setCurrentPage("main")} />
+      )}
 
-      <DashboardBottomNav tabs={mypageTabs} />
+      {currentPage === "main" && <DashboardBottomNav tabs={mypageTabs} />}
     </main>
   )
 }
