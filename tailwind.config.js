@@ -7,6 +7,9 @@ export default {
       sans: ['"A2Z"', 'sans-serif'],
     },
     extend: {
+      maxWidth: {
+        app: '375px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

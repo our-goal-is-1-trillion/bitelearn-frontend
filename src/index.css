@@ -1,23 +1,26 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom animation utilities */
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;
   }
+
   .preserve-3d {
     transform-style: preserve-3d;
   }
+
   .backface-hidden {
     backface-visibility: hidden;
   }
+
   .rotate-y-180 {
     transform: rotateY(180deg);
   }
 }
-@tailwind utilities;
-
+/* Custom font faces */
 @layer base {
   @font-face {
     font-family: 'A2Z';
@@ -75,6 +78,7 @@
   }
 }
 
+/* shadcn/ui overrides */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -131,6 +135,7 @@
   }
 }
 
+/* Tailwind base styles */
 @layer base {
   * {
     @apply border-border;
