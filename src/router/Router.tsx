@@ -2,8 +2,6 @@ import {
   BrowserRouter,
   Route,
   Routes,
-  useNavigate,
-  useLocation,
 } from 'react-router-dom';
 
 import RootLayout from '@/layouts/RootLayout';
@@ -19,7 +17,6 @@ import WordLearningRoute from '@/pages/wordLearning/WordLearningRoute';
 export default function Router() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <IAHomeButton />
       <Routes>
         <Route element={<RootLayout />}>
           <Route element={<AppLayout />}>
@@ -31,10 +28,6 @@ export default function Router() {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route
-              path="/oauth/callback/:provider"
-              element={<AuthCallback />}
-            />
           </Route>
 
           <Route path="*" element={<NotFound />} />

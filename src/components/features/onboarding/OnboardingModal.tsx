@@ -43,7 +43,6 @@ export default function OnboardingModal({
           <X className="h-5 w-5" />
           <span className="sr-only">건너뛰기</span>
         </button>
-        <div className="flex-1 overflow-hidden relative bg-slate-50/50">
         <div className="relative flex-1 overflow-hidden bg-slate-50/50">
           <AnimatePresence mode="wait">
             <motion.div
