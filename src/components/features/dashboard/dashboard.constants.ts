@@ -20,11 +20,9 @@ export const DASHBOARD_TODAY_RECOMMENDATIONS: DashboardRecommendation[] = [
   {
     title: "신용점수 빠르게 올리는 3가지 습관",
     category: "생활금융 · 고용",
-    difficulty: "중급",
   },
   {
     title: "전세 계약 전 꼭 확인해야 할 체크리스트",
     category: "부동산 · 주거",
-    difficulty: "초급",
   },
 ]

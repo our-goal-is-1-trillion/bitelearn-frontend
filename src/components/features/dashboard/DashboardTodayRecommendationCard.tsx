@@ -15,7 +15,6 @@ export default function DashboardTodayRecommendationCard({
       <div>
         <p className="text-xs text-slate-500">
           {recommendation.category}
-          {/* {recommendation.difficulty} */}
         </p>
         <p className="mt-1 text-sm font-bold text-slate-900">{recommendation.title}</p>
       </div>

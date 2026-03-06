@@ -26,14 +26,10 @@ export default function DashboardChapter({
               alt="챕터 대표 이미지"
               className="mt-4 h-40 w-full rounded-md border border-slate-300 object-cover"
             />
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-4">
               <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-3">
                 <p className="text-xs text-slate-500">예상 시간</p>
                 <p className="mt-1 text-sm font-semibold text-slate-900">약 9분</p>
-              </div>
-              <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-3">
-                <p className="text-xs text-slate-500">난이도</p>
-                <p className="mt-1 inline-flex rounded-full bg-slate-800 px-2 py-0.5 text-xs text-white">중급</p>
               </div>
             </div>
           </article>
