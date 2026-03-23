@@ -3,11 +3,11 @@ import { useState } from 'react';
 import NoteTopNav from '@/components/features/note/NoteTopNav';
 import IncorrectNoteSection from '@/components/features/note/IncorrectNoteSection';
 import BookmarkSection from '@/components/features/note/BookmarkSection';
+import useBookmarkedArticles from '@/hooks/useBookmarkedArticles';
 import useNotesCategorySearchParam from '@/hooks/useNotesCategorySearchParam';
 
 import { useIncorrectNotesQuery } from '@/api/notes/notes.query';
 import { LEARNING_NAVIGATION } from '@/constants/learningNavigation';
-import { mockBookmarkedArticles } from '@/mock/bookmarkedArticle';
 
 export type NoteTab = 'incorrect' | 'bookmark';
 
@@ -28,7 +28,7 @@ export default function NotesPage() {
     category: selectedCategory,
     enabled: activeTab === 'incorrect',
   });
-  const bookmarkArticles = mockBookmarkedArticles;
+  const { bookmarkedArticles } = useBookmarkedArticles();
 
   // 요약 카드에는 첫 페이지 응답의 집계 값 사용
   const totalNoteCount = incorrectNotesFeed.data?.pages[0]?.totalCount ?? 0;
@@ -56,7 +56,7 @@ export default function NotesPage() {
           )}
 
           {activeTab === 'bookmark' && (
-            <BookmarkSection articles={bookmarkArticles} />
+            <BookmarkSection articles={bookmarkedArticles} />
           )}
         </section>
       </div>

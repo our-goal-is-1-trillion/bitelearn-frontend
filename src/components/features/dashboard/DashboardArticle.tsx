@@ -6,7 +6,7 @@ type DashboardArticleProps = {
 };
 
 export default function DashboardArticle({ articles }: DashboardArticleProps) {
-  const previewArticles = articles.slice(0, 2);
+  const previewArticles = articles.slice(0, 3);
 
   if (previewArticles.length === 0) return null;
 
