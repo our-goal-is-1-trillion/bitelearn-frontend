@@ -27,7 +27,7 @@ export function renderContentBlock(block: ContentBlock, index: number) {
       return (
         <h2
           key={index}
-          className="word-break-keep mb-5 mt-12 text-[22px] font-bold leading-tight tracking-[-0.02em] text-foreground"
+          className="word-break-keep mb-5 mt-12 text-xl font-bold leading-tight tracking-[-0.02em] text-foreground"
         >
           {block.content}
         </h2>
