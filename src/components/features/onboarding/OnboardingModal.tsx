@@ -71,7 +71,7 @@ export default function OnboardingModal({
                 <h2 className="mb-3 text-xl font-bold leading-tight text-foreground">
                   {currentData.title}
                 </h2>
-                <p className="text-[15px] leading-relaxed text-slate-600 [word-break:keep-all]">
+                <p className="text-sm leading-relaxed text-slate-600 [word-break:keep-all]">
                   {currentData.body}
                 </p>
               </div>
