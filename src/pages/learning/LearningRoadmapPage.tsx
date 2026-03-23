@@ -19,6 +19,7 @@ import {
   CHAPTER_BLOCKED_TOAST_MESSAGE,
   shouldBlockRoadmapChapterEntry,
 } from '@/lib/learningAccess';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const LEARNING_ROADMAP_ERROR_MESSAGE =
   '챕터 목록을 불러오지 못했습니다. 다시 시도해 주세요.';
@@ -48,13 +49,7 @@ export default function LearningRoadmapPage() {
   const loadError = roadmapQuery.error;
 
   if (!category || !selectedTopic) {
-    return (
-      <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
-        <p className="text-sm font-medium text-slate-500">
-          존재하지 않는 학습 경로입니다.
-        </p>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   const handleBack = () => {
