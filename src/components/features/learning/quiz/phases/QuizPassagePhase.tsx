@@ -33,7 +33,7 @@ export default function QuizPassagePhase({
   }
 
   if (
-    question.type === 'DOC_MCQ' &&
+    (question.type === 'DOC_MCQ' || question.type === 'DOC_CLICK') &&
     question.specificData?.documentElements?.length
   ) {
     return (
