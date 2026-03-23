@@ -13,10 +13,7 @@ import { formatDisplayName } from '@/utils/formatUser';
 export default function MyPage() {
   const navigate = useNavigate();
   const { data: user } = useMeQuery();
-  const myBadgeSummary = {
-    currentLevel: 1,
-    currentBytes: 1250,
-  };
+
   const openExternalLink = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -41,7 +38,10 @@ export default function MyPage() {
               <div className="text-2xl font-semibold leading-9 text-foreground">
                 {formatDisplayName(user?.nickname)}님
               </div>
-              <MyBadgeSummaryCard {...myBadgeSummary} />
+              <MyBadgeSummaryCard
+                currentLevel={user?.level}
+                currentBytes={user?.totalBytes ?? 0}
+              />
             </div>
           </div>
 
