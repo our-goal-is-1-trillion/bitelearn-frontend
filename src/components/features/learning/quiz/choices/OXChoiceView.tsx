@@ -64,27 +64,27 @@ export default function OXChoiceView({
   const buttonConfig = {
     idle: {
       container:
-        'border-slate-100 bg-card text-slate-500 shadow-[0_12px_16px_0_rgba(237,238,246,1)]',
+        'border-slate-100 bg-card text-slate-500 shadow-bl-card',
       icon: 'text-slate-400',
       label: 'text-slate-600',
     },
     selected: {
       container:
-        'border-slate-300 bg-slate-100 text-slate-700 shadow-[0_12px_16px_0_rgba(237,238,246,1)] scale-[1.02]',
+        'border-slate-300 bg-slate-100 text-slate-700 shadow-bl-card scale-[1.02]',
       icon: 'text-slate-600',
       label: 'text-slate-600',
     },
     correct: {
       container:
-        'border-green-500 bg-green-50 text-green-600 scale-[1.05] shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 ease-out z-10',
-      icon: 'text-green-400',
-      label: 'text-green-400',
+        'border-success bg-success-bg text-success scale-[1.05] shadow-[0_12px_24px_0_rgba(74,222,128,0.4)] transition-all duration-300 ease-out z-10',
+      icon: 'text-success',
+      label: 'text-success font-bold',
     },
     wrong: {
       container:
-        'border-red-500 bg-red-50 text-red-500 scale-[1.05] shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all duration-300 ease-out z-10',
-      icon: 'text-red-400',
-      label: 'text-red-400',
+        'border-destructive bg-destructive-bg text-destructive scale-[1.05] shadow-[0_12px_24px_0_rgba(244,63,94,0.3)] transition-all duration-300 ease-out z-10',
+      icon: 'text-destructive',
+      label: 'text-destructive font-bold',
     },
     dim: {
       container: 'border-slate-100 bg-slate-50 text-slate-300',
@@ -106,9 +106,10 @@ export default function OXChoiceView({
         disabled={isChecking}
         onClick={() => handleSelect(value)}
         className={cn(
-          'flex h-[200px] flex-1 cursor-pointer select-none flex-col items-center justify-center gap-3 rounded-2xl border-2 p-5 transition-all duration-200',
+          'flex h-[200px] flex-1 cursor-pointer select-none flex-col items-center justify-center gap-3 rounded-3xl border-2 p-5 transition-all duration-200',
           cfg.container,
-          isChecking && 'cursor-not-allowed'
+          isChecking && 'cursor-not-allowed',
+          (state === 'correct' || state === 'wrong') && 'border-[3px] border-solid'
         )}
         aria-label={answerLabel}
       >

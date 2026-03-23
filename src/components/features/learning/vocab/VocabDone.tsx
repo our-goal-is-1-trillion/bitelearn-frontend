@@ -16,7 +16,7 @@ export default function VocabDone({
   onStartQuiz,
 }: VocabDoneProps) {
   return (
-    <main className="flex h-full min-h-0 flex-col bg-background text-slate-900">
+    <main className="flex h-full min-h-0 flex-col bg-background text-foreground">
       <Header
         title={chapterTitle}
         subtitle="단어 학습"
@@ -38,7 +38,7 @@ export default function VocabDone({
 
         <div className="flex flex-col items-center gap-4">
           <div className="border-b-2 border-primary px-0.5">
-            <h1 className="text-[22px] font-bold leading-[30.25px] text-slate-950">
+            <h1 className="text-2xl font-bold leading-[30.25px] text-foreground">
               단어 학습을 끝마쳤어요!
             </h1>
           </div>

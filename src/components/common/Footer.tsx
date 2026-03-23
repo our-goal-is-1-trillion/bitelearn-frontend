@@ -39,7 +39,7 @@ export default function Footer({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-14 w-14 shrink-0 rounded-2xl bg-slate-100 text-slate-900 shadow-none hover:bg-slate-200"
+          className="h-14 w-14 shrink-0 rounded-2xl bg-slate-100 text-foreground shadow-none hover:bg-slate-200"
           onClick={onPrevious}
           disabled={previousDisabled}
         >
@@ -54,7 +54,7 @@ export default function Footer({
         className={cn(
           'relative h-14 rounded-2xl text-base font-semibold shadow-none',
           buttonVariant === 'primary'
-            ? 'bg-primary text-slate-950 hover:bg-primary/90'
+            ? 'bg-primary text-foreground hover:bg-primary/90'
             : 'bg-slate-900 text-white hover:bg-slate-800',
           hasPrevious ? 'flex-1' : 'w-full'
         )}

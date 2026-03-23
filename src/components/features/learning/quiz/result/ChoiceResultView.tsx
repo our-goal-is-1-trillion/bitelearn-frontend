@@ -57,7 +57,7 @@ export default function ChoiceResultView({
                   <X className="text-white" size={40} strokeWidth={2.75} />
                 )}
               </motion.div>
-              <h2 className="text-xl font-bold leading-8 tracking-normal text-slate-950">
+              <h2 className="text-xl font-bold leading-8 tracking-normal text-foreground">
                 {title}
               </h2>
             </div>
@@ -71,7 +71,7 @@ export default function ChoiceResultView({
           ) : null}
         </div>
 
-        <div className="mt-6 flex-1 rounded-t-3xl bg-popover px-5 pb-8 pt-6 shadow-[0_-4px_20px_0_rgba(237,238,246,1)]">
+        <div className="mt-6 flex-1 rounded-t-3xl bg-popover px-5 pb-8 pt-6 shadow-bl-popover">
           <div className="flex flex-col gap-4">
             {!isCorrect && (
               <div className="rounded-xl bg-slate-100 px-4 py-3">
@@ -88,7 +88,7 @@ export default function ChoiceResultView({
               <p className="mb-1.5 text-xs font-semibold leading-4 text-primary-500">
                 정답
               </p>
-              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-slate-950">
+              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-foreground">
                 {correctAnswerText}
               </p>
             </div>
@@ -97,7 +97,7 @@ export default function ChoiceResultView({
               <p className="mb-1.5 text-xs font-semibold leading-4 text-primary-500">
                 해설
               </p>
-              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-slate-950">
+              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-foreground">
                 {explanation}
               </p>
             </div>

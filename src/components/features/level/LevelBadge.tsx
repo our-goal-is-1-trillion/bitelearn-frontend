@@ -26,7 +26,7 @@ export default function LevelBadge({
         onClick={() => setOpen(true)}
         aria-label={label ?? `현재 ${normalizedLevel}레벨`}
         className={cn(
-          'inline-flex size-[60px] shrink-0 items-center justify-center rounded-full border p-px shadow-[0px_4px_8px_0px_rgba(237,238,246,1)]',
+          'inline-flex size-[60px] shrink-0 items-center justify-center rounded-full border p-px shadow-bl-active',
           levelMeta.badgeClassName,
           className
         )}

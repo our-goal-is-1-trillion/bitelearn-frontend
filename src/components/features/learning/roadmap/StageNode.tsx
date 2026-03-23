@@ -75,9 +75,9 @@ export default function StageNode({
           {isCompleted ? (
             <Check size={36} strokeWidth={4} className="-mt-2.5 text-primary" />
           ) : isLocked ? (
-            <span className="tossface -mt-3 text-[34px]">🔒</span>
+            <span className="tossface -mt-3 text-[36px]">🔒</span>
           ) : (
-            <span className="tossface -mt-3 text-[38px]">{currentEmoji}</span>
+            <span className="tossface -mt-3 text-[36px]">{currentEmoji}</span>
           )}
         </div>
 
@@ -101,7 +101,7 @@ export default function StageNode({
             />
 
             {/* 실제 뱃지 */}
-            <div className="relative rounded-full border border-primary/20 bg-primary px-2 py-0.5 text-[10px] font-bold text-slate-900 shadow-sm">
+            <div className="relative rounded-full border border-primary/20 bg-primary px-2 py-0.5 text-xs font-bold text-foreground shadow-sm">
               진행 중
             </div>
           </div>

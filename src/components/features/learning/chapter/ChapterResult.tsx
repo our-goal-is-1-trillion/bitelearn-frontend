@@ -79,7 +79,7 @@ function CelebrationParticles() {
       {coins.map((coin, index) => (
         <motion.div
           key={`coin-${index}`}
-          className="absolute text-[28px] leading-none"
+          className="absolute text-[30px] leading-none"
           initial={{ y: -40, opacity: 0 }}
           animate={{
             y: 820,
@@ -148,7 +148,7 @@ export default function ChapterResult({
   }, []);
 
   return (
-    <main className="relative flex h-full min-h-0 flex-col overflow-hidden bg-background text-slate-950">
+    <main className="relative flex h-full min-h-0 flex-col overflow-hidden bg-background text-foreground">
       {cfg.showCelebration && <CelebrationParticles />}
 
       <Header showCloseButton onCloseClick={onBack} className="bg-background" />
@@ -176,7 +176,7 @@ export default function ChapterResult({
             transition={{ delay: 0.08 }}
             className="flex flex-col items-center gap-3"
           >
-            <p className="whitespace-pre-line text-[20px] font-bold leading-8 tracking-[-0.02em] text-slate-950">
+            <p className="whitespace-pre-line text-xl font-bold leading-8 tracking-[-0.02em] text-foreground">
               {cfg.title}
             </p>
             <p className="whitespace-pre-line text-sm leading-[22px] text-slate-600">
@@ -196,7 +196,7 @@ export default function ChapterResult({
 
             <div className="min-w-0 flex-1">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-sm font-semibold leading-5 text-slate-950">
+                <p className="text-sm font-semibold leading-5 text-foreground">
                   {levelState.title}
                 </p>
                 <p className="shrink-0 text-xs font-bold leading-4 text-slate-400">
@@ -221,22 +221,22 @@ export default function ChapterResult({
 
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div className="rounded-2xl bg-slate-100/80 px-3 py-3 text-center shadow-sm">
-              <p className="text-[11px] font-medium leading-4 text-slate-950">
+              <p className="text-xs font-medium leading-4 text-foreground">
                 지켜낸 바이트
               </p>
               <p
-                className={`mt-1 text-[17px] font-extrabold leading-[25.5px] ${EARNED_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${EARNED_TEXT_CLASS_NAME}`}
               >
                 +{formatBytes(earnedBytes)}
               </p>
             </div>
 
             <div className="rounded-2xl bg-slate-100/80 px-3 py-3 text-center shadow-sm">
-              <p className="text-[11px] font-medium leading-4 text-slate-600">
+              <p className="text-xs font-medium leading-4 text-slate-600">
                 잃어버린 바이트
               </p>
               <p
-                className={`mt-1 text-[17px] font-extrabold leading-[25.5px] ${LOST_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${LOST_TEXT_CLASS_NAME}`}
               >
                 -{formatBytes(lostBytes)}
               </p>

@@ -93,7 +93,7 @@ export default function LearningRoadmapPage() {
             <ChevronLeft size={20} />
           </Button>
 
-          <h1 className="flex-1 text-center text-sm font-bold text-slate-900">
+          <h1 className="flex-1 text-center text-sm font-bold text-foreground">
             {selectedTopic.name}
           </h1>
 

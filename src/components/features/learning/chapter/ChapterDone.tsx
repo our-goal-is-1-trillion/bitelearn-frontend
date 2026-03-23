@@ -38,7 +38,7 @@ export default function ChapterDone({
   }, [accuracyRate]);
 
   return (
-    <main className="flex h-full min-h-0 flex-col bg-background text-slate-900">
+    <main className="flex h-full min-h-0 flex-col bg-background text-foreground">
       <Header showCloseButton onCloseClick={onClose} />
 
       <div className="flex flex-1 flex-col items-center justify-center px-5 pb-36 pt-[60px] text-center">
@@ -62,7 +62,7 @@ export default function ChapterDone({
           <div className="flex flex-col items-center gap-5">
             <div className="border-b-2 border-primary px-0.5">
               <div className="flex items-center gap-2">
-                <h1 className="text-[22px] font-bold leading-[30px] text-slate-950">
+                <h1 className="text-2xl font-bold leading-[30px] text-foreground">
                   이번 학습 완료
                 </h1>
                 <Check className="size-6 text-primary" strokeWidth={2.2} />

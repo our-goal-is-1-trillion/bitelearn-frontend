@@ -24,14 +24,14 @@ export default function IncorrectCard({
   onRetry,
 }: IncorrectCardProps) {
   return (
-    <div className="overflow-hidden rounded-2xl border-2 border-slate-100 bg-card p-0.5 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] transition-colors hover:border-slate-200">
+    <div className="overflow-hidden rounded-3xl border-2 border-slate-100 bg-card p-0.5 shadow-bl-sm transition-colors hover:border-slate-200">
       <div className="flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-1">
           <TextBadge>{categoryName}</TextBadge>
           <TextBadge>{getTopicLabel(topic)}</TextBadge>
         </div>
 
-        <span className="text-xs font-medium leading-4 text-slate-400">
+        <span className="text-xs font-base leading-4 text-slate-400">
           {formatDate(createdAt)}
         </span>
       </div>
@@ -40,7 +40,7 @@ export default function IncorrectCard({
         <p className="truncate text-sm font-medium leading-5 text-slate-600">
           {`Chapter ${chapterId}.`}
         </p>
-        <h3 className="mt-1 break-keep text-base font-bold leading-6 text-slate-900">
+        <h3 className="mt-1 break-keep text-base font-semibold leading-6 text-foreground">
           {questionTitle}
         </h3>
       </div>
@@ -50,7 +50,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onSelect}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-slate-900"
+            className="flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground me-4"
           >
             지난 기록
           </button>
@@ -60,7 +60,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onRetry}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-slate-900"
+            className="flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground ms-4"
           >
             다시 도전
           </button>

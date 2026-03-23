@@ -31,14 +31,14 @@ export default function IncorrectSummary({
 
   return (
     <section className="mb-3 px-5 pt-8">
-      <div className="overflow-hidden rounded-2xl border-2 border-border bg-card p-0.5 shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
+      <div className="overflow-hidden rounded-3xl border-2 border-border bg-card p-0.5 shadow-bl-card">
         <div className="px-4 pb-4 pt-4">
-          <div className="relative flex min-h-[140px] items-center overflow-hidden">
+          <div className="relative flex min-h-36 items-start overflow-hidden ps-2 pt-1">
             <div className="relative z-[1] max-w-[168px]">
-              <h2 className="whitespace-pre-line text-base font-bold leading-6 text-slate-900">
+              <h2 className="whitespace-pre-line text-base font-bold leading-6 text-foreground pb-4">
                 {summaryTitle}
               </h2>
-              <p className="mt-2 whitespace-pre-line text-[13px] font-bold leading-[16.25px] text-slate-600">
+              <p className="mt-2 whitespace-pre-line text-sm font-medium leading-5 text-slate-600">
                 {summaryDescription}
               </p>
             </div>
@@ -47,7 +47,11 @@ export default function IncorrectSummary({
               <img
                 src={summaryImage}
                 alt=""
-                className="pointer-events-none absolute right-[-18px] top-1/2 z-0 h-[162px] w-[162px] -translate-y-1/2 object-contain"
+                className="pointer-events-none absolute right-[-18px] z-0 h-[162px] w-[162px] object-contain"
+                style={{
+                  top: '50%',
+                  transform: `translateY(calc(-50% - ${!isLoading && !hasPendingIncorrect ? 16 : 0}px))`,
+                }}
               />
             ) : null}
           </div>
@@ -57,9 +61,9 @@ export default function IncorrectSummary({
           <div className="grid grid-cols-2 gap-4">
             <div className="rounded-2xl bg-slate-50 px-2">
               <p className="pb-1 pt-2.5 text-center text-xs leading-4 text-slate-600">
-                복습 대기 문제
+                오답 수
               </p>
-              <p className="pb-1.5 text-center text-base font-bold leading-6 text-foreground">
+              <p className="pb-2 text-center text-base font-bold leading-6 text-foreground">
                 {isLoading ? '-' : `${pendingReviewCount}개`}
               </p>
             </div>
@@ -68,7 +72,7 @@ export default function IncorrectSummary({
               <p className="pb-1 pt-2.5 text-center text-xs leading-4 text-slate-600">
                 현재 바이트
               </p>
-              <p className="pb-1.5 text-center text-base font-bold leading-6 text-foreground">
+              <p className="pb-2 text-center text-base font-bold leading-6 text-foreground">
                 {isLoading ? '-' : `${totalBytes.toLocaleString()} B`}
               </p>
             </div>

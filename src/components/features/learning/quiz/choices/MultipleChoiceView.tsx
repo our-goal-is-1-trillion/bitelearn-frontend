@@ -59,7 +59,7 @@ export default function MultipleChoiceView({
 
                 // 기본 스타일
                 let containerClass =
-                  'border-2 border-slate-100 bg-white text-slate-950 shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                  'border-2 border-slate-100 bg-white text-foreground shadow-bl-card';
                 let radioClass = 'border-secondary text-slate-400';
                 let customIcon: ReactNode = undefined;
                 let showIconAlways = false;
@@ -67,7 +67,7 @@ export default function MultipleChoiceView({
                 // 정답 확인 후 스타일
                 if (isChecking) {
                   if (isAnswer) {
-                    containerClass = `border-2 border-[rgba(74,222,128,0.5)] bg-green-50 text-foreground shadow-[0_12px_16px_0_rgba(237,238,246,1)] ${
+                    containerClass = `border-2 border-[rgba(74,222,128,0.5)] bg-green-50 text-foreground shadow-bl-card ${
                       isSelected ? 'animate-pop' : ''
                     }`;
                     radioClass =
@@ -81,7 +81,7 @@ export default function MultipleChoiceView({
                     showIconAlways = true;
                   } else if (isSelected && !isAnswer) {
                     containerClass =
-                      'animate-shake border-2 border-[rgba(248,113,113,0.5)] bg-red-50 text-foreground shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                      'animate-shake border-2 border-[rgba(248,113,113,0.5)] bg-red-50 text-foreground shadow-bl-card';
                     radioClass =
                       'relative overflow-hidden border-transparent bg-transparent text-white shadow-none disabled:opacity-100';
                     customIcon = (
@@ -93,7 +93,7 @@ export default function MultipleChoiceView({
                     showIconAlways = true;
                   } else {
                     containerClass =
-                      'border-2 border-slate-100 bg-white text-slate-950 shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                      'border-2 border-slate-100 bg-white text-foreground shadow-bl-card';
                     radioClass =
                       'border-secondary text-slate-400 disabled:opacity-100';
                   }
@@ -101,7 +101,7 @@ export default function MultipleChoiceView({
                   // 정답 확인 전 선택된 상세 스타일
                 } else if (isSelected) {
                   containerClass =
-                    'border-2 border-[rgba(71,85,105,0.4)] bg-slate-100 text-foreground shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                    'border-2 border-[rgba(71,85,105,0.4)] bg-slate-100 text-foreground shadow-bl-card';
                   radioClass =
                     'border-slate-600 text-slate-600 shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)]';
                   customIcon = (

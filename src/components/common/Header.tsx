@@ -49,7 +49,7 @@ export default function Header({
               </p>
             </div>
           ) : (
-            <h1 className="text-lg font-semibold leading-7 text-slate-950">
+            <h1 className="text-lg font-semibold leading-7 text-foreground">
               {title}
             </h1>
           )

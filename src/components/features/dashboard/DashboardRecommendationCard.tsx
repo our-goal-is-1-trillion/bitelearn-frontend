@@ -19,7 +19,7 @@ export default function DashboardRecommendationCard({
           `/learning/${recommendation.categoryId}/${recommendation.chapterId}`
         )
       }
-      className="group relative cursor-pointer overflow-hidden rounded-3xl bg-white/90 shadow-[0_12px_16px_rgba(237,238,246,1)] transition-all active:scale-[0.98]"
+      className="group relative cursor-pointer overflow-hidden rounded-3xl bg-white/90 shadow-bl-sm transition-all active:scale-[0.98]"
     >
       <div className="px-5 pt-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -28,7 +28,7 @@ export default function DashboardRecommendationCard({
         </div>
 
         <div className="flex items-center justify-between gap-3 pb-5 pt-4">
-          <h4 className="truncate text-base font-semibold leading-6 text-foreground">
+          <h4 className="line-clamp-2 text-base font-medium leading-6 text-foreground">
             {recommendation.chapterTitle}
           </h4>
 

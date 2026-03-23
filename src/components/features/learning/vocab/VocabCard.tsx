@@ -44,7 +44,7 @@ export default function VocabCard({
         </div>
 
         <div className="flex min-h-[190px] shrink-0 flex-col items-center justify-center gap-10 border-t border-slate-100 bg-white px-7 py-8 text-center">
-          <h2 className="break-keep border-b-2 border-primary pb-1 text-[30px] font-semibold leading-10 text-slate-950">
+          <h2 className="break-keep border-b-2 border-primary pb-1 text-3xl font-bold leading-10 text-foreground">
             {vocab.frontMain}
           </h2>
           {vocab.frontSub ? (
@@ -59,7 +59,7 @@ export default function VocabCard({
 
       {/* Back */}
       <div className="backface-hidden rotate-y-180 absolute inset-0 flex h-full w-full flex-col overflow-hidden rounded-[24px] border-2 border-slate-100 bg-slate-200 p-[2px] shadow-[0_12px_32px_rgba(15,23,42,0.08)]">
-        <div className="flex h-full flex-col rounded-[22px] bg-slate-200 px-6 pb-7 pt-8 text-slate-950">
+        <div className="flex h-full flex-col rounded-[22px] bg-slate-200 px-6 pb-7 pt-8 text-foreground">
           <div className="hide-scrollbar flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto">
             <div className="flex w-full flex-col items-center gap-8">
               <h3 className="border-b-2 border-primary px-0.5 pb-0.5 text-center text-2xl font-semibold leading-9">
@@ -74,7 +74,7 @@ export default function VocabCard({
                 </div>
               ) : null}
 
-              <div className="w-full space-y-2 text-center text-base leading-6 text-slate-900">
+              <div className="w-full space-y-2 text-center text-base leading-6 text-foreground">
                 {descriptionLines.map((line) => (
                   <p key={line} className="break-keep">
                     {line}

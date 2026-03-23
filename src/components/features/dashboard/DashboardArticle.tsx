@@ -14,7 +14,7 @@ export default function DashboardArticle({ articles }: DashboardArticleProps) {
     <section>
       <div className="mb-4 flex items-end gap-2">
         <span>📰</span>
-        <h3 className="text-lg font-bold leading-7 text-slate-900">
+        <h3 className="text-lg font-semibold leading-7 text-foreground">
           유용한 지식 아티클
         </h3>
       </div>

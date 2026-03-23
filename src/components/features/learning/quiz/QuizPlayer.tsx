@@ -192,14 +192,14 @@ export default function QuizPlayer({
 
   if (questions.length === 0 || !currentQuestion) {
     return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-slate-900">
+      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
         <p className="text-sm text-slate-400">문제 데이터가 없습니다.</p>
       </main>
     );
   }
 
   return (
-    <main className="flex h-full min-h-0 flex-col bg-white text-slate-900">
+    <main className="flex h-full min-h-0 flex-col bg-white text-foreground">
       <Header
         title={chapterTitle}
         subtitle="학습 퀴즈"

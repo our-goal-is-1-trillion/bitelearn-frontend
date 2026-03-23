@@ -13,7 +13,7 @@ export default function BottomNav() {
         <div className="absolute inset-x-0 bottom-0">
           <nav
             aria-label="하단 탭 바"
-            className="pointer-events-auto rounded-t-[20px] bg-white px-7 pb-6 pt-2.5 shadow-[0px_-4px_20px_0px_rgba(237,238,246,1)]"
+            className="pointer-events-auto rounded-t-[20px] bg-white px-7 pb-6 pt-2.5 shadow-bl-popover"
           >
             <ul className="flex items-center justify-between">
               {BOTTOM_NAV_TABS.map((tab) => {

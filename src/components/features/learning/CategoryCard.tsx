@@ -1,6 +1,7 @@
 import { ChevronDown, ChevronRight, ChevronUp } from 'lucide-react';
 
 import TextBadge from '@/components/common/TextBadge';
+import { cn } from '@/lib/utils';
 import { getTopicIconByRouteId } from '@/constants/learningMeta';
 import type { MockTopicSummary } from '@/mock/learning';
 
@@ -76,7 +77,7 @@ export default function CategoryCard({
   onSelectTopic,
 }: CategoryCardProps) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-card shadow-[0_12px_16px_rgba(237,238,246,1)]">
+    <div className="shadow-bl-card overflow-hidden rounded-2xl bg-card">
       <button
         type="button"
         onClick={onToggle}
@@ -102,20 +103,24 @@ export default function CategoryCard({
             </div>
           </div>
 
-          {!isExpanded && (
-            <div className="pr-2 text-slate-600">
-              <ChevronDown size={32} strokeWidth={1.5} />
-            </div>
-          )}
+          {/* 드롭다운 화살표 (열릴 때 부드럽게 사라짐) */}
+          <div
+            className={cn(
+              'pr-2 text-slate-600 transition-opacity duration-300 ease-in-out',
+              isExpanded ? 'opacity-0' : 'opacity-100'
+            )}
+          >
+            <ChevronDown size={32} strokeWidth={1.5} />
+          </div>
         </div>
 
         {progress > 0 && (
           <div className="px-3 pb-5 pt-1">
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-[11px] font-medium leading-5 text-slate-400">
+              <span className="font-base text-xs leading-5 text-slate-400">
                 학습진행률
               </span>
-              <span className="text-[11px] font-bold leading-5 text-slate-700">
+              <span className="text-xs font-bold leading-5 text-slate-700">
                 {progress}%
               </span>
             </div>
@@ -130,31 +135,43 @@ export default function CategoryCard({
         )}
       </button>
 
-      {isExpanded && (
-        <div className="px-4 pb-4 pt-0">
-          <div className="px-0">
-            {topics.map((topic, index) => (
-              <div
-                key={`${categoryId}-${topic.topicId}`}
-                className={
-                  index !== topics.length - 1 ? 'border-b border-slate-100' : ''
-                }
-              >
-                <TopicRow topic={topic} onSelect={onSelectTopic} />
-              </div>
-            ))}
+      {/* 하단 콘텐츠 (Grid Transition을 활용한 부드러운 Accordion 애니메이션) */}
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-in-out',
+          isExpanded
+            ? 'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0'
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="px-4 pb-4 pt-0">
+            <div className="px-0">
+              {topics.map((topic, index) => (
+                <div
+                  key={`${categoryId}-${topic.topicId}`}
+                  className={
+                    index !== topics.length - 1
+                      ? 'border-b border-slate-100'
+                      : ''
+                  }
+                >
+                  <TopicRow topic={topic} onSelect={onSelectTopic} />
+                </div>
+              ))}
 
-            <button
-              type="button"
-              onClick={onToggle}
-              className="flex w-full items-center justify-center gap-1.5 pt-2 text-xs font-medium leading-4 text-slate-600"
-            >
-              <span className="pb-0.5">접기</span>
-              <ChevronUp size={18} strokeWidth={1.75} />
-            </button>
+              <button
+                type="button"
+                onClick={onToggle}
+                className="flex w-full items-center justify-center gap-1.5 pt-2 text-xs font-medium leading-4 text-slate-600"
+              >
+                <span className="pb-0.5">접기</span>
+                <ChevronUp size={18} strokeWidth={1.75} />
+              </button>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

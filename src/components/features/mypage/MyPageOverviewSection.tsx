@@ -44,7 +44,7 @@ function SectionRow({ item }: { item: SectionItem }) {
         {item.label}
       </p>
 
-      <div className="flex items-center gap-1 text-sm leading-5 text-slate-400">
+      <div className="flex items-center gap-2 text-sm leading-5 text-slate-400">
         {providerIconSrc && (
           <img
             src={providerIconSrc}
@@ -151,7 +151,7 @@ export default function MyPageOverviewSection({
   ];
 
   return (
-    <section className="flex min-h-full flex-col overflow-hidden rounded-t-3xl bg-popover px-5 pt-3 shadow-[0px_-4px_20px_0px_rgba(237,238,246,1)]">
+    <section className="flex min-h-full flex-col overflow-hidden rounded-t-3xl bg-popover px-5 pt-3 shadow-bl-popover">
       <div className="flex-1">
         {sections.map((section, index) => (
           <div
@@ -159,7 +159,7 @@ export default function MyPageOverviewSection({
             className={`p-4 ${index < sections.length - 1 ? 'border-b border-slate-200' : ''}`}
           >
             <div className="py-2">
-              <h2 className="text-base font-bold leading-6 text-foreground">
+              <h2 className="text-base font-semibold leading-6 text-foreground-muted">
                 {section.title}
               </h2>
 

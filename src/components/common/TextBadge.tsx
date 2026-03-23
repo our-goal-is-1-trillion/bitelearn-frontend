@@ -16,7 +16,7 @@ export default function TextBadge({
       className={cn(
         'rounded-full px-2.5 py-1.5 text-xs font-semibold leading-4',
         variant === 'primary'
-          ? 'bg-primary text-slate-950'
+          ? 'bg-primary text-foreground'
           : 'bg-slate-100 text-slate-600',
         className
       )}

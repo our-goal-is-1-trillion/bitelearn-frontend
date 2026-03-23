@@ -19,14 +19,14 @@ export default function NoteTopNav({
     <Tabs
       value={activeTab}
       onValueChange={(value: string) => onChangeTab(value as NoteTab)}
-      className="sticky top-0 z-20 w-full bg-white"
+      className="sticky top-0 z-20 w-full"
     >
       <TabsList className="flex w-full items-start justify-center rounded-none bg-white p-0">
         {NOTE_TABS.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="flex h-[50px] flex-1 items-center justify-center rounded-none border-b-2 border-transparent bg-white px-4 py-[13px] text-center text-base font-medium leading-6 text-slate-600 shadow-none ring-0 transition-colors hover:text-slate-900 data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:font-semibold data-[state=active]:text-slate-950 data-[state=active]:shadow-none"
+            className="flex h-[50px] flex-1 items-center justify-center rounded-none border-b-2 border-transparent bg-white px-4 py-[13px] text-center text-base font-medium leading-6 text-slate-600 shadow-none ring-0 transition-colors hover:text-foreground data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:font-semibold data-[state=active]:text-foreground data-[state=active]:shadow-none"
           >
             {tab.label}
           </TabsTrigger>
