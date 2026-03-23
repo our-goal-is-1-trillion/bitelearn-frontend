@@ -20,6 +20,7 @@ const sampleNotes: Note[] = [
   {
     noteId: 1,
     chapterId: 101,
+    chapterSequence: 1,
     quizId: 1001,
     category: 'REAL_ESTATE_HOUSING',
     topic: 'JEONSE',
