@@ -43,7 +43,7 @@ export default function OnboardingModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-slate-500 transition-colors hover:bg-black/10"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-foreground shadow-sm transition-colors hover:bg-white"
         >
           <X className="h-5 w-5" />
           <span className="sr-only">건너뛰기</span>
