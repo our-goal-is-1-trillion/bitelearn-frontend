@@ -4,29 +4,29 @@ import { useLearningCategoriesQuery } from '@/api/learning/learning.query';
 import NoteTopNav from '@/components/features/note/NoteTopNav';
 import IncorrectNoteSection from '@/components/features/note/IncorrectNoteSection';
 import BookmarkSection from '@/components/features/note/BookmarkSection';
+import useBookmarkedArticles from '@/hooks/useBookmarkedArticles';
 import useNotesCategorySearchParam from '@/hooks/useNotesCategorySearchParam';
 
 import { useIncorrectNotesQuery } from '@/api/notes/notes.query';
-import { mockBookmarkedArticles } from '@/mock/bookmarkedArticle';
 import { getNoteCategoryOptions } from '@/lib/learningNavigation';
 
 export type NoteTab = 'incorrect' | 'bookmark';
 
-// 오답노트 카테고리 필터에 사용할 API 기준 카테고리 목록
 export default function NotesPage() {
   const [activeTab, setActiveTab] = useState<NoteTab>('incorrect');
   const { data: categories } = useLearningCategoriesQuery();
   const resolvedNoteCategories = getNoteCategoryOptions(categories);
   // 선택 카테고리를 URL 쿼리스트링 기준으로 관리
-  const { selectedCategory, setSelectedCategory } =
-    useNotesCategorySearchParam(resolvedNoteCategories);
+  const { selectedCategory, setSelectedCategory } = useNotesCategorySearchParam(
+    resolvedNoteCategories
+  );
 
   // 복습 탭 활성화 시에만 오답노트 무한스크롤 조회 실행
   const incorrectNotesFeed = useIncorrectNotesQuery({
     category: selectedCategory,
     enabled: activeTab === 'incorrect',
   });
-  const bookmarkArticles = mockBookmarkedArticles;
+  const { bookmarkedArticles } = useBookmarkedArticles();
 
   // 요약 카드에는 첫 페이지 응답의 집계 값 사용
   const totalNoteCount = incorrectNotesFeed.data?.pages[0]?.totalCount ?? 0;
@@ -54,7 +54,7 @@ export default function NotesPage() {
           )}
 
           {activeTab === 'bookmark' && (
-            <BookmarkSection articles={bookmarkArticles} />
+            <BookmarkSection articles={bookmarkedArticles} />
           )}
         </section>
       </div>
