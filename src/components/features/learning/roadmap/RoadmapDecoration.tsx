@@ -1,54 +1,303 @@
 /**
- * RoadmapDecoration — 로드맵 좌우에 배치되는 장식 캐릭터 이미지 컴포넌트
+ * RoadmapDecoration — 로드맵 좌우 장식 캐릭터 컴포넌트
  *
- * 구조 (피그마 그대로):
- *  ┌─ 컨테이너 div (relative)
- *  ├─ 그림자 img  — mix-blend-mode: multiply, 약간 더 크고 오프셋
- *  └─ 캐릭터 img  — normal blend, 지정 opacity
+ * 각 decoration은 그림자(multiply blend) + 캐릭터(normal) 두 레이어로 구성됩니다.
+ * animation 프리셋을 지정하면 단일 useMotionValue로 캐릭터와 그림자를 동기화합니다.
  *
- * 사용법:
- *  <RoadmapDecoration
- *    type="house"
- *    side="right"
- *    anchorY={nodeY + offsetY}   ← getNodeY(index) 결과에 offsetY 더하기
- *  />
- *
- * anchorY: 캔버스 내 절대 top 좌표 (px)
- * side: 'left' | 'right' — 컨테이너 가장자리 기준으로 배치
+ * 새 애니메이션 추가: ANIM_PRESETS에 항목을 추가하고 캐릭터 config에서 animation 키로 지정.
  */
 
-type DecorationConfig = {
-  shadow: { src: string; size: number; offsetX: number; offsetY: number };
-  char: { src: string; size: number; offsetX: number; offsetY: number; opacity: number; flip?: boolean };
-  containerSize: number;
+import { useEffect } from 'react';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+
+// ─── 타입 ────────────────────────────────────────────────────────────────────
+
+type ShadowConfig = {
+  src: string;
+  size: number;
+  offsetX: number;
+  offsetY: number;
 };
 
+type CharConfig = {
+  src: string;
+  size: number;
+  offsetX: number;
+  offsetY: number;
+  opacity: number;
+  flip?: boolean;
+  /** 애니메이션 프리셋 키 — 미지정 시 정적 렌더 */
+  animation?: keyof typeof ANIM_PRESETS;
+};
+
+type DecorationConfig = {
+  containerSize: number;
+  shadow: ShadowConfig;
+  char: CharConfig;
+};
+
+/** 애니메이션 프리셋 형태 */
+type AnimPreset = {
+  /** 기준 motion value의 키프레임 (deg) */
+  keyframes: number[];
+  /** 1사이클 길이 (s) */
+  duration: number;
+  /** 사이클 간 대기 시간 (s) */
+  repeatDelay: number;
+  /** 캐릭터 pivot Y 비율 — transformOrigin 및 발/뿌리 위치 계산에 사용 */
+  charPivotFraction: number;
+  /** 캐릭터 rotate 배율 (0이면 rotate 없음) */
+  charRotateRatio: number;
+  /** 캐릭터 skewX 배율 (0이면 skew 없음) */
+  charSkewRatio: number;
+  /** 그림자 pivot Y 비율 — 그림자 이미지 내 타원 중심 위치 */
+  shadowPivotFraction: number;
+  /** 그림자 skewX 배율 */
+  shadowSkewRatio: number;
+};
+
+// ─── 애니메이션 프리셋 ────────────────────────────────────────────────────────
+
+const ANIM_PRESETS = {
+  /**
+   * sway — 개 캐릭터용.
+   * 발을 pivot으로 좌우로 느긋하게 흔들림.
+   */
+  sway: {
+    keyframes: [0, 2.5, 0, -2.5, 0],
+    duration: 4,
+    repeatDelay: 0.8,
+    charPivotFraction: 0.9,
+    charRotateRatio: 1.0,
+    charSkewRatio: 0,
+    shadowPivotFraction: 0.5,
+    shadowSkewRatio: 2.0,
+  },
+
+  /**
+   * wind — 나무 캐릭터용.
+   * rotate 없이 skewX만 사용하여 뿌리는 고정, 수관이 바람에 유연하게 휨.
+   * 빈도 낮게 가끔 한 방향으로 휙 불었다가 천천히 제자리로.
+   */
+  wind: {
+    keyframes: [0, 3, 3.5, 3, 0.5, 0],
+    duration: 2.5,
+    repeatDelay: 6,
+    charPivotFraction: 0.95,
+    charRotateRatio: 0,
+    charSkewRatio: 1.2,
+    shadowPivotFraction: 0.5,
+    shadowSkewRatio: 1.5,
+  },
+} satisfies Record<string, AnimPreset>;
+
+// ─── 캐릭터 설정 ─────────────────────────────────────────────────────────────
+
 const DECORATION_CONFIGS: Record<string, DecorationConfig> = {
-  // 집 아이콘 (부동산 도메인)
   house: {
     containerSize: 180,
-    shadow: { src: '/assets/roadmap/house-shadow.png', size: 176, offsetX: 4, offsetY: 0 },
-    char:   { src: '/assets/roadmap/house-char.png',   size: 128, offsetX: 24, offsetY: 26, opacity: 1 },
+    shadow: {
+      src: '/assets/roadmap/house-shadow.png',
+      size: 176,
+      offsetX: 4,
+      offsetY: 0,
+    },
+    char: {
+      src: '/assets/roadmap/house-char.png',
+      size: 128,
+      offsetX: 24,
+      offsetY: 26,
+      opacity: 1,
+    },
   },
-  // 멍뭉이 — 180도 뒤집힘 (피그마 원본 그대로)
   mungmung: {
     containerSize: 180,
-    shadow: { src: '/assets/roadmap/mungmung-shadow.png', size: 200, offsetX: -15, offsetY: -9 },
-    char:   { src: '/assets/roadmap/mungmung-char.png',   size: 168, offsetX: 12, offsetY: -5, opacity: 0.9, flip: true },
+    shadow: {
+      src: '/assets/roadmap/mungmung-shadow.png',
+      size: 200,
+      offsetX: -15,
+      offsetY: -9,
+    },
+    char: {
+      src: '/assets/roadmap/mungmung-char.png',
+      size: 168,
+      offsetX: 12,
+      offsetY: -5,
+      opacity: 0.9,
+      flip: true,
+      animation: 'sway',
+    },
   },
-  // 불독
   bulldog: {
     containerSize: 180,
-    shadow: { src: '/assets/roadmap/mungmung-shadow.png', size: 200, offsetX: -11, offsetY: -12 },
-    char:   { src: '/assets/roadmap/bulldog-char.png',    size: 168, offsetX: 8,   offsetY: -10, opacity: 0.9 },
+    shadow: {
+      src: '/assets/roadmap/mungmung-shadow.png',
+      size: 200,
+      offsetX: -11,
+      offsetY: -12,
+    },
+    char: {
+      src: '/assets/roadmap/bulldog-char.png',
+      size: 168,
+      offsetX: 8,
+      offsetY: -10,
+      opacity: 0.9,
+      animation: 'sway',
+    },
   },
-  // 나무
   tree: {
     containerSize: 180,
-    shadow: { src: '/assets/roadmap/tree-shadow.png', size: 200, offsetX: -21, offsetY: -17 },
-    char:   { src: '/assets/roadmap/tree-char.png',   size: 128, offsetX: 23,  offsetY: -11, opacity: 0.8 },
+    shadow: {
+      src: '/assets/roadmap/tree-shadow.png',
+      size: 200,
+      offsetX: -21,
+      offsetY: -17,
+    },
+    char: {
+      src: '/assets/roadmap/tree-char.png',
+      size: 128,
+      offsetX: 23,
+      offsetY: -11,
+      opacity: 0.8,
+      animation: 'wind',
+    },
   },
 };
+
+// ─── 공통 이미지 레이어 ───────────────────────────────────────────────────────
+
+function FillImage({ src }: { src: string }) {
+  return (
+    <img
+      alt=""
+      src={src}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      style={{ objectFit: 'fill' }}
+    />
+  );
+}
+
+// ─── 애니메이션 레이어 ────────────────────────────────────────────────────────
+
+function AnimatedDecorationLayers({
+  shadow,
+  char,
+  preset,
+}: {
+  shadow: ShadowConfig;
+  char: CharConfig;
+  preset: AnimPreset;
+}) {
+  const {
+    keyframes,
+    duration,
+    repeatDelay,
+    charPivotFraction,
+    charRotateRatio,
+    charSkewRatio,
+    shadowPivotFraction,
+    shadowSkewRatio,
+  } = preset;
+
+  const rotateVal = useMotionValue(0);
+  const charRotateVal = useTransform(rotateVal, (v) => v * charRotateRatio);
+  const charSkewVal = useTransform(rotateVal, (v) => v * charSkewRatio);
+  const shadowSkewVal = useTransform(rotateVal, (v) => v * shadowSkewRatio);
+
+  useEffect(() => {
+    const controls = animate(rotateVal, keyframes, {
+      duration,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay,
+    });
+    return controls.stop;
+  }, [rotateVal, keyframes, duration, repeatDelay]);
+
+  const shadowStyle = {
+    width: shadow.size,
+    height: shadow.size,
+    left: shadow.offsetX,
+    top: shadow.offsetY,
+    skewX: shadowSkewVal,
+    transformOrigin: `50% ${shadowPivotFraction * 100}%`,
+  };
+
+  const charStyle = {
+    width: char.size,
+    height: char.size,
+    left: char.offsetX,
+    top: char.offsetY,
+    rotate: charRotateVal,
+    skewX: charSkewVal,
+    transformOrigin: `50% ${charPivotFraction * 100}%`,
+  };
+
+  const charInnerStyle = {
+    opacity: char.opacity,
+    ...(char.flip && { transform: 'rotate(180deg) scaleY(-1)' }),
+  };
+
+  return (
+    <>
+      <motion.div
+        className="pointer-events-none absolute mix-blend-multiply"
+        style={shadowStyle}
+      >
+        <FillImage src={shadow.src} />
+      </motion.div>
+
+      <motion.div className="pointer-events-none absolute" style={charStyle}>
+        <div className="h-full w-full" style={charInnerStyle}>
+          <FillImage src={char.src} />
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
+// ─── 정적 레이어 ─────────────────────────────────────────────────────────────
+
+function StaticDecorationLayers({
+  shadow,
+  char,
+}: {
+  shadow: ShadowConfig;
+  char: CharConfig;
+}) {
+  const shadowStyle = {
+    width: shadow.size,
+    height: shadow.size,
+    left: shadow.offsetX,
+    top: shadow.offsetY,
+  };
+
+  const charStyle = {
+    width: char.size,
+    height: char.size,
+    left: char.offsetX,
+    top: char.offsetY,
+    opacity: char.opacity,
+    ...(char.flip && { transform: 'rotate(180deg) scaleY(-1)' }),
+  };
+
+  return (
+    <>
+      <div
+        className="pointer-events-none absolute mix-blend-multiply"
+        style={shadowStyle}
+      >
+        <FillImage src={shadow.src} />
+      </div>
+
+      <div className="pointer-events-none absolute" style={charStyle}>
+        <FillImage src={char.src} />
+      </div>
+    </>
+  );
+}
+
+// ─── 메인 컴포넌트 ────────────────────────────────────────────────────────────
 
 type Props = {
   type: keyof typeof DECORATION_CONFIGS;
@@ -56,72 +305,40 @@ type Props = {
   anchorY: number;
   /** 컨테이너의 어느 쪽 가장자리에 붙일지 */
   side: 'left' | 'right';
-  /** side 기준 픽셀 오프셋 (양수=안쪽, 음수=바깥쪽) — 기본 -20으로 가장자리에서 살짝 걸침 */
+  /** side 기준 픽셀 오프셋 (양수=안쪽, 음수=바깥쪽) */
   sideOffset?: number;
 };
 
-export default function RoadmapDecoration({ type, anchorY, side, sideOffset = -20 }: Props) {
+export default function RoadmapDecoration({
+  type,
+  anchorY,
+  side,
+  sideOffset = -20,
+}: Props) {
   const cfg = DECORATION_CONFIGS[type];
   if (!cfg) return null;
 
   const { containerSize, shadow, char } = cfg;
 
-  return (
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        top: anchorY,
-        // transform은 새로운 stacking context를 만들어버리기 때문에 블렌드가 안 먹힙니다.
-        // 대신 marginTop을 사용해서 -50%를 적용합니다.
-        marginTop: -containerSize / 2,
-        width: containerSize,
-        height: containerSize,
-        // side 기준으로 얼마나 떨어질지
-        ...(side === 'right'
-          ? { right: sideOffset }
-          : { left: sideOffset }),
-      }}
-    >
-      {/* 그림자 레이어 — mix-blend-mode: multiply (피그마: div에 blend 적용, img는 inset-0 fill) */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: shadow.size,
-          height: shadow.size,
-          left: shadow.offsetX,
-          top: shadow.offsetY,
-          mixBlendMode: 'multiply',
-        }}
-      >
-        <img
-          alt=""
-          src={shadow.src}
-          className="absolute inset-0 pointer-events-none"
-          style={{ width: '100%', height: '100%', objectFit: 'fill' }}
-        />
-      </div>
+  // transform은 새로운 stacking context를 만들어 mix-blend-mode를 깨뜨립니다.
+  // translateY(-50%) 대신 marginTop으로 수직 중앙 정렬합니다.
+  const containerStyle = {
+    top: anchorY,
+    marginTop: -containerSize / 2,
+    width: containerSize,
+    height: containerSize,
+    ...(side === 'right' ? { right: sideOffset } : { left: sideOffset }),
+  };
 
-      {/* 캐릭터 레이어 — normal (피그마: div로 위치 잡고 img는 inset-0 fill) */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: char.size,
-          height: char.size,
-          left: char.offsetX,
-          top: char.offsetY,
-          opacity: char.opacity,
-          // 피그마에서 mungmung은 -scale-y-100 rotate-180(= scaleX(-1))으로 뒤집혀 있음
-          // transform을 img가 아닌 이 div에 적용: img의 inset-0/fill이 flip 후에도 정확히 동작
-          ...(char.flip ? { transform: 'rotate(180deg) scaleY(-1)' } : {}),
-        }}
-      >
-        <img
-          alt=""
-          src={char.src}
-          className="absolute inset-0 pointer-events-none"
-          style={{ width: '100%', height: '100%', objectFit: 'fill' }}
-        />
-      </div>
+  const preset = char.animation ? ANIM_PRESETS[char.animation] : null;
+
+  return (
+    <div className="pointer-events-none absolute" style={containerStyle}>
+      {preset ? (
+        <AnimatedDecorationLayers shadow={shadow} char={char} preset={preset} />
+      ) : (
+        <StaticDecorationLayers shadow={shadow} char={char} />
+      )}
     </div>
   );
 }
