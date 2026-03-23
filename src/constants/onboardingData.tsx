@@ -3,7 +3,7 @@ export const ONBOARDING_DATA = [
     image: `/images/onboarding/step1.png`,
     title: (
       <>
-        드디어 어른이 된 멍멍이,
+        드디어 어른이 된 멍뭉이,
         <br />첫 출근과 독립을 축하해! 🎉
       </>
     ),
@@ -32,7 +32,7 @@ export const ONBOARDING_DATA = [
         <br />
         학교에선 안 알려준 진짜 어른들의 단어들 앞에서
         <br />
-        우리 멍멍이는 너무 막막하기만 해요.
+        우리 멍뭉이는 너무 막막하기만 해요.
       </>
     ),
   },
@@ -40,9 +40,9 @@ export const ONBOARDING_DATA = [
     image: `/images/onboarding/step3.png`,
     title: (
       <>
-        어려운 세상 물정, 
+        어려운 세상 물정,
         <br />
-        바이트런이 한 입에 알려드릴게요! 
+        바이트런이 한 입에 알려드릴게요!
       </>
     ),
     body: (
@@ -50,8 +50,7 @@ export const ONBOARDING_DATA = [
         어려운 계약 용어도, 헷갈리는 금융 지식도
         <br />
         어른이 되기 위해 꼭 필요한 필수 상식들만 모아,
-        <br />
-        한 입에 쏙! 아주 쉽게 알려드릴게요.
+        <br />한 입에 쏙! 아주 쉽게 알려드릴게요.
       </>
     ),
   },
@@ -59,7 +58,7 @@ export const ONBOARDING_DATA = [
     image: `/images/onboarding/step4.png`,
     title: (
       <>
-        하찮은 멍멍이에서
+        하찮은 멍뭉이에서
         <br />
         당당한 '프로 어른'으로! 😎
       </>

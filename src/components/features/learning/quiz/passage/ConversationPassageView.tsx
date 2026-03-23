@@ -19,7 +19,7 @@ type ConversationPassageViewProps = {
 };
 
 const SPEAKER_VISUALS = {
-  멍멍이: {
+  멍뭉이: {
     profileImageUrl: mungmungProfileImage,
     position: 'right' as const,
     imageClassName: 'left-[-14px] top-[-6px] h-16 w-16 max-w-none',
@@ -302,11 +302,7 @@ export default function ConversationPassageView({
         variant="quiz"
         showShadow={showIndicatorShadow}
       />
-      <Footer
-        onClick={onSolve}
-        disabled={!allVisible}
-        showTrailingIcon={false}
-      >
+      <Footer onClick={onSolve} disabled={!allVisible} showTrailingIcon={false}>
         문제 풀기
       </Footer>
     </>
