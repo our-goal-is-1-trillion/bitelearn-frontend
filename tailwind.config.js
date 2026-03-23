@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -36,11 +38,36 @@ export default {
           950: 'hsl(var(--primary-950))',
           foreground: 'hsl(var(--primary-foreground))',
         },
+        'primary-bg': 'hsl(var(--primary-50))',
+        'primary-darker': 'hsl(var(--primary-600))',
+
         secondary: 'hsl(var(--secondary))',
+        'secondary-bg': colors.slate[100],
+        'secondary-darker': colors.slate[600],
+
         placeholder: 'hsl(var(--placeholder))',
         subtle: 'hsl(var(--subtle))',
-        emphasis: 'hsl(var(--emphasis))',
-        destructive: 'hsl(var(--destructive))',
+
+        emphasis: {
+          DEFAULT: 'hsl(var(--emphasis))',
+          bg: colors.orange[50],
+        },
+
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          bg: colors.red[50],
+          darker: colors.red[600],
+        },
+
+        success: {
+          DEFAULT: colors.green[400],
+          bg: colors.green[50],
+          darker: colors.green[600],
+        },
+
+        quiz: '#7F84EB',
+        'foreground-muted': colors.slate[500],
+
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         chart: {
