@@ -47,7 +47,11 @@ export default function IncorrectSummary({
               <img
                 src={summaryImage}
                 alt=""
-                className="pointer-events-none absolute right-[-18px] top-1/2 z-0 h-[162px] w-[162px] -translate-y-1/2 object-contain"
+                className="pointer-events-none absolute right-[-18px] z-0 h-[162px] w-[162px] object-contain"
+                style={{
+                  top: '50%',
+                  transform: `translateY(calc(-50% - ${!isLoading && !hasPendingIncorrect ? 16 : 0}px))`,
+                }}
               />
             ) : null}
           </div>
