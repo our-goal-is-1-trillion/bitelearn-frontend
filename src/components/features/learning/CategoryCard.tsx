@@ -91,7 +91,7 @@ export default function CategoryCard({
   onSelectTopic,
 }: CategoryCardProps) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-card shadow-[0_12px_16px_rgba(237,238,246,1)]">
+    <div className="overflow-hidden rounded-2xl bg-card shadow-bl-card">
       <button
         type="button"
         onClick={onToggle}

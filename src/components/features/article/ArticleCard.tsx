@@ -21,7 +21,7 @@ export default function ArticleCard({
       to={`/articles/${article.articleId}`}
       className={
         variant === 'home'
-          ? 'group flex h-auto w-full flex-col items-start overflow-hidden rounded-3xl border-none bg-white p-0 text-left shadow-[0_12px_16px_rgba(237,238,246,1)] transition-all active:scale-[0.98]'
+          ? 'group flex h-auto w-full flex-col items-start overflow-hidden rounded-3xl border-none bg-white p-0 text-left shadow-bl-sm transition-all active:scale-[0.98]'
           : 'group flex h-auto w-full flex-col items-start overflow-hidden rounded-2xl border-2 border-slate-100 bg-white p-0 text-left shadow-none transition-colors hover:border-slate-200 active:scale-[0.98]'
       }
     >

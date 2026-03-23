@@ -56,14 +56,14 @@ function ConversationProfile({
 }) {
   if (!speaker?.profileImageUrl) {
     return (
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-300 text-xs font-bold text-white shadow-[0_4px_6px_0_rgba(237,238,246,1),0_1px_2px_0_rgba(0,0,0,0.05)]">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-300 text-xs font-bold text-white shadow-bl-md">
         {speaker?.name?.[0] ?? '?'}
       </div>
     );
   }
 
   return (
-    <div className="relative h-9 w-9 overflow-hidden rounded-full shadow-[0_4px_6px_0_rgba(237,238,246,1),0_1px_2px_0_rgba(0,0,0,0.05)]">
+    <div className="relative h-9 w-9 overflow-hidden rounded-full shadow-bl-md">
       <img
         src={speaker.profileImageUrl}
         alt={speaker.name || 'profile'}
@@ -201,7 +201,7 @@ export default function ConversationPassageView({
 
               const alignClass = isLeft ? 'justify-start' : 'justify-end';
               const bubbleClass = isLeft
-                ? 'rounded-br-2xl rounded-tl-2xl rounded-tr-2xl bg-white text-slate-800 shadow-[0_4px_6px_0_rgba(237,238,246,1)]'
+                ? 'rounded-br-2xl rounded-tl-2xl rounded-tr-2xl bg-white text-slate-800 shadow-bl-md'
                 : 'rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl bg-slate-600 text-white shadow-[0_4px_6px_0_rgba(203,213,225,1)]';
 
               return (
@@ -252,7 +252,7 @@ export default function ConversationPassageView({
                 )}
 
                 <div
-                  className={`flex min-h-9 items-center gap-1.5 px-4 py-2 shadow-[0_4px_6px_0_rgba(237,238,246,1)] ${
+                  className={`flex min-h-9 items-center gap-1.5 px-4 py-2 shadow-bl-md ${
                     nextIsLeft
                       ? 'rounded-br-2xl rounded-tl-2xl rounded-tr-2xl bg-white'
                       : 'rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl bg-slate-600'
