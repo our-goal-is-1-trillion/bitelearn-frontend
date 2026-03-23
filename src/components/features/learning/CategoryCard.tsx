@@ -38,7 +38,7 @@ function TopicRow({ topic, onSelect }: TopicRowProps) {
       onClick={() => onSelect(topic.topicId)}
       className="flex w-full items-center gap-1 px-0 pb-5 pt-3 text-left"
     >
-      <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-lg leading-none">
+      <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-[18px] leading-none">
         {TOPIC_ICONS[topic.topicId] ?? '•'}
       </span>
 

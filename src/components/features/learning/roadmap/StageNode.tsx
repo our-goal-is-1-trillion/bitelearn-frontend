@@ -86,9 +86,9 @@ export default function StageNode({
           {isCompleted ? (
             <Check size={36} strokeWidth={4} className="-mt-2.5 text-primary" />
           ) : isLocked ? (
-            <span className="tossface -mt-3 text-[34px]">🔒</span>
+            <span className="tossface -mt-3 text-[36px]">🔒</span>
           ) : (
-            <span className="tossface -mt-3 text-[38px]">{currentEmoji}</span>
+            <span className="tossface -mt-3 text-[36px]">{currentEmoji}</span>
           )}
         </div>
 
