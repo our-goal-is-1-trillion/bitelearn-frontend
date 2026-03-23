@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MemoryRouter } from 'react-router-dom';
 
 import AppLogoHeader from './AppLogoHeader';
 
@@ -14,10 +15,22 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const HomePage: Story = {
   render: () => (
-    <div className="bg-neutral-100">
-      <AppLogoHeader />
-    </div>
+    <MemoryRouter initialEntries={['/']}>
+      <div className="bg-neutral-100">
+        <AppLogoHeader />
+      </div>
+    </MemoryRouter>
+  ),
+};
+
+export const NotesPage: Story = {
+  render: () => (
+    <MemoryRouter initialEntries={['/notes']}>
+      <div className="bg-neutral-100">
+        <AppLogoHeader />
+      </div>
+    </MemoryRouter>
   ),
 };
