@@ -41,6 +41,7 @@ type ChapterIntroData = {
 
 type ChapterPlayerProps = {
   chapterTitle: string;
+  chapterLabel?: string;
   vocabs: VocabInfo[];
   quizzes: QuizInfo[];
   chapterIntro: ChapterIntroData;
@@ -61,6 +62,7 @@ type ChapterPlayerProps = {
 
 export default function ChapterPlayer({
   chapterTitle,
+  chapterLabel,
   vocabs,
   quizzes,
   chapterIntro,
@@ -98,6 +100,7 @@ export default function ChapterPlayer({
     Array(quizzes.length).fill('none')
   );
 
+  // 챕터 결과 조회 및 챕터 완료 처리 준비
   const prepareQuizCompletion = async () => {
     try {
       const result = await onFetchResult();
@@ -114,30 +117,33 @@ export default function ChapterPlayer({
     }
   };
 
+  // 챕터 완료 처리
   const handleQuizComplete = () => {
     if (quizResult) {
       setChapterPhase('done');
       return;
     }
 
-    prepareQuizCompletion()
-      .then((result) => {
-        if (result) {
-          setChapterPhase('done');
-        }
-      });
+    // 결과가 없는 경우, 챕터 완료 처리 준비부터 시작
+    prepareQuizCompletion().then((result) => {
+      if (result) {
+        setChapterPhase('done');
+      }
+    });
   };
 
+  // 퀴즈 답안 제출 핸들러
   const submitQuizAnswer = async (
     question: QuizInfo,
     selectedAnswerIndex: number
   ) => {
     const selectedAnswer =
       question.type === 'DOC_CLICK'
-        ? question.specificData?.documentElements?.[selectedAnswerIndex]?.key ??
+        ? (question.specificData?.documentElements?.[selectedAnswerIndex]
+            ?.key ??
           question.specificData?.options?.[selectedAnswerIndex] ??
-          ''
-        : question.specificData?.options?.[selectedAnswerIndex] ?? '';
+          '')
+        : (question.specificData?.options?.[selectedAnswerIndex] ?? '');
 
     if (typeof selectedAnswer !== 'string' || selectedAnswer.trim() === '') {
       throw new Error('퀴즈 제출에 필요한 데이터가 올바르지 않습니다.');
@@ -146,6 +152,7 @@ export default function ChapterPlayer({
     return onSubmitQuiz(question.quizId, selectedAnswer);
   };
 
+  // 단어 학습 단계 표시 정보 계산
   const vocabIndicatorSteps: StepIndicatorInfo[] = useMemo(
     () =>
       vocabs.map((_, idx) => ({
@@ -156,6 +163,7 @@ export default function ChapterPlayer({
     [vocabs, chapterPhase, vocabIdx]
   );
 
+  // 퀴즈 단계 표시 정보 계산
   const quizIndicatorSteps: StepIndicatorInfo[] = useMemo(
     () =>
       quizzes.map((_, idx) => ({
@@ -221,6 +229,7 @@ export default function ChapterPlayer({
     return (
       <ChapterIntro
         chapterTitle={chapterTitle}
+        chapterLabel={chapterLabel}
         prologueSubtitle={chapterIntro.prologueSubtitle}
         chapterGoal={chapterIntro.goal}
         prologueContent={chapterIntro.prologueContent}

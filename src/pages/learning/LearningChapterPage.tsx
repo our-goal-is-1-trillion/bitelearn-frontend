@@ -10,6 +10,7 @@ import {
 } from '@/api/learning/learning.api';
 import { useLearningChapterQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
+import { getTopicLabel } from '@/constants/learningMeta';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
 import {
   CHAPTER_BLOCKED_TOAST_MESSAGE,
@@ -50,21 +51,27 @@ export default function LearningChapterPage() {
   );
   const nextChapterId =
     currentChapterIndex >= 0
-      ? orderedChapterIds[currentChapterIndex + 1] ?? null
+      ? (orderedChapterIds[currentChapterIndex + 1] ?? null)
       : null;
   const chapterQuery = useLearningChapterQuery(
     chapterIdNumber,
     Boolean(
       category &&
-        categoryId &&
-        chapterId &&
-        !Number.isNaN(chapterIdNumber) &&
-        !isBlockedChapterRoute
+      categoryId &&
+      chapterId &&
+      !Number.isNaN(chapterIdNumber) &&
+      !isBlockedChapterRoute
     )
   );
 
+  // 챕터 접근 차단 처리
   useEffect(() => {
-    if (!category || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
+    if (
+      !category ||
+      !categoryId ||
+      !chapterId ||
+      Number.isNaN(chapterIdNumber)
+    ) {
       return;
     }
 
@@ -112,9 +119,12 @@ export default function LearningChapterPage() {
     );
   }
 
+  const chapterLabel = `${getTopicLabel(chapterQuery.data.topic)} Chapter ${chapterQuery.data.chapterSequence}`;
+
   return (
     <ChapterPlayer
       chapterTitle={chapterQuery.data.chapterTitle}
+      chapterLabel={chapterLabel}
       vocabs={chapterQuery.data.vocabs}
       quizzes={chapterQuery.data.quizzes}
       chapterIntro={{

@@ -86,6 +86,10 @@ export type QuizInfo = {
 
 // 단일 챕터 학습 데이터
 export type ChapterLearningResponse = {
+  chapterId: number;
+  chapterSequence: number;
+  category: string;
+  topic: string;
   chapterTitle: string;
   prologueSubtitle: string;
   prologueContent: string;
