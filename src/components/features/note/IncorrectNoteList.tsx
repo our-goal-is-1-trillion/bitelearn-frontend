@@ -76,7 +76,7 @@ export default function IncorrectNoteList({
         )}
 
         {!hasNext && notes.length > 0 && (
-          <p className="text-xs font-bold text-slate-300">
+          <p className="text-sm font-medium text-slate-300">
             오답노트를 모두 확인했어요
           </p>
         )}
