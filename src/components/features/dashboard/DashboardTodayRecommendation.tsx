@@ -14,7 +14,7 @@ export default function DashboardTodayRecommendation({
     <section>
       <div className="mb-4 flex items-end gap-2">
         <span>🌟</span>
-        <h3 className="text-lg font-bold leading-7 text-slate-900">
+        <h3 className="text-lg font-semibold leading-7 text-slate-900">
           오늘의 추천 학습
         </h3>
       </div>
