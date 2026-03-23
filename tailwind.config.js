@@ -78,6 +78,16 @@ export default {
           5: 'hsl(var(--chart-5))',
         },
       },
+      boxShadow: {
+        'bl-sm': '0 2px 6px 0 rgba(30, 42, 142, 0.05)',
+        'bl-active': '0 4px 8px 0 rgba(30, 42, 142, 0.08)',
+        'bl-md':
+          '0 4px 6px 0 rgba(30, 42, 142, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'bl-lg':
+          '0 12px 16px rgba(30, 42, 142, 0.08), inset 0 0 4px rgba(254, 215, 170, 1)',
+        'bl-card': '0 12px 16px 0 rgba(30, 42, 142, 0.08)',
+        'bl-popover': '0 -4px 20px 0 rgba(30, 42, 142, 0.08)',
+      },
       keyframes: {
         shake: {
           '0%, 100%': { transform: 'translateX(0)' },
