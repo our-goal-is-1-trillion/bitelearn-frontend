@@ -221,22 +221,22 @@ export default function ChapterResult({
 
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div className="rounded-2xl bg-slate-100/80 px-3 py-3 text-center shadow-sm">
-              <p className="text-[11px] font-medium leading-4 text-foreground">
+              <p className="text-xs font-medium leading-4 text-foreground">
                 지켜낸 바이트
               </p>
               <p
-                className={`mt-1 text-[17px] font-extrabold leading-[25.5px] ${EARNED_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${EARNED_TEXT_CLASS_NAME}`}
               >
                 +{formatBytes(earnedBytes)}
               </p>
             </div>
 
             <div className="rounded-2xl bg-slate-100/80 px-3 py-3 text-center shadow-sm">
-              <p className="text-[11px] font-medium leading-4 text-slate-600">
+              <p className="text-xs font-medium leading-4 text-slate-600">
                 잃어버린 바이트
               </p>
               <p
-                className={`mt-1 text-[17px] font-extrabold leading-[25.5px] ${LOST_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${LOST_TEXT_CLASS_NAME}`}
               >
                 -{formatBytes(lostBytes)}
               </p>
