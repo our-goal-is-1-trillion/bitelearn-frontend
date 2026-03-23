@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/auth/auth.api';
-import { clearAuthSession } from '@/api/auth/authSession';
+import { clearAuthSession, markLogoutRedirect } from '@/api/auth/authSession';
 import MyBadgeSummaryCard from '@/components/features/mypage/MyBadgeSummaryCard';
 import MyPageOverviewSection from '@/components/features/mypage/MyPageOverviewSection';
 import { useMeQuery } from '@/api/auth/auth.query';
@@ -25,6 +25,7 @@ export default function MyPage() {
     } catch (error) {
       logError('MyPage', '로그아웃 요청 실패', error);
     } finally {
+      markLogoutRedirect();
       clearAuthSession();
       navigate('/', { replace: true });
     }

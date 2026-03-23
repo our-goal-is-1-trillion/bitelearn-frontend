@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import AppLoading from '@/components/common/AppLoading';
 import { useMeQuery } from '@/api/auth/auth.query';
+import { consumeLogoutRedirect } from '@/api/auth/authSession';
 
 export default function ProtectedRoute() {
   const { data: user, isPending } = useMeQuery();
@@ -11,6 +12,10 @@ export default function ProtectedRoute() {
   }
 
   if (!user) {
+    if (consumeLogoutRedirect()) {
+      return <Navigate to="/" replace />;
+    }
+
     return (
       <Navigate
         to="/login"
