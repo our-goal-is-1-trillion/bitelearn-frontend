@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import bulldogProfileImage from '@/assets/character/bulldog_profile.png';
 import mungmungProfileImage from '@/assets/character/mungmung_profile.jpg';
+import retrieverProfileImage from '@/assets/character/retriever_profile.png';
 import Footer from '@/components/common/Footer';
 import ChapterIndicator from '@/components/features/learning/chapter/ChapterIndicator';
 import type { QuizInfo } from '@/api/learning/learning.types';
@@ -29,7 +30,7 @@ const SPEAKER_VISUALS = {
     imageClassName: 'left-[-12px] top-[-6px] h-[60px] w-[60px] max-w-none',
   },
   '리트리버 선배': {
-    profileImageUrl: bulldogProfileImage,
+    profileImageUrl: retrieverProfileImage,
     position: 'left' as const,
     imageClassName: 'left-[-12px] top-[-6px] h-[60px] w-[60px] max-w-none',
   },
