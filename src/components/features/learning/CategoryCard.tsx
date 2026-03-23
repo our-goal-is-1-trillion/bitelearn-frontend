@@ -2,22 +2,8 @@ import { ChevronDown, ChevronRight, ChevronUp } from 'lucide-react';
 
 import TextBadge from '@/components/common/TextBadge';
 import { cn } from '@/lib/utils';
+import { getTopicIconByRouteId } from '@/constants/learningMeta';
 import type { MockTopicSummary } from '@/mock/learning';
-
-const TOPIC_ICONS: Record<string, string> = {
-  jeonse: '🏦',
-  'monthly-rent': '💸',
-  buying: '🏢',
-  salary: '💵',
-  credit: '💳',
-  employment: '🧑‍💼',
-  'salary-negotiation': '🤝',
-  'year-end-tax': '🧾',
-  'income-tax': '📊',
-  etf: '📈',
-  stock: '📉',
-  pension: '🏝️',
-};
 
 type TopicRowProps = {
   topic: MockTopicSummary;
@@ -39,7 +25,7 @@ function TopicRow({ topic, onSelect }: TopicRowProps) {
       className="flex w-full items-center gap-1 px-0 pb-5 pt-3 text-left"
     >
       <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-[18px] leading-none">
-        {TOPIC_ICONS[topic.topicId] ?? '•'}
+        {getTopicIconByRouteId(topic.topicId)}
       </span>
 
       <div className="flex min-w-0 flex-1 items-center justify-between gap-3">
@@ -91,7 +77,7 @@ export default function CategoryCard({
   onSelectTopic,
 }: CategoryCardProps) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-card shadow-bl-card">
+    <div className="shadow-bl-card overflow-hidden rounded-2xl bg-card">
       <button
         type="button"
         onClick={onToggle}
@@ -131,7 +117,7 @@ export default function CategoryCard({
         {progress > 0 && (
           <div className="px-3 pb-5 pt-1">
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-base leading-5 text-slate-400">
+              <span className="font-base text-xs leading-5 text-slate-400">
                 학습진행률
               </span>
               <span className="text-xs font-bold leading-5 text-slate-700">
@@ -153,7 +139,9 @@ export default function CategoryCard({
       <div
         className={cn(
           'grid transition-all duration-300 ease-in-out',
-          isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+          isExpanded
+            ? 'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0'
         )}
       >
         <div className="overflow-hidden">
@@ -163,7 +151,9 @@ export default function CategoryCard({
                 <div
                   key={`${categoryId}-${topic.topicId}`}
                   className={
-                    index !== topics.length - 1 ? 'border-b border-slate-100' : ''
+                    index !== topics.length - 1
+                      ? 'border-b border-slate-100'
+                      : ''
                   }
                 >
                   <TopicRow topic={topic} onSelect={onSelectTopic} />

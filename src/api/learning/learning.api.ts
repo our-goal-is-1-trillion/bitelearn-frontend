@@ -3,10 +3,19 @@ import type {
   ChapterLearningResponse,
   ChapterListRequest,
   ChapterListResponse,
+  LearningCategoriesResponse,
   ChapterResultResponse,
   QuizSubmitRequest,
   QuizSubmitResponse,
 } from './learning.types';
+
+// 학습 카테고리 / 주제 목록 조회
+export async function getLearningCategories(): Promise<LearningCategoriesResponse> {
+  const response =
+    await apiClient.get<LearningCategoriesResponse>('/learning/categories');
+
+  return Array.isArray(response.data) ? response.data : [];
+}
 
 // 학습 챕터 목록 조회
 export async function getLearningChapters(

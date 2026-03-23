@@ -1,5 +1,6 @@
 import type { Topic } from '@/api/learning/learning.types';
 import TextBadge from '@/components/common/TextBadge';
+import { getTopicLabel } from '@/constants/learningMeta';
 
 import { formatDate } from '@/utils/formatDate';
 
@@ -11,21 +12,6 @@ type IncorrectCardProps = {
   questionTitle: string;
   onSelect: () => void;
   onRetry?: () => void;
-};
-
-const TOPIC_LABEL: Record<Topic, string> = {
-  JEONSE: '전세',
-  MONTHLY_RENT: '월세',
-  BUYING: '매매',
-  SALARY: '월급 관리',
-  CREDIT: '신용 관리',
-  EMPLOYMENT: '고용 · 복지',
-  SALARY_NEGOTIATION: '연봉 협상',
-  YEAR_END_TAX: '연말정산',
-  INCOME_TAX: '종합소득세',
-  ETF: 'ETF',
-  STOCK: '주식',
-  PENSION: '연금',
 };
 
 export default function IncorrectCard({
@@ -42,7 +28,7 @@ export default function IncorrectCard({
       <div className="flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-1">
           <TextBadge>{categoryName}</TextBadge>
-          <TextBadge>{TOPIC_LABEL[topic]}</TextBadge>
+          <TextBadge>{getTopicLabel(topic)}</TextBadge>
         </div>
 
         <span className="text-xs font-base leading-4 text-slate-400">

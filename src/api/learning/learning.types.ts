@@ -11,24 +11,36 @@ export type QuizType =
 
 // 카테고리 / 토픽
 export type Category =
-  | 'REAL_ESTATE'
-  | 'FINANCE'
-  | 'CAREER'
-  | 'INVESTMENT'
-  | 'LAW';
+  | 'REAL_ESTATE_HOUSING'
+  | 'LIVING_FINANCE_EMPLOYMENT'
+  | 'CAREER_TAX'
+  | 'ASSET_MANAGEMENT_INVESTMENT';
 export type Topic =
   | 'JEONSE'
   | 'MONTHLY_RENT'
   | 'BUYING'
-  | 'SALARY'
-  | 'CREDIT'
-  | 'EMPLOYMENT'
-  | 'SALARY_NEGOTIATION'
-  | 'YEAR_END_TAX'
-  | 'INCOME_TAX'
-  | 'ETF'
+  | 'INCOME_EXPENDITURE'
+  | 'CREDIT_LIABILITIES'
+  | 'WORK_WELFARE'
+  | 'SALARY_REAL_INCOME'
+  | 'INCOME_TAX_DEDUCTION'
+  | 'COMPREHENSIVE_INCOME_TAX'
   | 'STOCK'
-  | 'PENSION';
+  | 'BOND_DEPOSIT'
+  | 'ANNUITY';
+
+export type LearningTopicDto = {
+  topicCode: Topic;
+  topicName: string;
+};
+
+export type LearningCategoryDto = {
+  categoryCode: Category;
+  categoryName: string;
+  topics: LearningTopicDto[];
+};
+
+export type LearningCategoriesResponse = LearningCategoryDto[];
 
 // 챕터 목록 조회
 export type ChapterListRequest = {

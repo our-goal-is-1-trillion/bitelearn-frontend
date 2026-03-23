@@ -107,10 +107,10 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
     ],
   },
   {
-    categoryId: 'finance',
+    categoryId: 'living-finance',
     topics: [
       {
-        topicId: 'salary',
+        topicId: 'income-expenditure',
         chapters: [
           {
             chapterId: 2001,
@@ -134,7 +134,7 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
         ],
       },
       {
-        topicId: 'credit',
+        topicId: 'credit-liabilities',
         chapters: [
           {
             chapterId: 2101,
@@ -158,7 +158,7 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
         ],
       },
       {
-        topicId: 'employment',
+        topicId: 'work-welfare',
         chapters: [
           {
             chapterId: 2201,
@@ -185,26 +185,26 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
     ],
   },
   {
-    categoryId: 'career',
+    categoryId: 'career-tax',
     topics: [
       {
-        topicId: 'salary-negotiation',
+        topicId: 'salary-real-income',
         chapters: [
           {
             chapterId: 3001,
-            title: '연봉 협상 전에 숫자부터 정리하기',
+            title: '세전 월급과 실수령액 차이 이해하기',
             sequence: 1,
             status: 'COMPLETED',
           },
           {
             chapterId: 3002,
-            title: '협상 테이블에서 꺼내야 할 근거',
+            title: '급여명세서에서 공제 항목 읽는 법',
             sequence: 2,
             status: 'COMPLETED',
           },
           {
             chapterId: 3003,
-            title: '복지와 스톡옵션까지 같이 보는 법',
+            title: '상여금과 수당이 실수령액에 미치는 영향',
             sequence: 3,
             status: 'COMPLETED',
             isLocked: true,
@@ -212,23 +212,23 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
         ],
       },
       {
-        topicId: 'year-end-tax',
+        topicId: 'income-tax-deduction',
         chapters: [
           {
             chapterId: 3101,
-            title: '연말정산 서류 미리 챙기기',
+            title: '소득공제와 세액공제 차이부터 이해하기',
             sequence: 1,
             status: 'QUIZ_IN_PROGRESS',
           },
           {
             chapterId: 3102,
-            title: '공제 항목 빠짐없이 확인하기',
+            title: '공제 항목 빠짐없이 챙기는 체크리스트',
             sequence: 2,
             status: 'COMPLETED',
           },
           {
             chapterId: 3103,
-            title: '환급액 계산 흐름 이해하기',
+            title: '환급액 계산 흐름 한 번에 보기',
             sequence: 3,
             status: 'COMPLETED',
             isLocked: true,
@@ -236,7 +236,7 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
         ],
       },
       {
-        topicId: 'income-tax',
+        topicId: 'comprehensive-income-tax',
         chapters: [
           {
             chapterId: 3201,
@@ -266,23 +266,23 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
     categoryId: 'investment',
     topics: [
       {
-        topicId: 'etf',
+        topicId: 'bond-deposit',
         chapters: [
           {
             chapterId: 4001,
-            title: 'ETF가 처음인 사람을 위한 기초',
+            title: '예금과 채권의 차이부터 이해하기',
             sequence: 1,
             status: 'READY',
           },
           {
             chapterId: 4002,
-            title: '국내 ETF와 해외 ETF 차이 보기',
+            title: '금리 변동이 예금과 채권에 미치는 영향',
             sequence: 2,
             status: 'READY',
           },
           {
             chapterId: 4003,
-            title: '수수료와 추종지수 확인하는 법',
+            title: '만기와 수익률 확인하는 법',
             sequence: 3,
             status: 'READY',
             isLocked: true,
@@ -314,7 +314,7 @@ const MOCK_LEARNING_CATEGORIES: MockLearningCategory[] = [
         ],
       },
       {
-        topicId: 'pension',
+        topicId: 'annuity',
         chapters: [
           {
             chapterId: 4201,

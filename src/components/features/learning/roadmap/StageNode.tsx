@@ -5,17 +5,8 @@ import type {
   ChapterSummaryDto,
   Category,
 } from '@/api/learning/learning.types';
+import { getCategoryEmojis } from '@/constants/learningMeta';
 import { cn } from '@/lib/utils';
-
-// 카테고리(학습 도메인)별 테마 이모지 배열
-const EMOJI_BY_CATEGORY: Record<Category, string[]> = {
-  REAL_ESTATE: ['🏠', '🏢', '🔑', '🚪', '🛋️'],
-  FINANCE: ['💰', '💳', '🪙', '🏦', '📈'],
-  CAREER: ['🧑‍💼', '📄', '💼', '🤝', '🚀'],
-  INVESTMENT: ['📊', '📈', '💹', '🪙', '🏛️'],
-  LAW: ['⚖️', '📜', '🏛️', '🤝', '📝'],
-};
-const FALLBACK_EMOJIS = ['💡', '📚', '🎯', '🚀', '⭐'];
 
 type StageNodeProps = {
   chapter: ChapterSummaryDto;
@@ -31,9 +22,7 @@ export default function StageNode({
   onSelect,
 }: StageNodeProps) {
   // 현재 카테고리에 맞는 이모지 배열을 가져와서 시퀀스별로 로테이션
-  const emojis = categoryCode
-    ? EMOJI_BY_CATEGORY[categoryCode]
-    : FALLBACK_EMOJIS;
+  const emojis = getCategoryEmojis(categoryCode);
   const currentEmoji = emojis[(chapter.sequence - 1) % emojis.length];
   const isCompleted = chapter.status === 'COMPLETED';
   const isInProgress = chapter.status === 'QUIZ_IN_PROGRESS';
