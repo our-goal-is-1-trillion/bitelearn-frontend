@@ -1,5 +1,12 @@
 import * as z from 'zod';
 
+export const passwordFieldSchema = z
+  .string()
+  .min(1, '비밀번호를 입력해주세요.')
+  .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/, {
+    message: '비밀번호는 8~20자의 영문, 숫자, 특수문자 조합이어야 합니다.',
+  });
+
 export const nicknameFieldSchema = z
   .string()
   .trim()
@@ -16,7 +23,7 @@ export const signupSchema = z
       .min(1, '이메일 주소를 입력해주세요.')
       .email('올바른 이메일 형식이 아닙니다.'),
 
-    password: z.string().min(1, '비밀번호를 입력해주세요.'),
+    password: passwordFieldSchema,
 
     nickname: nicknameFieldSchema,
 
