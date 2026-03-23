@@ -19,6 +19,7 @@ import type {
   VocabInfo,
 } from '@/api/learning/learning.types';
 import { isAppError } from '@/api/error/appError';
+import { CHAPTER_BLOCKED_TOAST_MESSAGE } from '@/lib/learningAccess';
 import { logError } from '@/lib/logError';
 import { toast } from 'sonner';
 
@@ -45,6 +46,8 @@ type ChapterPlayerProps = {
   chapterIntro: ChapterIntroData;
   initialStatus?: ChapterStatus;
   initialQuizSequence?: number | null;
+  shouldBlockIntroStart?: boolean;
+  blockedIntroStartMessage?: string;
   onVocabComplete?: () => Promise<void>;
   onSubmitQuiz: (
     quizId: number,
@@ -63,6 +66,8 @@ export default function ChapterPlayer({
   chapterIntro,
   initialStatus = 'READY',
   initialQuizSequence = null,
+  shouldBlockIntroStart = false,
+  blockedIntroStartMessage = CHAPTER_BLOCKED_TOAST_MESSAGE,
   onVocabComplete,
   onSubmitQuiz,
   onFetchResult,
@@ -223,6 +228,11 @@ export default function ChapterPlayer({
         introMode={chapterIntroMode}
         onBack={onBack}
         onStart={() => {
+          if (shouldBlockIntroStart) {
+            toast.info(blockedIntroStartMessage);
+            return;
+          }
+
           if (isQuizInProgress) {
             setChapterPhase('quiz');
             return;
