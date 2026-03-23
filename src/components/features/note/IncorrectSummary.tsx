@@ -38,7 +38,7 @@ export default function IncorrectSummary({
               <h2 className="whitespace-pre-line text-base font-bold leading-6 text-foreground">
                 {summaryTitle}
               </h2>
-              <p className="mt-2 whitespace-pre-line text-[13px] font-bold leading-[16.25px] text-slate-600">
+              <p className="mt-2 whitespace-pre-line text-sm font-bold leading-[16.25px] text-slate-600">
                 {summaryDescription}
               </p>
             </div>
