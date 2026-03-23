@@ -6,12 +6,15 @@ import {
 import { Button } from '@/components/ui/button';
 import useShareArticle from '@/hooks/useShareArticle';
 import { ArrowLeft, Bookmark, Copy, Share2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type ArticleDetailHeaderProps = {
   onBack: () => void;
   title: string;
   articleId: string;
   sharePopoverOpen?: boolean;
+  isBookmarked?: boolean;
+  onToggleBookmark?: () => void;
 };
 
 export default function ArticleDetailHeader({
@@ -19,6 +22,8 @@ export default function ArticleDetailHeader({
   title,
   articleId,
   sharePopoverOpen,
+  isBookmarked = false,
+  onToggleBookmark,
 }: ArticleDetailHeaderProps) {
   const shareUrl = `${window.location.origin}/articles/${articleId}`;
 
@@ -47,10 +52,17 @@ export default function ArticleDetailHeader({
           type="button"
           variant="ghost"
           size="icon"
-          aria-label="북마크"
+          aria-label={isBookmarked ? '북마크 해제' : '북마크'}
+          aria-pressed={isBookmarked}
+          onClick={onToggleBookmark}
           className="size-11 rounded-xl"
         >
-          <Bookmark className="h-6 w-6" />
+          <Bookmark
+            className={cn(
+              'h-6 w-6',
+              isBookmarked && 'fill-current text-primary'
+            )}
+          />
         </Button>
 
         <Popover open={sharePopoverOpen}>

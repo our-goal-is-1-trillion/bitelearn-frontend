@@ -1,14 +1,17 @@
 import { Check } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { mockArticles } from '@/mock/article';
 import { formatDate } from '@/utils/formatDate';
 import Footer from '@/components/common/Footer';
 import { renderContentBlock } from '@/components/features/article/renderContentBlock';
 import ArticleDetailHeader from '@/components/features/article/ArticleDetailHeader';
+import useBookmarkedArticles from '@/hooks/useBookmarkedArticles';
 
 export default function ArticleDetailPage() {
   const { articleId } = useParams();
+  const { isBookmarked, toggleBookmark } = useBookmarkedArticles();
 
   const currentId = articleId ?? mockArticles[0]?.articleId;
   const article = mockArticles.find((item) => item.articleId === currentId);
@@ -21,12 +24,29 @@ export default function ArticleDetailPage() {
     );
   }
 
+  const hasArticleContent = (article.contentBlocks?.length ?? 0) > 0;
+
+  const handleToggleBookmark = () => {
+    try {
+      const nextIsBookmarked = toggleBookmark(article);
+
+      toast.success(
+        nextIsBookmarked ? '북마크에 저장했어요' : '북마크에서 제거했어요'
+      );
+    } catch (error) {
+      console.error('북마크 처리 실패:', error);
+      toast.error('북마크 처리에 실패했어요');
+    }
+  };
+
   return (
     <main className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background text-slate-900">
       <ArticleDetailHeader
         onBack={() => window.history.back()}
         title={article.title}
         articleId={article.articleId}
+        isBookmarked={isBookmarked(article.articleId)}
+        onToggleBookmark={handleToggleBookmark}
       />
 
       <section className="hide-scrollbar min-h-0 flex-1 overflow-y-auto pt-[60px]">
@@ -104,8 +124,19 @@ export default function ArticleDetailPage() {
         )}
 
         <section className="px-5 py-6">
-          {(article.contentBlocks ?? []).map((block, index) =>
-            renderContentBlock(block, index)
+          {hasArticleContent ? (
+            (article.contentBlocks ?? []).map((block, index) =>
+              renderContentBlock(block, index)
+            )
+          ) : (
+            <div className="px-6 py-12 text-center">
+              <p className="text-base font-semibold text-slate-700">
+                아티클 내용을 준비 중이에요
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                더 자세한 내용은 곧 업데이트될 예정입니다.
+              </p>
+            </div>
           )}
         </section>
 
