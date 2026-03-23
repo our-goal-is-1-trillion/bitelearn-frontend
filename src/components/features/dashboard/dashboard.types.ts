@@ -1,12 +1,3 @@
-export type RecentLearning = {
-  categoryId: string;
-  chapterId: string;
-  categoryName: string;
-  topicName: string;
-  chapterTitle: string;
-  progressPercent: number;
-};
-
 export type DashboardCategory = {
   id: string;
   emoji: string;

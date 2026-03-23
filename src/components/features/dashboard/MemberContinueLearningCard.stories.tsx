@@ -12,12 +12,13 @@ const meta = {
   },
   args: {
     recentLearning: {
-      categoryId: 'real-estate',
-      chapterId: '1',
+      categoryCode: 'REAL_ESTATE_HOUSING',
+      topicCode: 'MONTHLY_RENT',
+      chapterId: 1,
       categoryName: '부동산 · 주거',
       topicName: '월세',
       chapterTitle: '나의 첫 집 찾아보기',
-      progressPercent: 40,
+      progressRate: 40,
     },
   },
 } satisfies Meta<typeof MemberContinueLearningCard>;
@@ -45,12 +46,13 @@ export const WithoutProgress: Story = {
   ),
   args: {
     recentLearning: {
-      categoryId: 'real-estate',
-      chapterId: '1',
+      categoryCode: 'REAL_ESTATE_HOUSING',
+      topicCode: 'MONTHLY_RENT',
+      chapterId: 1,
       categoryName: '부동산 · 주거',
       topicName: '월세',
       chapterTitle: '나의 첫 집 찾아보기',
-      progressPercent: 0,
+      progressRate: 0,
     },
   },
 };
