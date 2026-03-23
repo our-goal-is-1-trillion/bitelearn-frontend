@@ -13,7 +13,7 @@ function HomePage() {
   return (
     <div className="flex h-full flex-col overflow-hidden">
       <section className="hide-scrollbar flex-1 overflow-y-auto bg-background pb-20 pt-[60px]">
-        <div className="mb-8 flex flex-col gap-8 px-5 pt-5">
+        <div className="mb-8 flex flex-col px-5 pt-5">
           {user ? (
             <MemberHeroSection
               nickname={user.nickname ? formatDisplayName(user.nickname) : null}

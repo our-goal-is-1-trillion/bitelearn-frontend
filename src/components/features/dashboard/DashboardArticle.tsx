@@ -12,7 +12,7 @@ export default function DashboardArticle({ articles }: DashboardArticleProps) {
 
   return (
     <section>
-      <div className="mb-4 flex items-end gap-2">
+      <div className="mb-4 mt-8 flex items-end gap-2">
         <span>📰</span>
         <h3 className="text-lg font-semibold leading-7 text-foreground">
           유용한 지식 아티클
