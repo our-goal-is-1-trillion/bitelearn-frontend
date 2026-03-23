@@ -26,7 +26,7 @@ export default function ArticleCard({
       }
     >
       <div className="flex w-full items-start gap-4 px-4 pt-4">
-        <h3 className="line-clamp-3 flex-1 whitespace-normal break-keep text-base font-medium leading-6 text-slate-950">
+        <h3 className="line-clamp-3 flex-1 whitespace-normal break-keep text-base font-medium leading-6 text-foreground">
           {article.title}
         </h3>
 

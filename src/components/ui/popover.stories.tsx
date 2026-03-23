@@ -27,7 +27,7 @@ function renderPopover(open?: boolean) {
         <PopoverContent className="w-72">
           <div className="space-y-3">
             <div>
-              <p className="text-sm font-semibold text-slate-900">공유하기</p>
+              <p className="text-sm font-semibold text-foreground">공유하기</p>
               <p className="mt-1 text-sm text-slate-500">
                 링크를 복사하거나 시스템 공유를 사용할 수 있습니다.
               </p>

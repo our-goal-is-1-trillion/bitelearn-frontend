@@ -45,7 +45,7 @@ export default function ArticleHeroCard({
           </span>
         </div>
 
-        <h2 className="line-clamp-3 min-h-[84px] break-keep text-lg font-semibold leading-7 text-slate-900">
+        <h2 className="line-clamp-3 min-h-[84px] break-keep text-lg font-semibold leading-7 text-foreground">
           {article.title}
         </h2>
 
@@ -58,7 +58,7 @@ export default function ArticleHeroCard({
             type="button"
             size="icon"
             variant="secondary"
-            className="h-11 w-11 rounded-full bg-slate-100 text-slate-500 shadow-none transition-all group-hover:bg-primary group-hover:text-slate-950"
+            className="h-11 w-11 rounded-full bg-slate-100 text-slate-500 shadow-none transition-all group-hover:bg-primary group-hover:text-foreground"
           >
             <ArrowRight size={20} />
           </Button>

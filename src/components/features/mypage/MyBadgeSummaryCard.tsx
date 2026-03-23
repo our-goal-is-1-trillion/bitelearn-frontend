@@ -38,7 +38,7 @@ export default function MyBadgeSummaryCard({
             />
 
             <div className="flex items-start gap-1">
-              <span className="text-[30px] font-extrabold leading-10 tracking-normal text-slate-950">
+              <span className="text-[30px] font-extrabold leading-10 tracking-normal text-foreground">
                 {formatByteCount(currentBytes)}
               </span>
               <span className="pt-[10px] text-base font-extrabold leading-6 text-[#f97316]">

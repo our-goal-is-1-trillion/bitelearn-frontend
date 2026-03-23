@@ -24,7 +24,7 @@ export default function MemberContinueLearningCard({
           </div>
 
           <div className="mb-2 flex items-end justify-between gap-3">
-            <p className="line-clamp-2 text-base font-medium leading-6 text-slate-950">
+            <p className="line-clamp-2 text-base font-medium leading-6 text-foreground">
               {recentLearning.chapterTitle}
             </p>
             <p className="shrink-0 pb-0.5 text-xs font-medium leading-4 text-slate-400">

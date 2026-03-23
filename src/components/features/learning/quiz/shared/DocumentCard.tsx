@@ -95,7 +95,7 @@ export default function DocumentCard(props: DocumentCardProps) {
       {/* Header */}
       <div className="mb-4 flex flex-col items-center gap-2 border-b border-slate-300 pb-4 text-center">
         <p
-          className={`text-lg leading-6 text-slate-900 ${
+          className={`text-lg leading-6 text-foreground ${
             titleUsesSerif
               ? 'font-serif font-bold tracking-[0.18em]'
               : 'font-sans font-bold'
@@ -123,7 +123,7 @@ export default function DocumentCard(props: DocumentCardProps) {
             props.selectedAnswerIndex === index &&
             !isAnswer;
           const documentFieldBaseClass =
-            'rounded-lg border-2 border-slate-100 bg-slate-100 px-3 py-3 text-slate-900 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
+            'rounded-lg border-2 border-slate-100 bg-slate-100 px-3 py-3 text-foreground shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
 
           let fieldClass = 'w-full text-left transition-all duration-200 ';
           let showAnswerBadge = false;
@@ -140,17 +140,17 @@ export default function DocumentCard(props: DocumentCardProps) {
                 fieldClass += 'border-slate-400';
               }
             } else {
-              fieldClass += 'border-b border-slate-100 px-0 py-3 text-slate-900 cursor-default';
+              fieldClass += 'border-b border-slate-100 px-0 py-3 text-foreground cursor-default';
             }
           } else {
             // result mode
             if (isAnswer) {
               fieldClass +=
-                'rounded-lg border-2 border-green-200 bg-green-50 px-3 py-3 text-slate-900 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
+                'rounded-lg border-2 border-green-200 bg-green-50 px-3 py-3 text-foreground shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
               showAnswerBadge = true;
             } else if (isSelectedWrong) {
               fieldClass +=
-                'rounded-lg border-2 border-slate-200 bg-slate-200 px-3 py-3 text-slate-900 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
+                'rounded-lg border-2 border-slate-200 bg-slate-200 px-3 py-3 text-foreground shadow-[0_1px_0_0_rgba(0,0,0,0.05)]';
             } else {
               fieldClass += `${documentFieldBaseClass} `;
             }

@@ -35,7 +35,7 @@ export default function NotesPage() {
   const totalBytes = incorrectNotesFeed.data?.pages[0]?.totalBytes ?? 0;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-background text-slate-900">
+    <div className="flex h-full flex-col overflow-hidden bg-background text-foreground">
       <div className="hide-scrollbar flex-1 overflow-y-auto pb-8 pt-[60px]">
         <NoteTopNav activeTab={activeTab} onChangeTab={setActiveTab} />
 

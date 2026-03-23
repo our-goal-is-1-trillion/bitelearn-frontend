@@ -59,7 +59,7 @@ export default function MultipleChoiceView({
 
                 // 기본 스타일
                 let containerClass =
-                  'border-2 border-slate-100 bg-white text-slate-950 shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                  'border-2 border-slate-100 bg-white text-foreground shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
                 let radioClass = 'border-secondary text-slate-400';
                 let customIcon: ReactNode = undefined;
                 let showIconAlways = false;
@@ -93,7 +93,7 @@ export default function MultipleChoiceView({
                     showIconAlways = true;
                   } else {
                     containerClass =
-                      'border-2 border-slate-100 bg-white text-slate-950 shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
+                      'border-2 border-slate-100 bg-white text-foreground shadow-[0_12px_16px_0_rgba(237,238,246,1)]';
                     radioClass =
                       'border-secondary text-slate-400 disabled:opacity-100';
                   }

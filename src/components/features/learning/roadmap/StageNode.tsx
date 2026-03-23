@@ -112,7 +112,7 @@ export default function StageNode({
             />
 
             {/* 실제 뱃지 */}
-            <div className="relative rounded-full border border-primary/20 bg-primary px-2 py-0.5 text-[10px] font-bold text-slate-900 shadow-sm">
+            <div className="relative rounded-full border border-primary/20 bg-primary px-2 py-0.5 text-[10px] font-bold text-foreground shadow-sm">
               진행 중
             </div>
           </div>

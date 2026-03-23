@@ -135,7 +135,7 @@ export default function VocabCardsPlayer({
   };
 
   return (
-    <main className="flex h-full min-h-0 flex-col bg-slate-50 text-slate-900">
+    <main className="flex h-full min-h-0 flex-col bg-slate-50 text-foreground">
       <div className="z-20 shrink-0 border-b border-slate-100 bg-white pt-[74px]">
         <Header
           title="단어 학습"

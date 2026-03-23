@@ -68,7 +68,7 @@ export default function OnboardingModal({
 
               {/* 텍스트 영역 */}
               <div className="flex w-full flex-1 flex-col px-6 pb-4 pt-6 text-center">
-                <h2 className="mb-3 text-xl font-bold leading-tight text-slate-900">
+                <h2 className="mb-3 text-xl font-bold leading-tight text-foreground">
                   {currentData.title}
                 </h2>
                 <p className="text-[15px] leading-relaxed text-slate-600 [word-break:keep-all]">

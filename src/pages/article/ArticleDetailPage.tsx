@@ -22,7 +22,7 @@ export default function ArticleDetailPage() {
   }
 
   return (
-    <main className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background text-slate-900">
+    <main className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background text-foreground">
       <ArticleDetailHeader
         onBack={() => window.history.back()}
         title={article.title}
@@ -45,7 +45,7 @@ export default function ArticleDetailPage() {
         </div>
 
         <section className="px-5 pb-5 pt-6">
-          <h1 className="word-break-keep text-xl font-bold leading-snug tracking-tight text-slate-900">
+          <h1 className="word-break-keep text-xl font-bold leading-snug tracking-tight text-foreground">
             {article.title}
           </h1>
 
@@ -64,7 +64,7 @@ export default function ArticleDetailPage() {
               )}
 
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-sm font-bold text-foreground">
                   {article.author.name}
                 </span>
               </div>

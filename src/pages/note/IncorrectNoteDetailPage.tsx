@@ -13,7 +13,7 @@ export default function IncorrectNoteDetailPage() {
 
   if (isInvalidNoteId) {
     return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-slate-900">
+      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
         <p className="text-sm text-slate-400">잘못된 오답노트 경로입니다.</p>
       </main>
     );
@@ -21,7 +21,7 @@ export default function IncorrectNoteDetailPage() {
 
   if (detailQuery.isPending) {
     return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-slate-900">
+      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
         <p className="text-sm text-slate-400">오답노트를 불러오는 중이에요.</p>
       </main>
     );
@@ -29,7 +29,7 @@ export default function IncorrectNoteDetailPage() {
 
   if (detailQuery.isError || !detailQuery.data) {
     return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-slate-900">
+      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
         <p className="text-sm text-slate-400">
           오답노트 상세 정보를 불러오지 못했어요.
         </p>
@@ -40,7 +40,7 @@ export default function IncorrectNoteDetailPage() {
   const { quiz, explanation, correctAnswer, userAnswer } = detailQuery.data;
 
   return (
-    <main className="flex h-full min-h-0 flex-col bg-white text-slate-900">
+    <main className="flex h-full min-h-0 flex-col bg-white text-foreground">
       <Header
         title="오답노트"
         showCloseButton

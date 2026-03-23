@@ -54,7 +54,7 @@ export default function IncorrectCard({
         <p className="truncate text-sm font-medium leading-5 text-slate-600">
           {`Chapter ${chapterId}.`}
         </p>
-        <h3 className="mt-1 break-keep text-base font-bold leading-6 text-slate-900">
+        <h3 className="mt-1 break-keep text-base font-bold leading-6 text-foreground">
           {questionTitle}
         </h3>
       </div>
@@ -64,7 +64,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onSelect}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-slate-900"
+            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-foreground"
           >
             지난 기록
           </button>
@@ -74,7 +74,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onRetry}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-slate-900"
+            className="flex h-7 flex-1 items-center justify-center text-sm font-bold leading-5 text-slate-600 transition-colors hover:text-foreground"
           >
             다시 도전
           </button>

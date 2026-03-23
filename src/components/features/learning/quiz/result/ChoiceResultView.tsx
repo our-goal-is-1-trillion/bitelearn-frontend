@@ -57,7 +57,7 @@ export default function ChoiceResultView({
                   <X className="text-white" size={40} strokeWidth={2.75} />
                 )}
               </motion.div>
-              <h2 className="text-xl font-bold leading-8 tracking-normal text-slate-950">
+              <h2 className="text-xl font-bold leading-8 tracking-normal text-foreground">
                 {title}
               </h2>
             </div>
@@ -88,7 +88,7 @@ export default function ChoiceResultView({
               <p className="mb-1.5 text-xs font-semibold leading-4 text-primary-500">
                 정답
               </p>
-              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-slate-950">
+              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-foreground">
                 {correctAnswerText}
               </p>
             </div>
@@ -97,7 +97,7 @@ export default function ChoiceResultView({
               <p className="mb-1.5 text-xs font-semibold leading-4 text-primary-500">
                 해설
               </p>
-              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-slate-950">
+              <p className="whitespace-pre-line break-words text-sm font-medium leading-5 text-foreground">
                 {explanation}
               </p>
             </div>

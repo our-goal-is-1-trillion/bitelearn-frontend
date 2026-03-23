@@ -20,7 +20,7 @@ export default function IncorrectCategoryChip({
       className={cn(
         'h-9 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold leading-5 transition-colors',
         isActive
-          ? 'bg-primary text-slate-950 hover:bg-primary/90 hover:text-slate-950'
+          ? 'bg-primary text-foreground hover:bg-primary/90 hover:text-foreground'
           : 'bg-slate-400 text-slate-100 hover:bg-slate-500 hover:text-slate-100'
       )}
     >
