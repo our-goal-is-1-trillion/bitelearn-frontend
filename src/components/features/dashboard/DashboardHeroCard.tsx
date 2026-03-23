@@ -19,7 +19,7 @@ export default function DashboardHeroCard({
     <div className={cn('relative pt-11', className)}>
       <div
         className={cn(
-          'relative overflow-hidden rounded-[32px] bg-orange-100 px-3 pb-4 pt-10 shadow-[0_12px_16px_rgba(237,238,246,1),inset_0_0_4px_rgba(254,215,170,1)]',
+          'relative overflow-hidden rounded-[32px] bg-orange-100 px-3 pb-3 pt-10 shadow-[0_12px_16px_rgba(237,238,246,1),inset_0_0_4px_rgba(254,215,170,1)]',
           innerClassName
         )}
       >
