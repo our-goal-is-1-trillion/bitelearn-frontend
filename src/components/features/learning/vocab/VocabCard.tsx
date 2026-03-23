@@ -44,7 +44,7 @@ export default function VocabCard({
         </div>
 
         <div className="flex min-h-[190px] shrink-0 flex-col items-center justify-center gap-10 border-t border-slate-100 bg-white px-7 py-8 text-center">
-          <h2 className="break-keep border-b-2 border-primary pb-1 text-[30px] font-semibold leading-10 text-foreground">
+          <h2 className="break-keep border-b-2 border-primary pb-1 text-3xl font-bold leading-10 text-foreground">
             {vocab.frontMain}
           </h2>
           {vocab.frontSub ? (
