@@ -159,7 +159,7 @@ export default function MyPageOverviewSection({
             className={`p-4 ${index < sections.length - 1 ? 'border-b border-slate-200' : ''}`}
           >
             <div className="py-2">
-              <h2 className="text-base font-bold leading-6 text-foreground">
+              <h2 className="text-base font-semibold leading-6 text-foreground-muted">
                 {section.title}
               </h2>
 
