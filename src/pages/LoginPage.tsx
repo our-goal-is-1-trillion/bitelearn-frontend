@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -31,15 +32,44 @@ const SOCIAL_LOGIN_URL: Record<SocialProvider, string> = {
 
 const LOGIN_ERROR_FALLBACK_MESSAGE =
   '로그인에 실패했습니다. 다시 시도해주세요.';
+const LOGIN_REQUIRED_TOAST_MESSAGE = '이 기능은 로그인 후 이용할 수 있어요.';
+
+type LoginLocationState = {
+  from?: {
+    pathname?: string;
+  };
+  reason?: 'auth-required';
+};
 
 export default function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const locationState = (location.state ?? {}) as LoginLocationState;
   const redirectTo =
-    typeof location.state?.from?.pathname === 'string'
-      ? location.state.from.pathname
+    typeof locationState.from?.pathname === 'string'
+      ? locationState.from.pathname
       : '/';
+
+  // 로그인 필요로 인해 리다이렉트된 경우, 로그인 페이지 진입 시점에 토스트 노출 후 원래 위치로 리다이렉트
+  useEffect(() => {
+    if (locationState.reason !== 'auth-required') {
+      return;
+    }
+
+    toast.info(LOGIN_REQUIRED_TOAST_MESSAGE);
+    navigate(`${location.pathname}${location.search}${location.hash}`, {
+      replace: true,
+      state: locationState.from ? { from: locationState.from } : null,
+    });
+  }, [
+    location.hash,
+    location.pathname,
+    location.search,
+    locationState.from,
+    locationState.reason,
+    navigate,
+  ]);
 
   // 로컬 로그인 핸들러
   const handleLocalLogin = async (
