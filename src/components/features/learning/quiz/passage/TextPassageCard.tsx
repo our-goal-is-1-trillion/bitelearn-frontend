@@ -18,7 +18,7 @@ export default function TextPassageCard({
     : DEFAULT_PASSAGE_IMAGE;
 
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-[0_12px_16px_0_rgba(237,238,246,1)]">
+    <article className="overflow-hidden rounded-2xl bg-white shadow-bl-card">
       <div className="aspect-[335/220] w-full overflow-hidden bg-[#f6f7fb]">
         <img
           src={resolvedImageSrc}

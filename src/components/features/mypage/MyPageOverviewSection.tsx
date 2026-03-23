@@ -151,7 +151,7 @@ export default function MyPageOverviewSection({
   ];
 
   return (
-    <section className="flex min-h-full flex-col overflow-hidden rounded-t-3xl bg-popover px-5 pt-3 shadow-[0px_-4px_20px_0px_rgba(237,238,246,1)]">
+    <section className="flex min-h-full flex-col overflow-hidden rounded-t-3xl bg-popover px-5 pt-3 shadow-bl-popover">
       <div className="flex-1">
         {sections.map((section, index) => (
           <div

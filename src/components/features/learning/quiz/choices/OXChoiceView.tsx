@@ -64,13 +64,13 @@ export default function OXChoiceView({
   const buttonConfig = {
     idle: {
       container:
-        'border-slate-100 bg-card text-slate-500 shadow-[0_12px_16px_0_rgba(237,238,246,1)]',
+        'border-slate-100 bg-card text-slate-500 shadow-bl-card',
       icon: 'text-slate-400',
       label: 'text-slate-600',
     },
     selected: {
       container:
-        'border-slate-300 bg-slate-100 text-slate-700 shadow-[0_12px_16px_0_rgba(237,238,246,1)] scale-[1.02]',
+        'border-slate-300 bg-slate-100 text-slate-700 shadow-bl-card scale-[1.02]',
       icon: 'text-slate-600',
       label: 'text-slate-600',
     },

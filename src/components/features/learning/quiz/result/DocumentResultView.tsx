@@ -74,7 +74,7 @@ export default function DocumentResultView({
           ) : null}
         </div>
 
-        <div className="mt-6 flex-1 rounded-t-3xl bg-popover px-5 pb-8 pt-6 shadow-[0_-4px_20px_0_rgba(237,238,246,1)]">
+        <div className="mt-6 flex-1 rounded-t-3xl bg-popover px-5 pb-8 pt-6 shadow-bl-popover">
           <div className="flex flex-col gap-4">
             <div className="rounded-xl bg-background px-[14px] py-3">
               <p className="mb-1.5 text-xs font-semibold leading-4 text-primary-500">
