@@ -176,7 +176,7 @@ export default function ChapterResult({
             transition={{ delay: 0.08 }}
             className="flex flex-col items-center gap-3"
           >
-            <p className="whitespace-pre-line text-[20px] font-bold leading-8 tracking-[-0.02em] text-foreground">
+            <p className="whitespace-pre-line text-xl font-bold leading-8 tracking-[-0.02em] text-foreground">
               {cfg.title}
             </p>
             <p className="whitespace-pre-line text-sm leading-[22px] text-slate-600">
