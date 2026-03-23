@@ -4,7 +4,8 @@ import {
   type InfiniteData,
   type QueryKey,
 } from '@tanstack/react-query';
-import type { GetNotesResponse } from '@/api/notes/notes.types';
+
+import type { GetNotesResponse } from './notes.types';
 
 // sentinel이 화면에 닿기 직전 다음 페이지를 미리 요청하기 위한 여유 범위
 const INFINITE_SCROLL_ROOT_MARGIN = '400px';
@@ -16,7 +17,7 @@ type UseIncorrectNotesInfiniteQueryParams = {
   rootMargin?: string;
 };
 
-export default function useIncorrectNotesInfiniteQuery({
+export function useIncorrectNotesInfiniteQuery({
   queryKey,
   queryFn,
   enabled = true,
@@ -45,7 +46,6 @@ export default function useIncorrectNotesInfiniteQuery({
 
   // sentinel이 보일 때 다음 페이지를 요청하도록 observer를 연결
   useEffect(() => {
-    // observer를 생성하지 않는 조건
     if (
       !enabled ||
       !sentinelNode ||
@@ -60,7 +60,6 @@ export default function useIncorrectNotesInfiniteQuery({
       (entries) => {
         const [entry] = entries;
 
-        // sentinel이 화면에 들어오면 다음 페이지 요청
         if (entry?.isIntersecting) {
           void fetchNextPage();
         }

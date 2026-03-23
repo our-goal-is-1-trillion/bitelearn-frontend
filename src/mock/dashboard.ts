@@ -11,13 +11,13 @@ export const DASHBOARD_CATEGORIES: DashboardCategory[] = [
     chapterCount: 12,
   },
   {
-    id: 'finance',
+    id: 'living-finance',
     emoji: '💳',
     name: '생활금융 · 고용',
     chapterCount: 8,
   },
   {
-    id: 'career',
+    id: 'career-tax',
     emoji: '💼',
     name: '커리어 · 세무',
     chapterCount: 15,
@@ -39,10 +39,10 @@ export const DASHBOARD_RECOMMENDATIONS: DashboardRecommendation[] = [
     chapterTitle: '전세 계약 전 꼭 확인해야 할 체크리스트',
   },
   {
-    categoryId: 'finance',
+    categoryId: 'living-finance',
     chapterId: '2001',
     categoryName: '생활금융 · 고용',
-    topicName: '월급 관리',
+    topicName: '소득 및 지출',
     chapterTitle: '사회초년생을 위한 월급 관리 기초',
   },
 ];

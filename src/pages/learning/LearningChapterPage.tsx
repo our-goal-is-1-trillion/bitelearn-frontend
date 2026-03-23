@@ -1,61 +1,42 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import ChapterPlayer from '@/components/features/learning/chapter/ChapterPlayer';
 import {
   completeLearningVocab,
-  getLearningChapter,
   getLearningChapterResult,
   submitLearningQuiz,
 } from '@/api/learning/learning.api';
+import { useLearningChapterQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
-import { logError } from '@/lib/logError';
-import type { ChapterLearningResponse } from '@/api/learning/learning.types';
 
 const LEARNING_CHAPTER_ERROR_MESSAGE =
   '학습 데이터를 불러오지 못했습니다. 다시 시도해 주세요.';
 
+type LearningChapterLocationState = {
+  topicId?: string;
+  chapterIds?: number[];
+};
+
 export default function LearningChapterPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { categoryId, chapterId } = useParams();
   const category = getCategoryMetaByRouteId(categoryId);
   const chapterIdNumber = Number(chapterId);
-  const [chapterData, setChapterData] =
-    useState<ChapterLearningResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadError, setLoadError] = useState<unknown>(null);
-
-  useEffect(() => {
-    if (!category || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
-      return;
-    }
-
-    let isMounted = true;
-
-    const fetchChapter = async () => {
-      try {
-        const response = await getLearningChapter(chapterIdNumber);
-        if (!isMounted) return;
-        setChapterData(response);
-        setLoadError(null);
-      } catch (error) {
-        if (!isMounted) return;
-        logError('LearningChapterPage', '학습 데이터 조회 실패', error);
-        setLoadError(error);
-      } finally {
-        if (!isMounted) return;
-        setIsLoading(false);
-      }
-    };
-
-    setIsLoading(true);
-    void fetchChapter();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [category, categoryId, chapterId, chapterIdNumber]);
+  const locationState = (location.state ?? {}) as LearningChapterLocationState;
+  const orderedChapterIds = locationState.chapterIds ?? [];
+  const currentChapterIndex = orderedChapterIds.findIndex(
+    (candidate) => candidate === chapterIdNumber
+  );
+  const nextChapterId =
+    currentChapterIndex >= 0
+      ? orderedChapterIds[currentChapterIndex + 1] ?? null
+      : null;
+  const chapterQuery = useLearningChapterQuery(
+    chapterIdNumber,
+    Boolean(category && categoryId && chapterId && !Number.isNaN(chapterIdNumber))
+  );
 
   if (!category || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
     return (
@@ -67,16 +48,16 @@ export default function LearningChapterPage() {
     );
   }
 
-  if (isLoading) {
+  if (chapterQuery.isPending) {
     return <AppLoading message="학습 데이터를 불러오는 중입니다." />;
   }
 
-  if (loadError || !chapterData) {
+  if (chapterQuery.error || !chapterQuery.data) {
     return (
       <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
         <p className="text-sm font-medium text-red-400">
-          {loadError instanceof Error
-            ? loadError.message
+          {chapterQuery.error instanceof Error
+            ? chapterQuery.error.message
             : LEARNING_CHAPTER_ERROR_MESSAGE}
         </p>
       </main>
@@ -85,25 +66,35 @@ export default function LearningChapterPage() {
 
   return (
     <ChapterPlayer
-      chapterTitle={chapterData.chapterTitle}
-      vocabs={chapterData.vocabs}
-      quizzes={chapterData.quizzes}
+      chapterTitle={chapterQuery.data.chapterTitle}
+      vocabs={chapterQuery.data.vocabs}
+      quizzes={chapterQuery.data.quizzes}
       chapterIntro={{
-        prologueSubtitle: chapterData.prologueSubtitle,
-        goal: chapterData.currentGoal,
-        prologueContent: chapterData.prologueContent,
-        closingMessage: chapterData.closingMessage,
-        coreKeywords: chapterData.coreKeywords,
+        prologueSubtitle: chapterQuery.data.prologueSubtitle,
+        goal: chapterQuery.data.currentGoal,
+        prologueContent: chapterQuery.data.prologueContent,
+        closingMessage: chapterQuery.data.closingMessage,
+        coreKeywords: chapterQuery.data.coreKeywords,
       }}
-      initialStatus={chapterData.currentStatus}
-      initialQuizSequence={chapterData.resumeQuizSequence}
+      initialStatus={chapterQuery.data.currentStatus}
+      initialQuizSequence={chapterQuery.data.resumeQuizSequence}
       onVocabComplete={() => completeLearningVocab(chapterIdNumber)}
       onSubmitQuiz={(quizId, selectedAnswer) =>
         submitLearningQuiz(chapterIdNumber, quizId, { selectedAnswer })
       }
       onFetchResult={() => getLearningChapterResult(chapterIdNumber)}
       onBack={() => navigate(-1)}
-      onComplete={() => navigate(-1)}
+      onComplete={() => {
+        if (nextChapterId) {
+          navigate(`/learning/${category.id}/${nextChapterId}`, {
+            replace: true,
+            state: locationState,
+          });
+          return;
+        }
+
+        navigate(-1);
+      }}
       onRetryWrongAnswers={() => navigate('/notes')}
     />
   );

@@ -1,9 +1,7 @@
 import { ChevronLeft } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getLearningChapters } from '@/api/learning/learning.api';
-import type { ChapterSummaryDto } from '@/api/learning/learning.types';
+import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
 import StageNode from '@/components/features/learning/roadmap/StageNode';
 import RoadmapDecoration from '@/components/features/learning/roadmap/RoadmapDecoration';
@@ -16,8 +14,6 @@ import {
   HALF_BTN,
 } from '@/components/features/learning/roadmap/roadmap.utils';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
-import { logError } from '@/lib/logError';
-import { getMockLearningChapters } from '@/mock/learning';
 
 const LEARNING_ROADMAP_ERROR_MESSAGE =
   '챕터 목록을 불러오지 못했습니다. 다시 시도해 주세요.';
@@ -32,47 +28,19 @@ export default function LearningRoadmapPage() {
   const resolvedTopic = category?.topics.find(
     (topic) => topic.id === resolvedTopicId
   );
-  const [chapters, setChapters] = useState<ChapterSummaryDto[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadError, setLoadError] = useState<unknown>(null);
-
-  useEffect(() => {
-    if (!category || !resolvedTopic) return;
-
-    let isMounted = true;
-
-    const fetchChapters = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await getLearningChapters({
-          category: category.code,
-          topic: resolvedTopic.code,
-        });
-
-        if (!isMounted) return;
-        setChapters(response.chapters);
-        setLoadError(null);
-      } catch (error) {
-        logError('LearningRoadmapPage', '챕터 목록 조회 실패', error);
-
-        if (!isMounted) return;
-
-        // 로드맵 API가 아직 준비되지 않은 카테고리는 mock으로만 표시
-        setChapters(getMockLearningChapters(category.id, resolvedTopic.id));
-        setLoadError(error);
-      } finally {
-        if (!isMounted) return;
-        setIsLoading(false);
-      }
-    };
-
-    void fetchChapters();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [category, resolvedTopic]);
+  const roadmapQuery = useLearningRoadmapQuery(
+    category && resolvedTopic
+      ? {
+          categoryId: category.id,
+          categoryCode: category.code,
+          topicId: resolvedTopic.id,
+          topicCode: resolvedTopic.code,
+        }
+      : null
+  );
+  const chapters = roadmapQuery.data ?? [];
+  const isLoading = roadmapQuery.isPending;
+  const loadError = roadmapQuery.error;
 
   if (!category || !selectedTopic) {
     return (
@@ -88,8 +56,14 @@ export default function LearningRoadmapPage() {
     navigate('/learning');
   };
 
+  // 챕터 선택 시 학습 페이지로 이동
   const handleSelectChapter = (chapterId: number) => {
-    navigate(`/learning/${category.id}/${chapterId}`);
+    navigate(`/learning/${category.id}/${chapterId}`, {
+      state: {
+        topicId: selectedTopic.id,
+        chapterIds: chapters.map((chapter) => chapter.chapterId),
+      },
+    });
   };
 
   const count = chapters.length;
@@ -103,8 +77,8 @@ export default function LearningRoadmapPage() {
         - -z-10: Stacking Context에서 최하단(배경) 배치 (블렌드 모드 버그 방지)
         - bg-[length:auto_100%]: 비율 유지하며 "세로 100% 길이"에 딱 맞게 꽉 채움 (또는 bg-cover 혼용 가능)
       */}
-      <div 
-        className="absolute inset-0 -z-10 pointer-events-none bg-[length:auto_100%] bg-top bg-no-repeat"
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[length:auto_100%] bg-top bg-no-repeat"
         style={{ backgroundImage: "url('/assets/roadmap-bg.png')" }}
       />
 
@@ -127,7 +101,7 @@ export default function LearningRoadmapPage() {
         </div>
       </div>
 
-      <section className="relative flex-1 overflow-y-auto px-6 pb-10 pt-10 hide-scrollbar">
+      <section className="hide-scrollbar relative flex-1 overflow-y-auto px-6 pb-10 pt-10">
         <div
           className="relative mx-auto w-full"
           style={{ height: roadmapHeight }}
@@ -213,7 +187,7 @@ export default function LearningRoadmapPage() {
             </>
           )}
 
-          {!isLoading && Boolean(loadError) && count === 0 && (
+          {!isLoading && loadError && count === 0 && (
             <div className="flex h-full items-center justify-center text-sm font-medium text-red-400">
               {loadError instanceof Error
                 ? loadError.message
