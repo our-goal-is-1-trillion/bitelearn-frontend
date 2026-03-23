@@ -79,7 +79,7 @@ function CelebrationParticles() {
       {coins.map((coin, index) => (
         <motion.div
           key={`coin-${index}`}
-          className="absolute text-[28px] leading-none"
+          className="absolute text-3xl leading-none"
           initial={{ y: -40, opacity: 0 }}
           animate={{
             y: 820,
