@@ -44,7 +44,7 @@ function SectionRow({ item }: { item: SectionItem }) {
         {item.label}
       </p>
 
-      <div className="flex items-center gap-1 text-sm leading-5 text-slate-400">
+      <div className="flex items-center gap-2 text-sm leading-5 text-slate-400">
         {providerIconSrc && (
           <img
             src={providerIconSrc}
