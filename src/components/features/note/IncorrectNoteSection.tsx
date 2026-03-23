@@ -47,8 +47,8 @@ export default function IncorrectNoteSection({
         totalBytes={totalBytes}
         isLoading={isLoading}
       />
-      <div className="sticky top-[50px] z-10 bg-none px-5 py-3.5 bg-background/80 backdrop-blur-[6px]">
-        <div className="hide-scrollbar flex gap-2.5 overflow-x-auto">
+      <div className="sticky top-[50px] z-10 bg-background/80 py-3.5 backdrop-blur-[6px]">
+        <div className="hide-scrollbar flex gap-2.5 overflow-x-auto px-5">
           {noteCategories.map((category) => {
             const isActive = selectedCategory === category.category;
 
