@@ -1,22 +1,8 @@
 import { ChevronDown, ChevronRight, ChevronUp } from 'lucide-react';
 
 import TextBadge from '@/components/common/TextBadge';
+import { getTopicIconByRouteId } from '@/constants/learningMeta';
 import type { MockTopicSummary } from '@/mock/learning';
-
-const TOPIC_ICONS: Record<string, string> = {
-  jeonse: '🏦',
-  'monthly-rent': '💸',
-  buying: '🏢',
-  salary: '💵',
-  credit: '💳',
-  employment: '🧑‍💼',
-  'salary-negotiation': '🤝',
-  'year-end-tax': '🧾',
-  'income-tax': '📊',
-  etf: '📈',
-  stock: '📉',
-  pension: '🏝️',
-};
 
 type TopicRowProps = {
   topic: MockTopicSummary;
@@ -38,7 +24,7 @@ function TopicRow({ topic, onSelect }: TopicRowProps) {
       className="flex w-full items-center gap-1 px-0 pb-5 pt-3 text-left"
     >
       <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center text-[18px] leading-none">
-        {TOPIC_ICONS[topic.topicId] ?? '•'}
+        {getTopicIconByRouteId(topic.topicId)}
       </span>
 
       <div className="flex min-w-0 flex-1 items-center justify-between gap-3">

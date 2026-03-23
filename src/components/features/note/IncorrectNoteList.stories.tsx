@@ -9,8 +9,11 @@ const sampleCategories: {
   category: Category;
   categoryName: string;
 }[] = [
-  { category: 'REAL_ESTATE', categoryName: '부동산 · 주거' },
-  { category: 'FINANCE', categoryName: '생활금융 · 고용' },
+  { category: 'REAL_ESTATE_HOUSING', categoryName: '부동산 · 주거' },
+  {
+    category: 'LIVING_FINANCE_EMPLOYMENT',
+    categoryName: '생활금융 · 고용',
+  },
 ];
 
 const sampleNotes: Note[] = [
@@ -18,7 +21,7 @@ const sampleNotes: Note[] = [
     noteId: 1,
     chapterId: 101,
     quizId: 1001,
-    category: 'REAL_ESTATE',
+    category: 'REAL_ESTATE_HOUSING',
     topic: 'JEONSE',
     questionTitle: '계약서 특약에 반드시 포함해야 할 문구는?',
     userAnswer: '특약은 없어도 된다',
