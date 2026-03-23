@@ -28,7 +28,7 @@ export default function DashboardRecommendationCard({
         </div>
 
         <div className="flex items-center justify-between gap-3 pb-5 pt-4">
-          <h4 className="truncate text-base font-semibold leading-6 text-foreground">
+          <h4 className="line-clamp-2 text-base font-medium leading-6 text-foreground">
             {recommendation.chapterTitle}
           </h4>
 
