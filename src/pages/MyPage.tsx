@@ -8,6 +8,7 @@ import {
   PRIVACY_TERMS_URL,
   SERVICE_TERMS_URL,
 } from '@/constants/terms';
+import { logError } from '@/lib/logError';
 import { formatDisplayName } from '@/utils/formatUser';
 
 export default function MyPage() {
@@ -22,10 +23,10 @@ export default function MyPage() {
     try {
       await logout();
     } catch (error) {
-      console.error('로그아웃 요청 실패:', error);
+      logError('MyPage', '로그아웃 요청 실패', error);
     } finally {
       clearAuthSession();
-      navigate('/login', { replace: true });
+      navigate('/', { replace: true });
     }
   };
 
