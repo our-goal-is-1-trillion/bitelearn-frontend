@@ -27,7 +27,7 @@ export default function Header({
   return (
     <header
       className={cn(
-        'fixed left-1/2 top-0 z-40 w-full max-w-app -translate-x-1/2',
+        'fixed left-1/2 top-0 z-40 w-full max-w-screen-sm -translate-x-1/2',
         hasSubtitle ? 'min-h-[74px] bg-popover' : 'h-[60px] bg-background',
         className
       )}

@@ -10,7 +10,7 @@ export default function AppLogoHeader() {
   return (
     <header
       className={cn(
-        'fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-app -translate-x-1/2 items-center pl-5',
+        'fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-screen-sm -translate-x-1/2 items-center pl-5',
         isNotesPage ? 'bg-white' : 'bg-white/80 backdrop-blur-[6px]'
       )}
     >

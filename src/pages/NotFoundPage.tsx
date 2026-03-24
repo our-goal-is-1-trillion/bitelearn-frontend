@@ -8,7 +8,7 @@ function NotFoundPage() {
 
   return (
     <main className="flex min-h-dvh flex-1 items-center justify-center bg-white px-5 text-foreground">
-      <div className="flex w-full max-w-app flex-col items-center text-center">
+      <div className="flex w-full max-w-screen-sm flex-col items-center text-center">
         <p className="text-sm font-semibold text-slate-400">404</p>
         <h1 className="mt-2 text-xl font-semibold">페이지를 찾을 수 없어요</h1>
         <p className="mt-2 text-sm text-slate-500">

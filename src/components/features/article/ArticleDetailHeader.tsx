@@ -35,7 +35,7 @@ export default function ArticleDetailHeader({
   const canUseWebShare = typeof navigator !== 'undefined' && !!navigator.share;
 
   return (
-    <header className="fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-app -translate-x-1/2 items-center justify-between bg-white px-1.5">
+    <header className="fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-screen-sm -translate-x-1/2 items-center justify-between bg-white px-1.5">
       <Button
         type="button"
         variant="ghost"

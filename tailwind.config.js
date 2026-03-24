@@ -10,9 +10,6 @@ export default {
       serif: ['var(--family-serif)', 'serif'],
     },
     extend: {
-      maxWidth: {
-        app: '375px',
-      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

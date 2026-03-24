@@ -31,10 +31,10 @@ export default function RootLayout() {
   };
 
   return (
-    <div className="h-dvh bg-neutral-100">
+    <div className="h-dvh bg-white">
       <SeoHead />
 
-      <div className="mx-auto flex h-full w-full max-w-app flex-col bg-white">
+      <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col bg-white">
         <Outlet />
 
         <OnboardingModal

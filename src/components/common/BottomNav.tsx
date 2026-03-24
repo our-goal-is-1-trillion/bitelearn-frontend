@@ -7,7 +7,7 @@ export default function BottomNav() {
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center">
       <div
-        className="relative w-full max-w-app"
+        className="relative w-full max-w-screen-sm"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
         <div className="absolute inset-x-0 bottom-0">
