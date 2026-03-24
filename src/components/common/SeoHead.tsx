@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { resolveSeoMeta } from '@/lib/seo';
+import { resolveSeoMeta, SITE_NAME } from '@/lib/seo';
 
 const SEO_MANAGED_ATTRIBUTE = 'data-seo-managed';
 
@@ -50,11 +50,16 @@ export default function SeoHead() {
     const metaEntries = [
       ['name', 'description', meta.description],
       ['name', 'robots', meta.robots],
+      ['name', 'application-name', SITE_NAME],
       ['property', 'og:title', meta.title],
       ['property', 'og:description', meta.description],
       ['property', 'og:type', meta.type],
+      ['property', 'og:site_name', SITE_NAME],
       ['property', 'og:image', absoluteImageUrl],
       ['name', 'twitter:card', 'summary_large_image'],
+      ['name', 'twitter:title', meta.title],
+      ['name', 'twitter:description', meta.description],
+      ['name', 'twitter:image', absoluteImageUrl],
     ] as const;
 
     // 메타 태그 추가
