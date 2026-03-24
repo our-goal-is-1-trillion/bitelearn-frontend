@@ -12,7 +12,7 @@ const meta = {
   args: {
     categoryName: '부동산 · 주거',
     createdAt: '2026-03-06T12:42:00Z',
-    chapterId: 1,
+    chapterSequence: 1,
     topic: 'JEONSE',
     questionTitle: '계약서 특약에 반드시 포함해야 할 문구는?',
     onSelect: () => {},

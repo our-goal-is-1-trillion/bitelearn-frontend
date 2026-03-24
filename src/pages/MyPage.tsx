@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/auth/auth.api';
-import { clearAuthSession } from '@/api/auth/authSession';
+import { clearAuthSession, markLogoutRedirect } from '@/api/auth/authSession';
 import MyBadgeSummaryCard from '@/components/features/mypage/MyBadgeSummaryCard';
 import MyPageOverviewSection from '@/components/features/mypage/MyPageOverviewSection';
 import { useMeQuery } from '@/api/auth/auth.query';
@@ -8,15 +8,13 @@ import {
   PRIVACY_TERMS_URL,
   SERVICE_TERMS_URL,
 } from '@/constants/terms';
+import { logError } from '@/lib/logError';
 import { formatDisplayName } from '@/utils/formatUser';
 
 export default function MyPage() {
   const navigate = useNavigate();
   const { data: user } = useMeQuery();
-  const myBadgeSummary = {
-    currentLevel: 1,
-    currentBytes: 1250,
-  };
+
   const openExternalLink = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -25,10 +23,11 @@ export default function MyPage() {
     try {
       await logout();
     } catch (error) {
-      console.error('로그아웃 요청 실패:', error);
+      logError('MyPage', '로그아웃 요청 실패', error);
     } finally {
+      markLogoutRedirect();
       clearAuthSession();
-      navigate('/login', { replace: true });
+      navigate('/', { replace: true });
     }
   };
 
@@ -41,7 +40,10 @@ export default function MyPage() {
               <div className="text-2xl font-semibold leading-9 text-foreground">
                 {formatDisplayName(user?.nickname)}님
               </div>
-              <MyBadgeSummaryCard {...myBadgeSummary} />
+              <MyBadgeSummaryCard
+                currentLevel={user?.level}
+                currentBytes={user?.totalBytes ?? 0}
+              />
             </div>
           </div>
 

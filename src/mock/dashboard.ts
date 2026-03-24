@@ -1,34 +1,4 @@
-import type {
-  DashboardCategory,
-  DashboardRecommendation,
-} from '@/components/features/dashboard/dashboard.types';
-
-export const DASHBOARD_CATEGORIES: DashboardCategory[] = [
-  {
-    id: 'real-estate',
-    emoji: '🏠',
-    name: '부동산 · 주거',
-    chapterCount: 12,
-  },
-  {
-    id: 'living-finance',
-    emoji: '💳',
-    name: '생활금융 · 고용',
-    chapterCount: 8,
-  },
-  {
-    id: 'career-tax',
-    emoji: '💼',
-    name: '커리어 · 세무',
-    chapterCount: 15,
-  },
-  {
-    id: 'investment',
-    emoji: '📈',
-    name: '자산운용 · 투자',
-    chapterCount: 15,
-  },
-];
+import type { DashboardRecommendation } from '@/components/features/dashboard/dashboard.types';
 
 export const DASHBOARD_RECOMMENDATIONS: DashboardRecommendation[] = [
   {

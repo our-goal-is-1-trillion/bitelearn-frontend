@@ -51,7 +51,7 @@ export default function ChapterDone({
           <div className="mb-5 flex h-[148px] w-[148px] items-center justify-center rounded-full bg-gradient-to-b from-[#fff7ed] to-[#ffedd5]">
             <motion.img
               src={chapterDoneImage}
-              alt="학습을 마친 멍멍이"
+              alt="학습을 마친 멍뭉이"
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: 'spring', stiffness: 260, damping: 15 }}
@@ -105,7 +105,7 @@ export default function ChapterDone({
         </motion.div>
       </div>
 
-      <div className="fixed bottom-0 left-1/2 z-30 w-full max-w-app -translate-x-1/2 bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.04)]">
+      <div className="fixed bottom-0 left-1/2 z-30 w-full max-w-screen-sm -translate-x-1/2 bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.04)]">
         <Footer onClick={onFinish}>챕터 결과 확인하기</Footer>
       </div>
     </main>

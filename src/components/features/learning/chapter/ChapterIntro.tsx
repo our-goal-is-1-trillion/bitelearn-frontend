@@ -111,7 +111,7 @@ export default function ChapterIntro({
         </div>
       </section>
 
-      <footer className="fixed bottom-0 left-1/2 z-30 w-full max-w-app -translate-x-1/2 bg-white px-5 pb-8 pt-4">
+      <footer className="fixed bottom-0 left-1/2 z-30 w-full max-w-screen-sm -translate-x-1/2 bg-white px-5 pb-8 pt-4">
         <Button
           className="relative h-14 w-full rounded-2xl bg-primary text-base font-bold leading-6 text-foreground"
           onClick={onStart}

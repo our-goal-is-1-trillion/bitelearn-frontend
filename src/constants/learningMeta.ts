@@ -138,8 +138,10 @@ export function getTopicBaseMetaByRouteId(topicId?: string) {
   );
 }
 
-export function getTopicLabel(topicCode: Topic) {
-  return getTopicBaseMetaByCode(topicCode)?.defaultName ?? topicCode;
+export function getTopicLabel(topicCode?: string) {
+  return (
+    getTopicBaseMetaByCode(topicCode as Topic)?.defaultName ?? topicCode ?? ''
+  );
 }
 
 export function getTopicIconByRouteId(topicId: string) {

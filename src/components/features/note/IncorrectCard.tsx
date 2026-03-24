@@ -7,7 +7,8 @@ import { formatDate } from '@/utils/formatDate';
 type IncorrectCardProps = {
   categoryName: string;
   createdAt: string;
-  chapterId: number;
+  chapterSequence: number;
+  chapterTitle?: string;
   topic: Topic;
   questionTitle: string;
   onSelect: () => void;
@@ -17,7 +18,8 @@ type IncorrectCardProps = {
 export default function IncorrectCard({
   categoryName,
   createdAt,
-  chapterId,
+  chapterSequence,
+  chapterTitle,
   topic,
   questionTitle,
   onSelect,
@@ -31,14 +33,14 @@ export default function IncorrectCard({
           <TextBadge>{getTopicLabel(topic)}</TextBadge>
         </div>
 
-        <span className="text-xs font-base leading-4 text-slate-400">
+        <span className="font-base text-xs leading-4 text-slate-400">
           {formatDate(createdAt)}
         </span>
       </div>
 
       <div className="px-4 pb-4">
         <p className="truncate text-sm font-medium leading-5 text-slate-600">
-          {`Chapter ${chapterId}.`}
+          {`Chapter ${chapterSequence}. ${chapterTitle ?? ''}`}
         </p>
         <h3 className="mt-1 break-keep text-base font-semibold leading-6 text-foreground">
           {questionTitle}
@@ -50,7 +52,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onSelect}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground me-4"
+            className="me-4 flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground"
           >
             지난 기록
           </button>
@@ -60,7 +62,7 @@ export default function IncorrectCard({
           <button
             type="button"
             onClick={onRetry}
-            className="flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground ms-4"
+            className="ms-4 flex h-7 flex-1 items-center justify-center text-sm font-semibold leading-5 text-slate-600 transition-colors hover:text-foreground"
           >
             다시 도전
           </button>

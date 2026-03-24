@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <div className="mx-auto min-h-dvh max-w-app bg-slate-50 pt-6">
+    <div className="mx-auto min-h-dvh max-w-screen-sm bg-slate-50 pt-6">
       <MyPageOverviewSection {...args} />
     </div>
   ),

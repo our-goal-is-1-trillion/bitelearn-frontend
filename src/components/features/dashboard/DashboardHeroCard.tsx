@@ -16,7 +16,7 @@ export default function DashboardHeroCard({
   characterClassName,
 }: DashboardHeroCardProps) {
   return (
-    <div className={cn('relative pt-11', className)}>
+    <div className={cn('relative mb-8 pt-11', className)}>
       <div
         className={cn(
           'relative overflow-hidden rounded-[32px] bg-orange-100 px-3 pb-3 pt-10 shadow-bl-lg',
@@ -25,7 +25,7 @@ export default function DashboardHeroCard({
       >
         {/* 주황색 테두리(이너 섀도우) 전용 레이어 */}
         <div className="pointer-events-none absolute inset-0 rounded-[32px] shadow-bl-hero" />
-        
+
         {children}
       </div>
 

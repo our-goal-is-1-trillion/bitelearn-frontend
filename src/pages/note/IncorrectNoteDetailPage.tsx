@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import IncorrectNoteQuizViewer from '@/components/features/note/IncorrectNoteQuizViewer';
 import { useIncorrectNoteDetailQuery } from '@/api/notes/notes.query';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export default function IncorrectNoteDetailPage() {
   const navigate = useNavigate();
@@ -12,11 +13,7 @@ export default function IncorrectNoteDetailPage() {
   const detailQuery = useIncorrectNoteDetailQuery(parsedNoteId);
 
   if (isInvalidNoteId) {
-    return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
-        <p className="text-sm text-slate-400">잘못된 오답노트 경로입니다.</p>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   if (detailQuery.isPending) {

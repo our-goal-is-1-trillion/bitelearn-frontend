@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   AnimatePresence,
   motion,
@@ -36,6 +36,7 @@ export default function VocabCardsPlayer({
   onBack,
   indicatorSteps: externalSteps,
 }: VocabCardsPlayerProps) {
+  const cardFrameRef = useRef<HTMLDivElement>(null);
   const [flippedStates, setFlippedStates] = useState<boolean[]>(() =>
     vocabs.map(() => false)
   );
@@ -44,6 +45,7 @@ export default function VocabCardsPlayer({
   const [swipeHintDirection, setSwipeHintDirection] = useState<
     'left' | 'right' | null
   >(null);
+  const [cardWidth, setCardWidth] = useState(360);
   const dragX = useMotionValue(0);
   const cardRotate = useTransform(dragX, [-150, 0, 150], [-8, 0, 8]);
 
@@ -63,6 +65,23 @@ export default function VocabCardsPlayer({
     setFlippedStates((prev) => vocabs.map((_, idx) => prev[idx] ?? false));
   }, [vocabs]);
 
+  useEffect(() => {
+    const element = cardFrameRef.current;
+
+    if (!element) return;
+
+    const updateCardWidth = () => {
+      setCardWidth(element.getBoundingClientRect().width || 360);
+    };
+
+    updateCardWidth();
+
+    const resizeObserver = new ResizeObserver(updateCardWidth);
+    resizeObserver.observe(element);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
   const localSteps: StepIndicatorInfo[] = useMemo(
     () =>
       vocabs.map((_, idx) => ({
@@ -76,6 +95,9 @@ export default function VocabCardsPlayer({
   const indicatorSteps = externalSteps ?? localSteps;
   const { scrollRef, showIndicatorShadow } =
     useIndicatorShadow<HTMLDivElement>();
+  const swipeHintThreshold = Math.max(12, Math.round(cardWidth * 0.035));
+  const swipeCommitThreshold = Math.max(72, Math.round(cardWidth * 0.22));
+  const swipeVelocityThreshold = Math.max(500, Math.round(cardWidth * 1.4));
 
   const slideVariants: Variants = {
     initial: (dir: number) => ({
@@ -147,128 +169,146 @@ export default function VocabCardsPlayer({
 
       <div
         ref={scrollRef}
-        className="hide-scrollbar flex min-h-0 flex-1 flex-col items-center overflow-y-auto overflow-x-hidden px-5 pt-[37px]"
+        className="hide-scrollbar flex min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-5"
       >
-        <div className="flex w-full flex-col items-center gap-7 px-4 pb-7">
-          <div className="relative w-full shrink-0">
-            {showPrevSwipeHint ? (
-              <motion.div
-                aria-hidden
-                initial={{ opacity: 0.4 }}
-                animate={{ opacity: [0.4, 0.8, 0.4] }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="pointer-events-none absolute -left-4 top-1/2 z-20 -translate-y-1/2 text-secondary"
-              >
-                <ChevronsRight size={62} strokeWidth={1.8} />
-              </motion.div>
-            ) : null}
+        <div className="flex min-h-full w-full flex-col">
+          <div className="min-h-6 flex-1" aria-hidden />
 
-            {showNextSwipeHint ? (
-              <motion.div
-                aria-hidden
-                initial={{ opacity: 0.4 }}
-                animate={{ opacity: [0.4, 0.8, 0.4] }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="pointer-events-none absolute -right-4 top-1/2 z-20 -translate-y-1/2 text-slate-300"
-              >
-                <ChevronsLeft size={62} strokeWidth={1.8} />
-              </motion.div>
-            ) : null}
-
-            <AnimatePresence mode="wait" initial={false} custom={direction}>
-              <motion.div
-                key={vocabIdx}
-                custom={direction}
-                variants={slideVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="perspective-1000 z-10 h-[440px] w-full shrink-0"
-              >
+          <div className="flex w-full flex-col items-center gap-7 px-4">
+            <div
+              ref={cardFrameRef}
+              className="relative mx-auto w-full max-w-[360px] shrink-0 overflow-visible"
+            >
+              {showPrevSwipeHint ? (
                 <motion.div
-                  style={{ x: dragX, rotate: cardRotate, touchAction: 'pan-y' }}
-                  drag="x"
-                  dragDirectionLock
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2}
-                  onDragStart={() => setSwipeHintDirection(null)}
-                  onDrag={(_, info) => {
-                    if (info.offset.x <= -12 && isFlipped) {
-                      setSwipeHintDirection('left');
-                      return;
-                    }
-
-                    if (info.offset.x >= 12 && !isFirstVocab) {
-                      setSwipeHintDirection('right');
-                      return;
-                    }
-
-                    setSwipeHintDirection(null);
+                  aria-hidden
+                  initial={{ opacity: 0.4 }}
+                  animate={{ opacity: [0.4, 0.8, 0.4] }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
                   }}
-                  onDragEnd={(_, info) => {
-                    setSwipeHintDirection(null);
-                    const { offset, velocity } = info;
-                    if (offset.x < -80 || velocity.x < -500) {
-                      handleNext();
-                    } else if (
-                      (offset.x > 80 || velocity.x > 500) &&
-                      !isFirstVocab
-                    ) {
-                      handlePrev();
-                    }
-                  }}
-                  className="relative h-full w-full"
+                  className="pointer-events-none absolute -left-10 top-1/2 z-20 -translate-y-1/2 text-secondary"
                 >
-                  <VocabCard
-                    vocab={currentVocab}
-                    isFlipped={isFlipped}
-                    onFlip={handleFlip}
-                  />
+                  <ChevronsRight size={62} strokeWidth={1.8} />
                 </motion.div>
-              </motion.div>
-            </AnimatePresence>
+              ) : null}
+
+              {showNextSwipeHint ? (
+                <motion.div
+                  aria-hidden
+                  initial={{ opacity: 0.4 }}
+                  animate={{ opacity: [0.4, 0.8, 0.4] }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  className="pointer-events-none absolute -right-10 top-1/2 z-20 -translate-y-1/2 text-slate-300"
+                >
+                  <ChevronsLeft size={62} strokeWidth={1.8} />
+                </motion.div>
+              ) : null}
+
+              <AnimatePresence mode="wait" initial={false} custom={direction}>
+                <motion.div
+                  key={vocabIdx}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="perspective-1000 z-10 aspect-[34/44] min-h-[440px] w-full shrink-0"
+                >
+                  <motion.div
+                    style={{ x: dragX, rotate: cardRotate, touchAction: 'pan-y' }}
+                    drag="x"
+                    dragDirectionLock
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragStart={() => setSwipeHintDirection(null)}
+                    onDrag={(_, info) => {
+                      if (info.offset.x <= -swipeHintThreshold && isFlipped) {
+                        setSwipeHintDirection('left');
+                        return;
+                      }
+
+                      if (
+                        info.offset.x >= swipeHintThreshold &&
+                        !isFirstVocab
+                      ) {
+                        setSwipeHintDirection('right');
+                        return;
+                      }
+
+                      setSwipeHintDirection(null);
+                    }}
+                    onDragEnd={(_, info) => {
+                      setSwipeHintDirection(null);
+                      const { offset, velocity } = info;
+                      if (
+                        offset.x < -swipeCommitThreshold ||
+                        velocity.x < -swipeVelocityThreshold
+                      ) {
+                        handleNext();
+                      } else if (
+                        (
+                          offset.x > swipeCommitThreshold ||
+                          velocity.x > swipeVelocityThreshold
+                        ) &&
+                        !isFirstVocab
+                      ) {
+                        handlePrev();
+                      }
+                    }}
+                    className="relative h-full w-full"
+                  >
+                    <VocabCard
+                      vocab={currentVocab}
+                      isFlipped={isFlipped}
+                      onFlip={handleFlip}
+                    />
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="pointer-events-none flex min-h-10 items-center justify-center">
+              <AnimatePresence mode="wait">
+                {!isFlipped ? (
+                  <motion.div
+                    key="flip-guide"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="flex flex-col items-center gap-2 text-slate-400"
+                  >
+                    <Pointer size={20} strokeWidth={1.8} />
+                    <p className="text-sm font-semibold tracking-tight">
+                      카드를 뒤집어 확인해 보세요!
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="swipe-guide"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="flex items-center gap-2 text-slate-400"
+                  >
+                    <ChevronsLeft size={20} strokeWidth={1.8} />
+                    <span className="text-sm font-semibold tracking-tight">
+                      스와이프로 카드를 넘길 수 있어요
+                    </span>
+                    <ChevronsRight size={20} strokeWidth={1.8} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          <div className="pointer-events-none flex min-h-10 items-center justify-center">
-            <AnimatePresence mode="wait">
-              {!isFlipped ? (
-                <motion.div
-                  key="flip-guide"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="flex flex-col items-center gap-2 text-slate-400"
-                >
-                  <Pointer size={20} strokeWidth={1.8} />
-                  <p className="text-sm font-semibold tracking-tight">
-                    카드를 뒤집어 확인해 보세요!
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="swipe-guide"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="flex items-center gap-2 text-slate-400"
-                >
-                  <ChevronsLeft size={20} strokeWidth={1.8} />
-                  <span className="text-sm font-semibold tracking-tight">
-                    스와이프로 카드를 넘길 수 있어요
-                  </span>
-                  <ChevronsRight size={20} strokeWidth={1.8} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <div className="min-h-6 flex-1" aria-hidden />
         </div>
       </div>
       <ChapterIndicator

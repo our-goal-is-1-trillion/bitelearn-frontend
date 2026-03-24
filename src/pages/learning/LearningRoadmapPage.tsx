@@ -1,5 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
@@ -14,6 +15,11 @@ import {
   HALF_BTN,
 } from '@/components/features/learning/roadmap/roadmap.utils';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
+import {
+  CHAPTER_BLOCKED_TOAST_MESSAGE,
+  shouldBlockRoadmapChapterEntry,
+} from '@/lib/learningAccess';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const LEARNING_ROADMAP_ERROR_MESSAGE =
   '챕터 목록을 불러오지 못했습니다. 다시 시도해 주세요.';
@@ -43,13 +49,7 @@ export default function LearningRoadmapPage() {
   const loadError = roadmapQuery.error;
 
   if (!category || !selectedTopic) {
-    return (
-      <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
-        <p className="text-sm font-medium text-slate-500">
-          존재하지 않는 학습 경로입니다.
-        </p>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   const handleBack = () => {
@@ -57,11 +57,20 @@ export default function LearningRoadmapPage() {
   };
 
   // 챕터 선택 시 학습 페이지로 이동
-  const handleSelectChapter = (chapterId: number) => {
+  const handleSelectChapter = (chapterId: number, chapterSequence: number) => {
+    if (shouldBlockRoadmapChapterEntry(selectedTopic.id)) {
+      toast.info(CHAPTER_BLOCKED_TOAST_MESSAGE);
+      return;
+    }
+
     navigate(`/learning/${category.id}/${chapterId}`, {
       state: {
         topicId: selectedTopic.id,
+        chapterSequence,
         chapterIds: chapters.map((chapter) => chapter.chapterId),
+        chapterSequenceById: Object.fromEntries(
+          chapters.map((chapter) => [chapter.chapterId, chapter.sequence])
+        ),
       },
     });
   };
@@ -131,7 +140,9 @@ export default function LearningRoadmapPage() {
                     chapter={chapter}
                     index={index}
                     categoryCode={category.code}
-                    onSelect={() => handleSelectChapter(chapter.chapterId)}
+                    onSelect={() =>
+                      handleSelectChapter(chapter.chapterId, chapter.sequence)
+                    }
                   />
                 </div>
               ))}

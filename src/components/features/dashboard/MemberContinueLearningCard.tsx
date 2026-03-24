@@ -1,18 +1,61 @@
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import type { RecentLearningResponse } from '@/api/auth/auth.types';
+import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
 import TextBadge from '@/components/common/TextBadge';
 import { Button } from '@/components/ui/button';
+import { getCategoryMetaByCode } from '@/constants/learningNavigation';
 import DashboardHeroCard from './DashboardHeroCard';
-import type { RecentLearning } from './dashboard.types';
 
 type MemberContinueLearningCardProps = {
-  recentLearning: RecentLearning;
+  recentLearning: RecentLearningResponse;
 };
 
 export default function MemberContinueLearningCard({
   recentLearning,
 }: MemberContinueLearningCardProps) {
   const navigate = useNavigate();
+  const category = getCategoryMetaByCode(recentLearning.categoryCode);
+  const topic = category?.topics.find(
+    (entry) => entry.code === recentLearning.topicCode
+  );
+  const roadmapQuery = useLearningRoadmapQuery(
+    category && topic
+      ? {
+          categoryId: category.id,
+          categoryCode: category.code,
+          topicId: topic.id,
+          topicCode: topic.code,
+        }
+      : null
+  );
+  const chapters = roadmapQuery.data ?? [];
+  const chapter = chapters.find(
+    (entry) => entry.chapterId === recentLearning.chapterId
+  );
+
+  // 학습 시작 페이지로 이동 (topic 페이지 or chapter 페이지)
+  const handleContinueLearning = () => {
+    if (!category || !topic) {
+      return;
+    }
+
+    if (!chapter) {
+      navigate(`/learning/${category.id}/topics/${topic.id}`);
+      return;
+    }
+
+    navigate(`/learning/${category.id}/${recentLearning.chapterId}`, {
+      state: {
+        topicId: topic.id,
+        chapterSequence: chapter.sequence,
+        chapterIds: chapters.map((entry) => entry.chapterId),
+        chapterSequenceById: Object.fromEntries(
+          chapters.map((entry) => [entry.chapterId, entry.sequence])
+        ),
+      },
+    });
+  };
 
   return (
     <DashboardHeroCard>
@@ -28,7 +71,7 @@ export default function MemberContinueLearningCard({
               {recentLearning.chapterTitle}
             </p>
             <p className="shrink-0 pb-0.5 text-xs font-medium leading-4 text-slate-400">
-              {`${recentLearning.progressPercent}% 학습 중`}
+              {`${recentLearning.progressRate}% 학습 중`}
             </p>
           </div>
 
@@ -38,7 +81,7 @@ export default function MemberContinueLearningCard({
               style={{
                 width: `${Math.max(
                   0,
-                  Math.min(recentLearning.progressPercent, 100)
+                  Math.min(recentLearning.progressRate, 100)
                 )}%`,
               }}
             />
@@ -49,12 +92,9 @@ export default function MemberContinueLearningCard({
           <Button
             variant="default"
             className="relative h-10 w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-foreground shadow-none"
-            onClick={() =>
-              navigate(
-                `/learning/${recentLearning.categoryId}/${recentLearning.chapterId}`
-              )
-            }
+            onClick={handleContinueLearning}
             aria-label="이어서 학습하기"
+            disabled={!category || !topic}
           >
             <span>이어서 학습하기</span>
             <ChevronRight className="absolute right-4 h-6 w-6" />

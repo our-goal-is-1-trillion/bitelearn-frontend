@@ -13,6 +13,7 @@ export type GetNotesRequest = {
 export type Note = {
   noteId: number;
   chapterId: number;
+  chapterSequence: number;
   quizId: number;
   category: Category;
   topic: Topic;

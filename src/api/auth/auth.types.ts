@@ -1,3 +1,5 @@
+import type { Category, Topic } from '@/api/learning/learning.types';
+
 // 회원가입
 export type SignupRequest = {
   email: string;
@@ -32,6 +34,16 @@ export type RefreshResponse = {
 
 export type ProviderType = 'LOCAL' | 'NAVER' | 'GOOGLE';
 
+export type RecentLearningResponse = {
+  categoryCode: Category;
+  categoryName: string;
+  topicCode: Topic;
+  topicName: string;
+  chapterTitle: string;
+  chapterId: number;
+  progressRate: number;
+};
+
 // 사용자 정보 조회
 export type MeResponse = {
   id: number;
@@ -39,6 +51,9 @@ export type MeResponse = {
   nickname: string;
   providerType: ProviderType;
   isOnboardingCompleted: boolean;
+  level: number;
+  totalBytes: number;
+  recentLearning: RecentLearningResponse | null;
 };
 
 // 사용자 닉네임 수정

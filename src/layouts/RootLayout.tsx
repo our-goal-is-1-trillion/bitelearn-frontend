@@ -6,6 +6,7 @@ import { completeOnboarding } from '@/api/auth/auth.api';
 import { authQueryKeys, useMeQuery } from '@/api/auth/auth.query';
 import { Toaster } from '@/components/ui/sonner';
 import { logError } from '@/lib/logError';
+import SeoHead from '@/components/common/SeoHead';
 
 export default function RootLayout() {
   const queryClient = useQueryClient();
@@ -30,8 +31,10 @@ export default function RootLayout() {
   };
 
   return (
-    <div className="h-dvh bg-neutral-100">
-      <div className="mx-auto flex h-full w-full max-w-app flex-col bg-white">
+    <div className="h-dvh bg-white">
+      <SeoHead />
+
+      <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col bg-white">
         <Outlet />
 
         <OnboardingModal

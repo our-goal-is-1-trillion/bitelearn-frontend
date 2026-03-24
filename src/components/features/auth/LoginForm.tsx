@@ -92,6 +92,11 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
                     />
                   </FormControl>
                   <FormMessage className="text-xs text-destructive" />
+                  {!fieldState.error && (
+                    <p className="text-placeholder text-sm leading-normal">
+                      8~20자의 영문, 숫자, 특수문자 조합
+                    </p>
+                  )}
                 </FormItem>
               )}
             />

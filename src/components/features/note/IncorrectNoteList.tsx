@@ -1,8 +1,11 @@
 import type { RefCallback } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueries } from '@tanstack/react-query';
 import { CheckCircle2 } from 'lucide-react';
 import type { Category } from '@/api/learning/learning.types';
+import { getLearningChapter } from '@/api/learning/learning.api';
+import { learningQueryKeys } from '@/api/learning/learning.query';
 import type { Note } from '@/api/notes/notes.types';
 
 import IncorrectCard from '@/components/features/note/IncorrectCard';
@@ -32,6 +35,28 @@ export default function IncorrectNoteList({
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const chapterIds = useMemo(
+    () => [...new Set(notes.map((note) => note.chapterId))],
+    [notes]
+  );
+  const chapterTitleQueries = useQueries({
+    queries: chapterIds.map((chapterId) => ({
+      queryKey: learningQueryKeys.chapter(chapterId),
+      queryFn: () => getLearningChapter(chapterId),
+      staleTime: Infinity,
+      retry: false,
+    })),
+  });
+  const chapterTitleById = useMemo(
+    () =>
+      Object.fromEntries(
+        chapterIds.map((chapterId, index) => [
+          chapterId,
+          chapterTitleQueries[index]?.data?.chapterTitle,
+        ])
+      ) as Record<number, string | undefined>,
+    [chapterIds, chapterTitleQueries]
+  );
 
   // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트를 구독한다.
   // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구를 표시하기 위함.
@@ -84,7 +109,8 @@ export default function IncorrectNoteList({
               ?.categoryName || '미분류'
           }
           createdAt={note.createdAt}
-          chapterId={note.chapterId}
+          chapterSequence={note.chapterSequence}
+          chapterTitle={chapterTitleById[note.chapterId]}
           topic={note.topic}
           questionTitle={note.questionTitle}
           onSelect={() => navigate(`/notes/incorrect/${note.noteId}`)}
