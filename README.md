@@ -1,22 +1,30 @@
-# bitelearn
+# BiteLearn Frontend
 
-<img src="./public/opengraph.png" alt="bitelearn cover" width="70%" />
+<a href="https://www.bitelearn.site"><img src="https://img.shields.io/badge/🌐_BiteLearn_Service-배포_링크-5A58FF?style=for-the-badge" alt="Service Link" /></a>
 
-사회초년생을 위한 계약 지식 학습 서비스입니다.  
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/00a29287-17ed-4f89-b659-94a17df7766a" />
+
+## Table of Contents
+
+- [Project Overview](#poject-verview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Routing](#routing)
+- [Getting Started](#getting-started)
+- [Current Status](#current-status)
+- [Technical Challenges](#technical-challenges)
+- [Next Steps](#next-steps)
+
+## Project Overview
+
+사회초년생을 위한 계약 지식 학습 서비스입니다.
 부동산, 생활금융, 세무, 투자 같은 실생활 주제를 퀴즈와 아티클로 쉽고 가볍게 학습할 수 있도록 구성했습니다.
 
-## Overview
+- **개발 기간**: 2026.02.24 - 2026.03.26
+- **팀 구성**: FE 1명, BE 1명, PD 2명, PM 3명
 
-- 한 입 분량의 학습 경험: 단어 학습, 지문, 퀴즈, 결과 화면까지 짧은 흐름으로 설계했습니다.
-- 실생활 중심 주제: 부동산 · 주거, 생활금융 · 고용, 커리어 · 세무, 자산운용 · 투자 카테고리를 제공합니다.
-- 학습과 읽기의 연결: 퀴즈형 학습으로 핵심을 익히고, 더 자세한 내용은 아티클로 확장해 볼 수 있습니다.
-- 개인화 경험: 로그인 사용자 기준으로 최근 학습, 레벨, 오답노트, 북마크를 관리합니다.
-
-## Project Info
-
-- 개발 기간: 2026.02.24 - 2026.03.26
-- 배포 사이트: https://bitelearn.site
-- 팀 구성: FE 1명, BE 1명, PD 2명, PM 3명
+프론트엔드 개발을 단독으로 담당하여 서비스 화면 설계 및 구현, 라우팅, 인증, API 연동, 상태관리 등의 전반을 수행했습니다.
 
 ## Key Features
 
@@ -108,12 +116,32 @@ npm install
 npm run dev
 ```
 
+## Troubleshooting
+
+### 1. 인증 안정화: refresh 중복 요청과 무한 루프 방지
+
+- 문제: 여러 API 요청이 동시에 토큰 만료를 만나면 refresh 요청이 중복 실행되거나, refresh 실패 시 인증 흐름이 반복될 위험이 있었습니다.
+- 해결: refresh 요청을 단일 Promise로 관리해 한 번만 실행되도록 제어하고, refresh 요청 자체는 interceptor의 재진입 대상에서 제외해 무한 루프를 방지했습니다.
+- 결과: 동시 요청과 예외 상황에서도 토큰 재발급 흐름을 안정적으로 유지하고, 인증 실패 상황 역시 예측 가능한 방식으로 처리할 수 있게 했습니다.
+
+### 2. 인증 UX 개선: 새로고침 이후 인증 상태 복구
+
+- 문제: 메모리 기반 액세스 토큰 관리만 사용할 경우, 새로고침 시 토큰 정보가 사라져 로그인 유지 경험이 부자연스러웠습니다.
+- 해결: persist 기반 저장 전략을 적용하고, 사용자 정보 재조회 흐름과 연결해 앱 재시작 이후에도 토큰 유효성 확인 뒤 사용자 상태를 복구하도록 구성했습니다.
+- 결과: 새로고침 이후에도 인증 흐름이 매끄럽게 이어지도록 개선했습니다.
+
+### 3. 조회 구조 개선: React Query 기반 조회 규칙 통일
+
+- 문제: 학습 메인, 로드맵, 챕터 상세, 오답노트 등 여러 화면에서 로딩, 에러, fallback 처리 방식이 제각각이었습니다.
+- 해결: 학습 메인, 로드맵, 챕터 상세, 오답노트, 사용자 정보 조회를 React Query 훅 중심으로 재구성했습니다.
+- 결과: 화면은 렌더링에 집중하고 데이터 계층은 조회 규칙을 담당하도록 역할을 분리했으며, 유지보수성과 예외 처리 일관성을 높였습니다.
+
 ## Current Status
 
 - 현재 프로젝트는 일부 화면에서 실제 API와 `mock` 데이터를 함께 사용합니다.
 - 인증, 학습 카테고리/챕터, 오답노트는 API 연동 구조를 기준으로 작성되어 있습니다.
-- 실제 학습 진행은 부동산 카테고리의 월세 토픽 챕터 1, 2 데이터까지만 연결되어 있어 해당 범위에서만 플레이할 수 있습니다.
-- 오답노트는 복습용 조회와 문제 확인 중심으로 구현되어 있으며, 재풀이 기능은 아직 지원하지 않습니다.
+- 실제 학습 진행은 월세 토픽 챕터 1, 2 데이터만 연결되어 있어 해당 범위에서만 플레이 가능합니다.
+- 오답노트는 복습용 조회와 문제 확인 중심으로 구현되어 있습니다.
 
 ## Next Steps
 
