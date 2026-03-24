@@ -70,7 +70,7 @@ export default function ArticleDetailPage() {
         </div>
 
         <section className="px-5 pb-5 pt-6">
-          <h1 className="word-break-keep text-xl font-bold leading-snug tracking-tight text-foreground">
+          <h1 className="word-break-keep text-xl font-bold leading-7 tracking-tight text-foreground">
             {article.title}
           </h1>
 

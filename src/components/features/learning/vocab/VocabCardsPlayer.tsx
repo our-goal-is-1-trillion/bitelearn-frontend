@@ -164,6 +164,7 @@ export default function VocabCardsPlayer({
           subtitle={chapterTitle}
           showCloseButton
           onCloseClick={onBack}
+          backgroundVariant="popover"
         />
       </div>
 

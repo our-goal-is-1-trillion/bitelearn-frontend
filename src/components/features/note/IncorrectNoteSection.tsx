@@ -7,8 +7,6 @@ import IncorrectSummary from '@/components/features/note/IncorrectSummary';
 import IncorrectNoteList from '@/components/features/note/IncorrectNoteList';
 import IncorrectCategoryChip from '@/components/features/note/IncorrectCategoryChip';
 
-// ─── 타입 ────────────────────────────────────────────────────────────────────
-
 type NoteCategory = {
   category: Category;
   categoryName: string;
@@ -27,16 +25,14 @@ type IncorrectNoteSectionProps = {
   sentinelRef?: RefCallback<HTMLDivElement>;
 };
 
-// ─── 서브 컴포넌트 ────────────────────────────────────────────────────────────
-
 /**
- * 카테고리 칩 스크롤 영역의 좌·우 끝에 오버레이되는 그라데이션 + 이동 버튼.
+ * 카테고리 칩 스크롤 영역의 좌·우 끝에 오버레이되는 그라데이션 + 이동 버튼
  *
  * - 그라데이션: 스크롤 가능 방향을 시각적으로 암시 (항상 표시)
- * - 버튼: `hover:hover and pointer:fine` 미디어 쿼리로 마우스 환경에서만 노출.
- *         터치 환경에서는 버튼 없이 스와이프로 스크롤.
+ * - 버튼: `hover:hover and pointer:fine` 미디어 쿼리로 마우스 환경에서만 노출
+ *         터치 환경에서는 버튼 없이 스와이프로 스크롤
  * - 터치 영역: 버튼에 p-2 패딩을 줘서 실제 클릭 영역을 40px로 확보,
- *             아래 칩 요소가 오탭되지 않도록 방지.
+ *             아래 칩 요소가 오탭되지 않도록 방지
  */
 function ScrollEdgeOverlay({
   direction,
@@ -65,15 +61,13 @@ function ScrollEdgeOverlay({
         ].join(' ')}
         onClick={onScroll}
       >
-        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-popover shadow-md text-slate-500 transition-colors hover:text-slate-800">
+        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-popover text-slate-500 shadow-md transition-colors hover:text-slate-800">
           <Icon size={14} />
         </div>
       </button>
     </div>
   );
 }
-
-// ─── 메인 컴포넌트 ────────────────────────────────────────────────────────────
 
 export default function IncorrectNoteSection({
   selectedCategory,
@@ -89,16 +83,15 @@ export default function IncorrectNoteSection({
 }: IncorrectNoteSectionProps) {
   const noteCategories = useMemo(
     () => [{ category: null, categoryName: '전체' }, ...categories],
-    [categories],
+    [categories]
   );
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // 현재 스크롤 위치를 읽어 좌·우 이동 가능 여부를 갱신한다.
-  // -1 margin: 소수점 픽셀 오차로 인해 끝에 도달했는데도 canScrollRight가
-  // true로 남는 현상을 방지.
+  // 현재 스크롤 위치를 읽어 좌·우 이동 가능 여부 갱신
+  // -1 margin: 소수점 픽셀 오차로 인해 끝에 도달했는데도 canScrollRight가 true로 남는 현상을 방지
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -106,8 +99,8 @@ export default function IncorrectNoteSection({
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
   }, []);
 
-  // 마운트 시 초기 상태 계산 + scroll 이벤트 구독.
-  // noteCategories.length가 바뀌면(카테고리 로드 완료 등) 재계산한다.
+  // 마운트 시 초기 상태 계산 + scroll 이벤트 구독
+  // noteCategories.length가 바뀌면(카테고리 로드 완료 등) 재계산
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -116,7 +109,7 @@ export default function IncorrectNoteSection({
     return () => el.removeEventListener('scroll', updateScrollState);
   }, [updateScrollState, noteCategories.length]);
 
-  // 버튼 한 번 클릭으로 해당 방향 끝까지 이동.
+  // 버튼 한 번 클릭으로 해당 방향 끝까지 이동
   const scrollTo = useCallback((direction: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
@@ -134,12 +127,18 @@ export default function IncorrectNoteSection({
         isLoading={isLoading}
       />
 
-      <div className="relative sticky top-[50px] z-10 bg-background/80 py-3.5 backdrop-blur-[6px]">
+      <div className="relative sticky top-[50px] z-10 bg-[rgba(250,250,250,0.80)] py-3.5 backdrop-blur-[4px] supports-[backdrop-filter]:bg-[rgba(250,250,250,0.80)]">
         {canScrollLeft && (
-          <ScrollEdgeOverlay direction="left" onScroll={() => scrollTo('left')} />
+          <ScrollEdgeOverlay
+            direction="left"
+            onScroll={() => scrollTo('left')}
+          />
         )}
         {canScrollRight && (
-          <ScrollEdgeOverlay direction="right" onScroll={() => scrollTo('right')} />
+          <ScrollEdgeOverlay
+            direction="right"
+            onScroll={() => scrollTo('right')}
+          />
         )}
         <div
           ref={scrollRef}

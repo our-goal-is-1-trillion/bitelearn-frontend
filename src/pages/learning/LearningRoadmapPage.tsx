@@ -1,12 +1,11 @@
-import { ChevronLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
+import Header from '@/components/common/Header';
 import StageNode from '@/components/features/learning/roadmap/StageNode';
 import RoadmapDecoration from '@/components/features/learning/roadmap/RoadmapDecoration';
-import { Button } from '@/components/ui/button';
 import RoadmapCurve from '@/components/features/learning/roadmap/RoadmapCurve';
 import {
   getRoadmapLayoutHeight,
@@ -91,26 +90,14 @@ export default function LearningRoadmapPage() {
         style={{ backgroundImage: "url('/assets/roadmap-bg.png')" }}
       />
 
-      <div className="relative z-10 shrink-0 border-b border-slate-100 bg-white px-4">
-        <div className="flex h-14 items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleBack}
-            className="h-9 w-9 rounded-xl text-slate-600"
-          >
-            <ChevronLeft size={20} />
-          </Button>
+      <Header
+        title={selectedTopic.name}
+        subtitle={category.name}
+        showBackButton
+        onBackClick={handleBack}
+      />
 
-          <h1 className="flex-1 text-center text-sm font-bold text-foreground">
-            {selectedTopic.name}
-          </h1>
-
-          <div className="h-9 w-9" />
-        </div>
-      </div>
-
-      <section className="hide-scrollbar relative flex-1 overflow-y-auto px-6 pb-10 pt-10">
+      <section className="hide-scrollbar relative flex-1 overflow-y-auto px-6 pb-10 pt-[100px]">
         <div
           className="relative mx-auto w-full"
           style={{ height: roadmapHeight }}
@@ -161,6 +148,7 @@ export default function LearningRoadmapPage() {
                   anchorY={0 * STEP_Y + HALF_BTN - 5}
                   side="right"
                   sideOffset={-24}
+                  animationDelay={0.2}
                 />
               )}
               {count > 0 && (
@@ -177,6 +165,7 @@ export default function LearningRoadmapPage() {
                   anchorY={1 * STEP_Y + HALF_BTN + 49}
                   side="left"
                   sideOffset={-40}
+                  animationDelay={1.1}
                 />
               )}
               {count > 2 && (
@@ -185,6 +174,7 @@ export default function LearningRoadmapPage() {
                   anchorY={2 * STEP_Y + HALF_BTN + 37}
                   side="left"
                   sideOffset={-29}
+                  animationDelay={2.3}
                 />
               )}
               {count > 3 && (
@@ -193,6 +183,7 @@ export default function LearningRoadmapPage() {
                   anchorY={3 * STEP_Y + HALF_BTN + 72}
                   side="right"
                   sideOffset={-59}
+                  animationDelay={3.7}
                 />
               )}
             </>

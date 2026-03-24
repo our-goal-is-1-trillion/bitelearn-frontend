@@ -39,14 +39,18 @@ export default function ChapterDone({
 
   return (
     <main className="flex h-full min-h-0 flex-col bg-background text-foreground">
-      <Header showCloseButton onCloseClick={onClose} />
+      <Header
+        showCloseButton
+        onCloseClick={onClose}
+        backgroundVariant="transparent"
+      />
 
       <div className="flex flex-1 flex-col items-center justify-center px-5 pb-36 pt-[60px] text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="flex w-full max-w-[335px] flex-col items-center"
+          className="flex w-full flex-col items-center"
         >
           <div className="mb-5 flex h-[148px] w-[148px] items-center justify-center rounded-full bg-gradient-to-b from-[#fff7ed] to-[#ffedd5]">
             <motion.img
@@ -62,14 +66,14 @@ export default function ChapterDone({
           <div className="flex flex-col items-center gap-5">
             <div className="border-b-2 border-primary px-0.5">
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold leading-[30px] text-foreground">
+                <h1 className="text-2xl font-bold leading-9 text-foreground">
                   이번 학습 완료
                 </h1>
                 <Check className="size-6 text-primary" strokeWidth={2.2} />
               </div>
             </div>
 
-            <p className="max-w-[320px] whitespace-pre-line text-sm leading-5 text-foreground">
+            <p className="whitespace-pre-line text-sm leading-5 text-foreground">
               {closingMessage}
             </p>
           </div>

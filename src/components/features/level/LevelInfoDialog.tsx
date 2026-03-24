@@ -62,7 +62,7 @@ export default function LevelInfoDialog({
 }: LevelInfoDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[calc(100%-32px)] max-w-[335px] gap-5 rounded-2xl border-none bg-popover px-5 py-4 shadow-[0_20px_40px_rgba(15,23,42,0.16)] sm:rounded-2xl">
+      <DialogContent className="w-[calc(100%-32px)] gap-5 rounded-2xl border-none bg-popover px-5 py-4 shadow-[0_20px_40px_rgba(15,23,42,0.16)]">
         <DialogTitle className="text-left text-lg font-medium leading-7 text-foreground">
           나의 레벨
         </DialogTitle>

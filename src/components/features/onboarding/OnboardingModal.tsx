@@ -72,10 +72,10 @@ export default function OnboardingModal({
 
             {/* 텍스트 — 고정 높이로 스텝 간 모달 크기 변화 방지 */}
             <div className="flex h-48 flex-col items-center justify-center overflow-hidden px-6 text-center">
-              <h2 className="mb-4 text-xl font-bold leading-tight text-foreground">
+              <h2 className="mb-4 text-xl font-bold leading-7 text-foreground">
                 {currentData.title}
               </h2>
-              <p className="text-sm leading-relaxed text-slate-600 [word-break:keep-all]">
+              <p className="text-sm leading-6 text-slate-600 [word-break:keep-all]">
                 {currentData.body}
               </p>
             </div>

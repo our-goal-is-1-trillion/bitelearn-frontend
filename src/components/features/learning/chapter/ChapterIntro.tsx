@@ -39,7 +39,11 @@ export default function ChapterIntro({
 
   return (
     <main className="flex h-full min-h-0 flex-col overflow-hidden bg-background text-foreground">
-      <Header showCloseButton onCloseClick={onBack} />
+      <Header
+        showCloseButton
+        onCloseClick={onBack}
+        backgroundVariant="transparent"
+      />
 
       <section className="hide-scrollbar flex flex-1 flex-col overflow-y-auto bg-[radial-gradient(circle_at_center,_rgba(255,237,213,0.92)_0%,_rgba(250,250,250,1)_58%)] pt-[60px]">
         <div className="px-5 pb-8 pt-4">
@@ -49,7 +53,7 @@ export default function ChapterIntro({
             </div>
 
             <div className="border-b-2 border-primary px-[2px] pb-[2px]">
-              <h1 className="text-xl font-bold leading-[30px] text-foreground">
+              <h1 className="text-xl font-bold leading-7 text-foreground">
                 {chapterTitle}
               </h1>
             </div>
