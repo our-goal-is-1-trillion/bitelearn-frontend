@@ -1,7 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import MemberContinueLearningCard from './MemberContinueLearningCard';
+
+const storyQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const meta = {
   title: 'Dashboard/MemberContinueLearningCard',
@@ -28,21 +38,25 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <MemoryRouter initialEntries={['/']}>
-      <div className="mx-auto w-full max-w-sm">
-        <MemberContinueLearningCard {...args} />
-      </div>
-    </MemoryRouter>
+    <QueryClientProvider client={storyQueryClient}>
+      <MemoryRouter initialEntries={['/']}>
+        <div className="mx-auto w-full max-w-sm">
+          <MemberContinueLearningCard {...args} />
+        </div>
+      </MemoryRouter>
+    </QueryClientProvider>
   ),
 };
 
 export const WithoutProgress: Story = {
   render: (args) => (
-    <MemoryRouter initialEntries={['/']}>
-      <div className="mx-auto w-full max-w-sm">
-        <MemberContinueLearningCard {...args} />
-      </div>
-    </MemoryRouter>
+    <QueryClientProvider client={storyQueryClient}>
+      <MemoryRouter initialEntries={['/']}>
+        <div className="mx-auto w-full max-w-sm">
+          <MemberContinueLearningCard {...args} />
+        </div>
+      </MemoryRouter>
+    </QueryClientProvider>
   ),
   args: {
     recentLearning: {

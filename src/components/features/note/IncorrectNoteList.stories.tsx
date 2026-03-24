@@ -1,9 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { Note } from '@/api/notes/notes.types';
 import type { Category } from '@/api/learning/learning.types';
 
 import IncorrectNoteList from './IncorrectNoteList';
+
+const storyQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const sampleCategories: {
   category: Category;
@@ -40,9 +50,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={['/notes']}>
-        <Story />
-      </MemoryRouter>
+      <QueryClientProvider client={storyQueryClient}>
+        <MemoryRouter initialEntries={['/notes']}>
+          <Story />
+        </MemoryRouter>
+      </QueryClientProvider>
     ),
   ],
   args: {
