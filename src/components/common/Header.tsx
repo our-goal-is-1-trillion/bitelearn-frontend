@@ -78,7 +78,7 @@ export default function Header({
             size="icon"
             aria-label="이전"
             onClick={onBackClick}
-            className="absolute left-[6px] top-[10px] size-11 rounded-xl"
+            className="absolute left-[6px] top-[10px] size-11 rounded-xl text-slate-600"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -91,7 +91,7 @@ export default function Header({
             size="icon"
             aria-label="닫기"
             onClick={onCloseClick}
-            className="absolute right-[6px] top-[10px] size-11 rounded-xl"
+            className="absolute right-[6px] top-[10px] size-11 rounded-xl text-slate-600"
           >
             <X className="h-6 w-6" />
           </Button>
