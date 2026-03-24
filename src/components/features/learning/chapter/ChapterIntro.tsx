@@ -49,7 +49,7 @@ export default function ChapterIntro({
             </div>
 
             <div className="border-b-2 border-primary px-[2px] pb-[2px]">
-              <h1 className="text-xl font-bold leading-[30px] text-foreground">
+              <h1 className="text-xl font-bold leading-7 text-foreground">
                 {chapterTitle}
               </h1>
             </div>

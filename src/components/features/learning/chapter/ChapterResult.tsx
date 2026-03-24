@@ -179,7 +179,7 @@ export default function ChapterResult({
             <p className="whitespace-pre-line text-xl font-bold leading-8 tracking-[-0.02em] text-foreground">
               {cfg.title}
             </p>
-            <p className="whitespace-pre-line text-sm leading-[22px] text-slate-600">
+            <p className="whitespace-pre-line text-sm leading-5 text-slate-600">
               {cfg.description}
             </p>
           </motion.div>
@@ -225,7 +225,7 @@ export default function ChapterResult({
                 지켜낸 바이트
               </p>
               <p
-                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${EARNED_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-7 ${EARNED_TEXT_CLASS_NAME}`}
               >
                 +{formatBytes(earnedBytes)}
               </p>
@@ -236,7 +236,7 @@ export default function ChapterResult({
                 잃어버린 바이트
               </p>
               <p
-                className={`mt-1 text-lg font-extrabold leading-[25.5px] ${LOST_TEXT_CLASS_NAME}`}
+                className={`mt-1 text-lg font-extrabold leading-7 ${LOST_TEXT_CLASS_NAME}`}
               >
                 -{formatBytes(lostBytes)}
               </p>

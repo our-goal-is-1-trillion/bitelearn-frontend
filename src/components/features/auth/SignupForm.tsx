@@ -61,7 +61,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                 <FormItem className="space-y-2">
                   <p
                     className={cn(
-                      'text-sm font-medium leading-[14px]',
+                      'text-sm font-medium leading-6',
                       fieldState.error ? 'text-destructive' : 'text-foreground'
                     )}
                   >
@@ -94,7 +94,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                 <FormItem className="space-y-2">
                   <p
                     className={cn(
-                      'text-sm font-medium leading-[14px]',
+                      'text-sm font-medium leading-6',
                       fieldState.error ? 'text-destructive' : 'text-foreground'
                     )}
                   >
@@ -127,7 +127,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                 <FormItem className="space-y-2">
                   <p
                     className={cn(
-                      'text-sm font-medium leading-[14px]',
+                      'text-sm font-medium leading-6',
                       fieldState.error ? 'text-destructive' : 'text-foreground'
                     )}
                   >
@@ -160,7 +160,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                 <FormItem className="space-y-2">
                   <p
                     className={cn(
-                      'text-sm font-medium leading-[14px]',
+                      'text-sm font-medium leading-6',
                       fieldState.error ? 'text-destructive' : 'text-foreground'
                     )}
                   >
@@ -181,7 +181,7 @@ export default function SignupForm({ onSubmit }: SignupFormProps) {
                   </FormControl>
                   <FormMessage className="text-xs text-destructive" />
                   {!fieldState.error && (
-                    <p className="text-placeholder text-sm leading-normal">
+                    <p className="text-placeholder text-sm leading-6">
                       특수문자 제외 2~10자리 이내
                     </p>
                   )}

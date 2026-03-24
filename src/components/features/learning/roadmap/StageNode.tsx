@@ -115,7 +115,7 @@ export default function StageNode({
         )}
       >
         <p
-          className={cn('text-sm font-semibold leading-tight text-foreground')}
+          className={cn('text-sm font-semibold leading-4 text-foreground')}
         >
           {chapter.title}
         </p>
