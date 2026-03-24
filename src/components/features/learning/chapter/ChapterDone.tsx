@@ -50,7 +50,7 @@ export default function ChapterDone({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="flex w-full max-w-[335px] flex-col items-center"
+          className="flex w-full flex-col items-center"
         >
           <div className="mb-5 flex h-[148px] w-[148px] items-center justify-center rounded-full bg-gradient-to-b from-[#fff7ed] to-[#ffedd5]">
             <motion.img
@@ -73,7 +73,7 @@ export default function ChapterDone({
               </div>
             </div>
 
-            <p className="max-w-[320px] whitespace-pre-line text-sm leading-5 text-foreground">
+            <p className="whitespace-pre-line text-sm leading-5 text-foreground">
               {closingMessage}
             </p>
           </div>
