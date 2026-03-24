@@ -2,6 +2,7 @@ import { Check } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { SERVICE_READY_MESSAGE } from '@/constants/service';
 import { mockArticles } from '@/mock/article';
 import { formatDate } from '@/utils/formatDate';
 import Footer from '@/components/common/Footer';
@@ -37,6 +38,10 @@ export default function ArticleDetailPage() {
       console.error('북마크 처리 실패:', error);
       toast.error('북마크 처리에 실패했어요');
     }
+  };
+
+  const handleOpenJeonseSafetyCheck = () => {
+    toast.info(SERVICE_READY_MESSAGE);
   };
 
   return (
@@ -157,11 +162,10 @@ export default function ArticleDetailPage() {
       </section>
 
       <Footer
-        onClick={() => {}}
-        disabled
+        onClick={handleOpenJeonseSafetyCheck}
         containerClassName="border-t border-slate-100 bg-white/95 pb-4 backdrop-blur-md"
       >
-        서비스 준비 중이에요
+        <span className="pr-6">내 전세집 안전도 1문만에 진단하기</span>
       </Footer>
     </main>
   );
