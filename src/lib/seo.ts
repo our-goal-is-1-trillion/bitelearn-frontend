@@ -63,6 +63,10 @@ function getNoIndexMeta(
 export function resolveSeoMeta(pathname: string): ResolvedSeoMeta {
   const defaultMeta = getDefaultMeta(pathname);
 
+  if (pathname === '/') {
+    return defaultMeta;
+  }
+
   if (pathname === '/learning') {
     return {
       ...defaultMeta,
@@ -86,14 +90,12 @@ export function resolveSeoMeta(pathname: string): ResolvedSeoMeta {
     return {
       ...defaultMeta,
       title: buildTitle(
-        topic && category
-          ? `${category.name} ${topic.name} 로드맵`
-          : '학습 로드맵'
+        topic && category ? `${topic.name} 로드맵` : '학습 로드맵'
       ),
       description: trimDescription(
         topic && category
-          ? `${category.name} 카테고리의 ${topic.name} 학습 로드맵을 따라 bitelearn 챕터 학습을 차근차근 시작해보세요.`
-          : 'bitelearn 학습 로드맵에서 단계별 챕터를 확인하고 필요한 생활 지식을 순서대로 익혀보세요.'
+          ? `${topic.name} 주제를 로드맵을 따라 학습해보세요.`
+          : 'bitelearn 로드맵을 따라 학습해보세요.'
       ),
     };
   }
@@ -189,14 +191,19 @@ export function resolveSeoMeta(pathname: string): ResolvedSeoMeta {
     );
   }
 
-  if (
-    pathname === '/notes' ||
-    matchPath('/notes/incorrect/:noteId', pathname)
-  ) {
+  if (pathname === '/notes') {
+    return getNoIndexMeta(
+      pathname,
+      '노트',
+      '개인 학습 기록과 북마크를 관리하는 페이지입니다.'
+    );
+  }
+
+  if (matchPath('/notes/incorrect/:noteId', pathname)) {
     return getNoIndexMeta(
       pathname,
       '오답노트',
-      '개인 학습 기록과 북마크를 관리하는 페이지입니다.'
+      '개인 학습 기록을 확인하는 페이지입니다.'
     );
   }
 
