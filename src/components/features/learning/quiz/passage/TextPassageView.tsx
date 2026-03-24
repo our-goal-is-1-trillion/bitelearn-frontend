@@ -33,7 +33,7 @@ export default function TextPassageView({
         ref={scrollRef}
         className="hide-scrollbar flex-1 overflow-y-auto bg-background px-5 pt-[74px]"
       >
-        <div className="flex min-h-full w-full flex-col justify-center">
+        <div className="flex min-h-full w-full flex-col justify-center py-6">
           <div className="flex flex-col gap-3">
             {passageTitle && (
               <QuizTitle

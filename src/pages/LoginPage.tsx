@@ -13,7 +13,7 @@ import LoginForm, {
 } from '@/components/features/auth/LoginForm';
 import { logError } from '@/lib/logError';
 import type { LoginFormValues } from '@/schemas/loginSchema';
-import { ChevronRight } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Header from '@/components/common/Header';
 
 import logo from '@/assets/brand/logo.svg';
@@ -106,10 +106,14 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-background">
-      <Header showCloseButton onCloseClick={() => navigate(-1)} />
+      <Header
+        showCloseButton
+        onCloseClick={() => navigate(-1)}
+        backgroundVariant="transparent"
+      />
 
       <div className="flex flex-1 flex-col gap-6 bg-background px-5 pb-44 pt-[60px]">
-        <div className="flex flex-col items-center justify-center gap-10 self-stretch px-[69px] pb-16 pt-24">
+        <div className="flex flex-col items-center justify-center gap-10 self-stretch px-[69px] pb-16 pt-9">
           <div className="flex items-center justify-center gap-3">
             <img
               src={symbol}
@@ -156,10 +160,10 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => navigate('/signup/terms')}
-              className="relative inline-flex h-11 w-full items-center justify-center rounded-xl bg-secondary px-4 py-2.5 text-base font-medium text-white transition-colors"
+              className="relative inline-flex h-11 w-full items-center justify-center rounded-xl bg-slate-400 px-4 py-2.5 text-base font-medium text-foreground transition-colors"
             >
               <span className="inline-flex items-center gap-2">
-                <ChevronRight className="h-5 w-5" strokeWidth={2.2} />
+                <Mail className="h-5 w-5" strokeWidth={2.2} />
                 <span>이메일로 가입하기</span>
               </span>
             </button>

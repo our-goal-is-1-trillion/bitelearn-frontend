@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import byteIcon from '@/assets/icons/byte.svg';
 import chapterResultCloseImage from '@/assets/character/chapter_result_close.png';
 import chapterResultFailImage from '@/assets/character/chapter_result_fail.png';
 import chapterResultPerfectImage from '@/assets/character/chapter_result_perfect.png';
 import Header from '@/components/common/Header';
 import LevelBadge from '@/components/features/level/LevelBadge';
+import useIndicatorShadow from '@/hooks/useIndicatorShadow';
 import {
   formatBytes,
   getLevelByteProgress,
@@ -63,7 +65,7 @@ const VARIANT_CONFIG = {
   },
 } as const;
 
-// 코인 애니메이션 컴포넌트
+// 퍼펙트 결과에서 떨어지는 바이트 애니메이션
 function CelebrationParticles() {
   const coins = [
     { left: '10%', delay: 0, rotate: 15 },
@@ -79,7 +81,7 @@ function CelebrationParticles() {
       {coins.map((coin, index) => (
         <motion.div
           key={`coin-${index}`}
-          className="absolute text-[30px] leading-none"
+          className="absolute"
           initial={{ y: -40, opacity: 0 }}
           animate={{
             y: 820,
@@ -95,7 +97,12 @@ function CelebrationParticles() {
             left: coin.left,
           }}
         >
-          <span>🪙</span>
+          <img
+            src={byteIcon}
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8 object-contain"
+          />
         </motion.div>
       ))}
     </div>
@@ -119,6 +126,8 @@ export default function ChapterResult({
   void chapterTitle;
 
   const [isProgressVisible, setIsProgressVisible] = useState(false);
+  const { scrollRef, showIndicatorShadow } =
+    useIndicatorShadow<HTMLDivElement>();
 
   // 결과 분기 기준
   const variant: ResultVariant = useMemo(() => {
@@ -132,6 +141,7 @@ export default function ChapterResult({
   const contentBottomPaddingClass = cfg.secondaryButtonLabel
     ? 'pb-[206px]'
     : 'pb-[144px]';
+  const primaryButtonHeightClass = cfg.secondaryButtonLabel ? 'h-11' : 'h-14';
 
   const levelState = useMemo(
     () =>
@@ -151,12 +161,17 @@ export default function ChapterResult({
     <main className="relative flex h-full min-h-0 flex-col overflow-hidden bg-background text-foreground">
       {cfg.showCelebration && <CelebrationParticles />}
 
-      <Header showCloseButton onCloseClick={onBack} className="bg-background" />
+      <Header
+        showCloseButton
+        onCloseClick={onBack}
+        backgroundVariant="transparent"
+      />
 
       <div
+        ref={scrollRef}
         className={`hide-scrollbar flex-1 overflow-y-auto px-5 pt-[60px] ${contentBottomPaddingClass}`}
       >
-        <section className="mx-auto flex w-full max-w-[335px] flex-col items-center pt-5 text-center">
+        <section className="mx-auto flex w-full flex-col items-center pt-5 text-center">
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -189,7 +204,7 @@ export default function ChapterResult({
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18 }}
-          className="mx-auto mt-7 w-full max-w-[335px] rounded-2xl border-2 border-slate-100 bg-card p-4 shadow-[0_12px_16px_rgba(237,238,246,0.95)]"
+          className="mx-auto mt-7 w-full rounded-2xl border-2 border-slate-100 bg-card p-4 shadow-[0_12px_16px_rgba(237,238,246,0.95)]"
         >
           <div className="flex items-center gap-3">
             <LevelBadge currentLevel={levelState.currentLevel} />
@@ -245,10 +260,14 @@ export default function ChapterResult({
         </motion.section>
       </div>
 
-      <footer className="absolute inset-x-0 bottom-0 z-20 bg-card px-5 pb-8 pt-4 backdrop-blur-sm">
-        <div className="mx-auto flex w-full max-w-[335px] flex-col gap-[10px]">
+      <footer
+        className={`absolute inset-x-0 bottom-0 z-20 bg-card px-5 pb-8 pt-4 backdrop-blur-sm ${
+          showIndicatorShadow ? 'shadow-[0_-6px_12px_0_#EDEEF6]' : ''
+        }`}
+      >
+        <div className="mx-auto flex w-full flex-col gap-2.5">
           <Button
-            className="relative h-[52px] w-full rounded-xl bg-primary px-4 text-base font-bold text-foreground shadow-none"
+            className={`relative w-full rounded-xl bg-primary px-4 text-base font-bold text-foreground shadow-none ${primaryButtonHeightClass}`}
             onClick={onFinish}
           >
             <span>{cfg.primaryButtonLabel}</span>
@@ -258,7 +277,7 @@ export default function ChapterResult({
           {cfg.secondaryButtonLabel ? (
             <Button
               variant="secondary"
-              className="relative h-[52px] w-full rounded-xl bg-slate-100 px-4 text-base font-bold text-slate-600 shadow-none"
+              className="relative h-11 w-full rounded-xl bg-slate-100 px-4 text-base font-bold text-slate-600 shadow-none"
               onClick={onRetryWrongAnswers}
             >
               <span>{cfg.secondaryButtonLabel}</span>

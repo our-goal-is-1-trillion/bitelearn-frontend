@@ -3,6 +3,18 @@ import { ArrowLeft, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+type HeaderBackgroundVariant =
+  | 'default'
+  | 'popover'
+  | 'transparent';
+
+const HEADER_BACKGROUND_VARIANTS: Record<HeaderBackgroundVariant, string> = {
+  default:
+    'bg-[rgba(255,255,255,0.80)] backdrop-blur-[6px] supports-[backdrop-filter]:bg-[rgba(255,255,255,0.80)]',
+  popover: 'bg-popover',
+  transparent: 'bg-transparent',
+};
+
 type HeaderProps = {
   title?: string;
   subtitle?: string;
@@ -10,6 +22,7 @@ type HeaderProps = {
   showCloseButton?: boolean;
   onBackClick?: () => void;
   onCloseClick?: () => void;
+  backgroundVariant?: HeaderBackgroundVariant;
   className?: string;
 };
 
@@ -20,15 +33,18 @@ export default function Header({
   showCloseButton = false,
   onBackClick,
   onCloseClick,
+  backgroundVariant,
   className,
 }: HeaderProps) {
   const hasSubtitle = Boolean(subtitle);
+  const resolvedBackgroundVariant = backgroundVariant ?? 'default';
 
   return (
     <header
       className={cn(
         'fixed left-1/2 top-0 z-40 w-full max-w-screen-sm -translate-x-1/2',
-        hasSubtitle ? 'min-h-[74px] bg-popover' : 'h-[60px] bg-background',
+        hasSubtitle ? 'min-h-[74px]' : 'h-[60px]',
+        HEADER_BACKGROUND_VARIANTS[resolvedBackgroundVariant],
         className
       )}
     >
@@ -62,7 +78,7 @@ export default function Header({
             size="icon"
             aria-label="이전"
             onClick={onBackClick}
-            className="absolute left-[6px] top-[10px] size-11 rounded-xl"
+            className="absolute left-[6px] top-[10px] size-11 rounded-xl text-slate-600"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -75,7 +91,7 @@ export default function Header({
             size="icon"
             aria-label="닫기"
             onClick={onCloseClick}
-            className="absolute right-[6px] top-[10px] size-11 rounded-xl"
+            className="absolute right-[6px] top-[10px] size-11 rounded-xl text-slate-600"
           >
             <X className="h-6 w-6" />
           </Button>

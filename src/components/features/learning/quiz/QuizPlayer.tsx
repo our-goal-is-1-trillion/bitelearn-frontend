@@ -199,12 +199,13 @@ export default function QuizPlayer({
   }
 
   return (
-    <main className="flex h-full min-h-0 flex-col bg-white text-foreground">
+    <main className="flex h-full min-h-0 flex-col bg-background text-foreground">
       <Header
         title={chapterTitle}
         subtitle="학습 퀴즈"
         showCloseButton
         onCloseClick={shouldConfirmExit ? handleRequestClose : onBack}
+        backgroundVariant="popover"
       />
 
       {shouldConfirmExit ? (
