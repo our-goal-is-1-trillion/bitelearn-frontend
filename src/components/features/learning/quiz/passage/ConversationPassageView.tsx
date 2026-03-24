@@ -224,7 +224,7 @@ export default function ConversationPassageView({
         className="hide-scrollbar flex-1 overflow-y-auto bg-background px-5 pt-[74px]"
         data-mode="conversation"
       >
-        <div className="pt-6">
+        <div className="py-6">
           <div className="flex flex-col gap-4">
             <QuizTitle
               questionNumber={question.sequence}
