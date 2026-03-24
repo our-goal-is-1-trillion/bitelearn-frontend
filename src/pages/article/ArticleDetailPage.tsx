@@ -9,6 +9,7 @@ import Footer from '@/components/common/Footer';
 import { renderContentBlock } from '@/components/features/article/renderContentBlock';
 import ArticleDetailHeader from '@/components/features/article/ArticleDetailHeader';
 import useBookmarkedArticles from '@/hooks/useBookmarkedArticles';
+import { logError } from '@/lib/logError';
 
 export default function ArticleDetailPage() {
   const { articleId } = useParams();
@@ -35,7 +36,7 @@ export default function ArticleDetailPage() {
         nextIsBookmarked ? '북마크에 저장했어요' : '북마크에서 제거했어요'
       );
     } catch (error) {
-      console.error('북마크 처리 실패:', error);
+      logError('ArticleDetailPage', '북마크 처리 실패', error);
       toast.error('북마크 처리에 실패했어요');
     }
   };

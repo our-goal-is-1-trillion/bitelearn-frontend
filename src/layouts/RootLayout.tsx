@@ -34,7 +34,7 @@ export default function RootLayout() {
     <div className="h-dvh bg-white">
       <SeoHead />
 
-      <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col bg-white">
+      <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col">
         <Outlet />
 
         <OnboardingModal
