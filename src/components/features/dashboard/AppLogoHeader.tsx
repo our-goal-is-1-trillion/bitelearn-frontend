@@ -11,7 +11,9 @@ export default function AppLogoHeader() {
     <header
       className={cn(
         'fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-screen-sm -translate-x-1/2 items-center pl-5',
-        isNotesPage ? 'bg-white' : 'bg-white/80 backdrop-blur-[6px]'
+        isNotesPage
+          ? 'bg-white'
+          : 'bg-[rgba(255,255,255,0.80)] backdrop-blur-[6px] supports-[backdrop-filter]:bg-[rgba(255,255,255,0.80)]'
       )}
     >
       <img src={logo} alt="bitelearn" className="h-6 w-[111px]" />
