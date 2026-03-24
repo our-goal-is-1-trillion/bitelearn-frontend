@@ -9,6 +9,7 @@ import { getLearningChapter } from '@/api/learning/learning.api';
 import { learningQueryKeys } from '@/api/learning/learning.query';
 import type { Note } from '@/api/notes/notes.types';
 
+import AppLoading from '@/components/common/AppLoading';
 import IncorrectCard from '@/components/features/note/IncorrectCard';
 import { SERVICE_READY_MESSAGE } from '@/constants/service';
 
@@ -86,11 +87,10 @@ export default function IncorrectNoteList({
 
   if (isLoading) {
     return (
-      <div className="border-slate-100 py-20 text-center">
-        <p className="text-sm font-semibold text-slate-400">
-          오답노트를 불러오는 중이에요
-        </p>
-      </div>
+      <AppLoading
+        message="오답노트를 불러오는 중이에요."
+        variant="section"
+      />
     );
   }
 
@@ -126,9 +126,11 @@ export default function IncorrectNoteList({
 
       <div className="pt-2 text-center">
         {isLoadingMore && (
-          <p className="text-sm font-medium text-slate-300">
-            오답노트를 더 불러오는 중이에요
-          </p>
+          <AppLoading
+            message="오답노트를 더 불러오는 중이에요."
+            variant="inline"
+            className="py-2"
+          />
         )}
 
         {!hasNext && notes.length > 0 && hasScrolled && (

@@ -105,7 +105,8 @@ export default function LearningRoadmapPage() {
         >
           {isLoading && (
             <AppLoading
-              message="챕터 목록을 불러오는 중입니다."
+              message="챕터 목록을 불러오는 중이에요."
+              variant="section"
               className="min-h-full"
             />
           )}
