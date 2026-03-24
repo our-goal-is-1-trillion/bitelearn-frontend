@@ -148,6 +148,7 @@ export default function LearningRoadmapPage() {
                   anchorY={0 * STEP_Y + HALF_BTN - 5}
                   side="right"
                   sideOffset={-24}
+                  animationDelay={0.2}
                 />
               )}
               {count > 0 && (
@@ -164,6 +165,7 @@ export default function LearningRoadmapPage() {
                   anchorY={1 * STEP_Y + HALF_BTN + 49}
                   side="left"
                   sideOffset={-40}
+                  animationDelay={1.1}
                 />
               )}
               {count > 2 && (
@@ -172,6 +174,7 @@ export default function LearningRoadmapPage() {
                   anchorY={2 * STEP_Y + HALF_BTN + 37}
                   side="left"
                   sideOffset={-29}
+                  animationDelay={2.3}
                 />
               )}
               {count > 3 && (
@@ -180,6 +183,7 @@ export default function LearningRoadmapPage() {
                   anchorY={3 * STEP_Y + HALF_BTN + 72}
                   side="right"
                   sideOffset={-59}
+                  animationDelay={3.7}
                 />
               )}
             </>

@@ -183,10 +183,12 @@ function AnimatedDecorationLayers({
   shadow,
   char,
   preset,
+  animationDelay = 0,
 }: {
   shadow: ShadowConfig;
   char: CharConfig;
   preset: AnimPreset;
+  animationDelay?: number;
 }) {
   const {
     keyframes,
@@ -206,13 +208,14 @@ function AnimatedDecorationLayers({
 
   useEffect(() => {
     const controls = animate(rotateVal, keyframes, {
+      delay: animationDelay,
       duration,
       ease: 'easeInOut',
       repeat: Infinity,
       repeatDelay,
     });
     return controls.stop;
-  }, [rotateVal, keyframes, duration, repeatDelay]);
+  }, [rotateVal, keyframes, duration, repeatDelay, animationDelay]);
 
   const shadowStyle = {
     width: shadow.size,
@@ -307,6 +310,8 @@ type Props = {
   side: 'left' | 'right';
   /** side 기준 픽셀 오프셋 (양수=안쪽, 음수=바깥쪽) */
   sideOffset?: number;
+  /** 애니메이션 최초 시작 지연 (s) */
+  animationDelay?: number;
 };
 
 export default function RoadmapDecoration({
@@ -314,6 +319,7 @@ export default function RoadmapDecoration({
   anchorY,
   side,
   sideOffset = -20,
+  animationDelay = 0,
 }: Props) {
   const cfg = DECORATION_CONFIGS[type];
   if (!cfg) return null;
@@ -335,7 +341,12 @@ export default function RoadmapDecoration({
   return (
     <div className="pointer-events-none absolute" style={containerStyle}>
       {preset ? (
-        <AnimatedDecorationLayers shadow={shadow} char={char} preset={preset} />
+        <AnimatedDecorationLayers
+          shadow={shadow}
+          char={char}
+          preset={preset}
+          animationDelay={animationDelay}
+        />
       ) : (
         <StaticDecorationLayers shadow={shadow} char={char} />
       )}
