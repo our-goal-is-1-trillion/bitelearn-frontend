@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { logout } from '@/api/auth/auth.api';
 import { clearAuthSession, markLogoutRedirect } from '@/api/auth/authSession';
 import MyBadgeSummaryCard from '@/components/features/mypage/MyBadgeSummaryCard';
 import MyPageOverviewSection from '@/components/features/mypage/MyPageOverviewSection';
+import { SERVICE_READY_MESSAGE } from '@/constants/service';
 import { useMeQuery } from '@/api/auth/auth.query';
 import {
   PRIVACY_TERMS_URL,
@@ -14,6 +16,10 @@ import { formatDisplayName } from '@/utils/formatUser';
 export default function MyPage() {
   const navigate = useNavigate();
   const { data: user } = useMeQuery();
+
+  const showServiceReadyToast = () => {
+    toast.info(SERVICE_READY_MESSAGE);
+  };
 
   const openExternalLink = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
@@ -53,6 +59,9 @@ export default function MyPage() {
               providerType={user?.providerType}
               version="1.1.1"
               onNicknameClick={() => navigate('/mypage/nickname')}
+              onPasswordClick={showServiceReadyToast}
+              onFaqClick={showServiceReadyToast}
+              onNoticeClick={showServiceReadyToast}
               onTermsClick={() => openExternalLink(SERVICE_TERMS_URL)}
               onPrivacyClick={() => openExternalLink(PRIVACY_TERMS_URL)}
               onLogoutClick={handleLogout}

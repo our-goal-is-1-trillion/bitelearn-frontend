@@ -3,12 +3,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import { CheckCircle2 } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Category } from '@/api/learning/learning.types';
 import { getLearningChapter } from '@/api/learning/learning.api';
 import { learningQueryKeys } from '@/api/learning/learning.query';
 import type { Note } from '@/api/notes/notes.types';
 
 import IncorrectCard from '@/components/features/note/IncorrectCard';
+import { SERVICE_READY_MESSAGE } from '@/constants/service';
 
 type NoteCategory = {
   category: Category;
@@ -57,6 +59,10 @@ export default function IncorrectNoteList({
       ) as Record<number, string | undefined>,
     [chapterIds, chapterTitleQueries]
   );
+
+  const showServiceReadyToast = () => {
+    toast.info(SERVICE_READY_MESSAGE);
+  };
 
   // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트 구독
   // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구 표시
@@ -114,6 +120,7 @@ export default function IncorrectNoteList({
           topic={note.topic}
           questionTitle={note.questionTitle}
           onSelect={() => navigate(`/notes/incorrect/${note.noteId}`)}
+          onRetry={showServiceReadyToast}
         />
       ))}
 

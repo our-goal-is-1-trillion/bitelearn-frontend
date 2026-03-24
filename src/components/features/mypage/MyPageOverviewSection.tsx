@@ -84,6 +84,7 @@ export default function MyPageOverviewSection({
   version,
   onLogoutClick,
   onNicknameClick,
+  onPasswordClick,
   onFaqClick,
   onNoticeClick,
   onTermsClick,
@@ -106,6 +107,7 @@ export default function MyPageOverviewSection({
         {
           label: '비밀번호 변경',
           actionIcon: 'chevron',
+          onClick: onPasswordClick,
         },
       ],
     },
