@@ -120,7 +120,7 @@ export default function NicknamePage() {
                 <FormItem className="space-y-2">
                   <p
                     className={cn(
-                      'text-sm font-medium leading-[14px]',
+                      'text-sm font-medium leading-6',
                       fieldState.error ? 'text-destructive' : 'text-foreground'
                     )}
                   >
@@ -143,7 +143,7 @@ export default function NicknamePage() {
 
                   <FormMessage className="text-xs text-destructive" />
                   {!fieldState.error && (
-                    <FormDescription className="text-sm leading-normal text-slate-600">
+                    <FormDescription className="text-sm leading-6 text-slate-600">
                       특수문자 제외 2~10자리 이내
                     </FormDescription>
                   )}

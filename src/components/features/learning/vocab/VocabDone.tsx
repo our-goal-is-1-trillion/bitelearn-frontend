@@ -38,7 +38,7 @@ export default function VocabDone({
 
         <div className="flex flex-col items-center gap-4">
           <div className="border-b-2 border-primary px-0.5">
-            <h1 className="text-2xl font-bold leading-[30.25px] text-foreground">
+            <h1 className="text-2xl font-bold leading-9 text-foreground">
               단어 학습을 끝마쳤어요!
             </h1>
           </div>

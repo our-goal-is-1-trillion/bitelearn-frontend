@@ -32,7 +32,7 @@ export default function TextPassageCard({
       </div>
 
       <div className="px-5 pb-5 pt-8">
-        <p className="whitespace-pre-line text-sm font-medium leading-[24px] text-foreground">
+        <p className="whitespace-pre-line text-sm font-medium leading-6 text-foreground">
           {content}
         </p>
       </div>

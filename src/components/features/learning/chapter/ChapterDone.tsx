@@ -62,7 +62,7 @@ export default function ChapterDone({
           <div className="flex flex-col items-center gap-5">
             <div className="border-b-2 border-primary px-0.5">
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold leading-[30px] text-foreground">
+                <h1 className="text-2xl font-bold leading-9 text-foreground">
                   이번 학습 완료
                 </h1>
                 <Check className="size-6 text-primary" strokeWidth={2.2} />

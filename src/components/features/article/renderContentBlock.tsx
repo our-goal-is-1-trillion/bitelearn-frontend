@@ -6,7 +6,7 @@ export function renderContentBlock(block: ContentBlock, index: number) {
       return (
         <p
           key={index}
-          className="word-break-keep mb-6 whitespace-pre-wrap text-sm leading-[1.7] tracking-[-0.01em] text-foreground"
+          className="word-break-keep mb-6 whitespace-pre-wrap text-sm leading-6 tracking-[-0.01em] text-foreground"
         >
           {block.content}
         </p>
@@ -17,7 +17,7 @@ export function renderContentBlock(block: ContentBlock, index: number) {
         return (
           <h3
             key={index}
-            className="word-break-keep mb-4 mt-10 text-xl font-bold leading-tight tracking-[-0.02em] text-foreground"
+            className="word-break-keep mb-4 mt-10 text-xl font-bold leading-7 tracking-[-0.02em] text-foreground"
           >
             {block.content}
           </h3>
@@ -27,7 +27,7 @@ export function renderContentBlock(block: ContentBlock, index: number) {
       return (
         <h2
           key={index}
-          className="word-break-keep mb-5 mt-12 text-xl font-bold leading-tight tracking-[-0.02em] text-foreground"
+          className="word-break-keep mb-5 mt-12 text-xl font-bold leading-7 tracking-[-0.02em] text-foreground"
         >
           {block.content}
         </h2>
@@ -61,7 +61,7 @@ export function renderContentBlock(block: ContentBlock, index: number) {
             return (
               <li
                 key={itemIndex}
-                className="word-break-keep flex items-start text-sm leading-[1.6] tracking-[-0.01em] text-foreground"
+                className="word-break-keep flex items-start text-sm leading-6 tracking-[-0.01em] text-foreground"
               >
                 <span className="flex-1">
                   {parts.map((part, partIndex) => (

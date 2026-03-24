@@ -50,7 +50,7 @@ export default function ArticleListPage() {
         </div>
 
         <div className="mt-20 px-10 pb-10 text-center">
-          <p className="text-xs font-bold leading-relaxed text-slate-300">
+          <p className="text-xs font-bold leading-4 text-slate-300">
             새로운 지식이 매주 업데이트되고 있어요
           </p>
         </div>
