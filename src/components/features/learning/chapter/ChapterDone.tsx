@@ -39,7 +39,11 @@ export default function ChapterDone({
 
   return (
     <main className="flex h-full min-h-0 flex-col bg-background text-foreground">
-      <Header showCloseButton onCloseClick={onClose} />
+      <Header
+        showCloseButton
+        onCloseClick={onClose}
+        backgroundVariant="transparent"
+      />
 
       <div className="flex flex-1 flex-col items-center justify-center px-5 pb-36 pt-[60px] text-center">
         <motion.div

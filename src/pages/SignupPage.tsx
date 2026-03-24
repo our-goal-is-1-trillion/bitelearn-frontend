@@ -79,6 +79,7 @@ export default function SignupPage() {
         showBackButton
         title="회원가입"
         onBackClick={() => navigate(-1)}
+        backgroundVariant="transparent"
       />
       <SignupForm onSubmit={handleSignupSubmit} />
     </div>

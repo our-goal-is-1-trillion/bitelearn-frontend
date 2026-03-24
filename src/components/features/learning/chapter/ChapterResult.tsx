@@ -151,7 +151,11 @@ export default function ChapterResult({
     <main className="relative flex h-full min-h-0 flex-col overflow-hidden bg-background text-foreground">
       {cfg.showCelebration && <CelebrationParticles />}
 
-      <Header showCloseButton onCloseClick={onBack} className="bg-background" />
+      <Header
+        showCloseButton
+        onCloseClick={onBack}
+        backgroundVariant="transparent"
+      />
 
       <div
         className={`hide-scrollbar flex-1 overflow-y-auto px-5 pt-[60px] ${contentBottomPaddingClass}`}

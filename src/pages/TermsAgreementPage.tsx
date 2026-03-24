@@ -20,6 +20,7 @@ export default function TermsAgreementPage() {
         showBackButton
         title="약관동의"
         onBackClick={() => navigate(-1)}
+        backgroundVariant="transparent"
       />
 
       <TermsAgreementForm

@@ -35,7 +35,12 @@ export default function ArticleDetailHeader({
   const canUseWebShare = typeof navigator !== 'undefined' && !!navigator.share;
 
   return (
-    <header className="fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-screen-sm -translate-x-1/2 items-center justify-between bg-white px-1.5">
+    <header
+      className={cn(
+        'fixed left-1/2 top-0 z-40 flex h-[60px] w-full max-w-screen-sm -translate-x-1/2 items-center justify-between px-1.5',
+        'bg-[rgba(255,255,255,0.80)] backdrop-blur-[6px] supports-[backdrop-filter]:bg-[rgba(255,255,255,0.80)]'
+      )}
+    >
       <Button
         type="button"
         variant="ghost"

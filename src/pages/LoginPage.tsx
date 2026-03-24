@@ -106,7 +106,11 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-background">
-      <Header showCloseButton onCloseClick={() => navigate(-1)} />
+      <Header
+        showCloseButton
+        onCloseClick={() => navigate(-1)}
+        backgroundVariant="transparent"
+      />
 
       <div className="flex flex-1 flex-col gap-6 bg-background px-5 pb-44 pt-[60px]">
         <div className="flex flex-col items-center justify-center gap-10 self-stretch px-[69px] pb-16 pt-24">

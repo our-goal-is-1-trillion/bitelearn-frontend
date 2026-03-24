@@ -48,9 +48,9 @@ export default function LearningPage() {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-background pt-[60px] text-foreground">
-      <section className="hide-scrollbar flex-1 overflow-y-auto px-5 pb-32 pt-5">
-        <div className="pb-7">
+    <div className="flex h-full flex-col overflow-hidden bg-background text-foreground">
+      <section className="hide-scrollbar flex-1 overflow-y-auto px-5 pb-32 pt-[60px]">
+        <div className="pb-7 pt-5">
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">
             학습 카테고리
           </h1>
