@@ -135,6 +135,7 @@ export default function ChapterResult({
   const contentBottomPaddingClass = cfg.secondaryButtonLabel
     ? 'pb-[206px]'
     : 'pb-[144px]';
+  const primaryButtonHeightClass = cfg.secondaryButtonLabel ? 'h-11' : 'h-14';
 
   const levelState = useMemo(
     () =>
@@ -164,7 +165,7 @@ export default function ChapterResult({
         ref={scrollRef}
         className={`hide-scrollbar flex-1 overflow-y-auto px-5 pt-[60px] ${contentBottomPaddingClass}`}
       >
-        <section className="mx-auto flex w-full max-w-[335px] flex-col items-center pt-5 text-center">
+        <section className="mx-auto flex w-full flex-col items-center pt-5 text-center">
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -197,7 +198,7 @@ export default function ChapterResult({
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18 }}
-          className="mx-auto mt-7 w-full max-w-[335px] rounded-2xl border-2 border-slate-100 bg-card p-4 shadow-[0_12px_16px_rgba(237,238,246,0.95)]"
+          className="mx-auto mt-7 w-full rounded-2xl border-2 border-slate-100 bg-card p-4 shadow-[0_12px_16px_rgba(237,238,246,0.95)]"
         >
           <div className="flex items-center gap-3">
             <LevelBadge currentLevel={levelState.currentLevel} />
@@ -258,9 +259,9 @@ export default function ChapterResult({
           showIndicatorShadow ? 'shadow-[0_-6px_12px_0_#EDEEF6]' : ''
         }`}
       >
-        <div className="mx-auto flex w-full max-w-[335px] flex-col gap-[10px]">
+        <div className="mx-auto flex w-full flex-col gap-2.5">
           <Button
-            className="relative h-[52px] w-full rounded-xl bg-primary px-4 text-base font-bold text-foreground shadow-none"
+            className={`relative w-full rounded-xl bg-primary px-4 text-base font-bold text-foreground shadow-none ${primaryButtonHeightClass}`}
             onClick={onFinish}
           >
             <span>{cfg.primaryButtonLabel}</span>
@@ -270,7 +271,7 @@ export default function ChapterResult({
           {cfg.secondaryButtonLabel ? (
             <Button
               variant="secondary"
-              className="relative h-[52px] w-full rounded-xl bg-slate-100 px-4 text-base font-bold text-slate-600 shadow-none"
+              className="relative h-11 w-full rounded-xl bg-slate-100 px-4 text-base font-bold text-slate-600 shadow-none"
               onClick={onRetryWrongAnswers}
             >
               <span>{cfg.secondaryButtonLabel}</span>

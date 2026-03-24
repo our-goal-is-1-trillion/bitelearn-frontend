@@ -40,11 +40,3 @@ export const AllButtonsDisabled: Story = {
     disabled: true,
   },
 };
-
-export const SecondaryAction: Story = {
-  args: {
-    children: '지금 시작하기',
-    buttonVariant: 'secondary',
-    containerClassName: 'border-t border-slate-100 bg-white/95 pb-4 backdrop-blur-md',
-  },
-};

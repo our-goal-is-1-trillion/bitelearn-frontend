@@ -12,7 +12,6 @@ type FooterProps = {
   onPrevious?: () => void;
   showTrailingIcon?: boolean;
   containerClassName?: string;
-  buttonVariant?: 'primary' | 'secondary';
 };
 
 export default function Footer({
@@ -23,7 +22,6 @@ export default function Footer({
   onPrevious,
   showTrailingIcon = true,
   containerClassName,
-  buttonVariant = 'primary',
 }: FooterProps) {
   const hasPrevious = Boolean(onPrevious);
 
@@ -53,19 +51,14 @@ export default function Footer({
         disabled={disabled}
         className={cn(
           'relative h-14 rounded-2xl text-base font-semibold shadow-none',
-          buttonVariant === 'primary'
-            ? 'bg-primary text-foreground hover:bg-primary/90'
-            : 'bg-slate-900 text-white hover:bg-slate-800',
+          'bg-primary text-foreground hover:bg-primary-600 active:bg-primary-600',
           hasPrevious ? 'flex-1' : 'w-full'
         )}
         onClick={onClick}
       >
         {children}
         {showTrailingIcon ? (
-          <ChevronRight
-            className="absolute right-4 size-6"
-            strokeWidth={2.2}
-          />
+          <ChevronRight className="absolute right-4 size-6" strokeWidth={2.2} />
         ) : null}
       </Button>
     </footer>
