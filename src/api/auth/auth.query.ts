@@ -3,6 +3,8 @@ import { getMe } from './auth.api';
 import { ensureValidAccessToken } from './authRefresh';
 import type { MeResponse } from './auth.types';
 
+const ME_STALE_TIME_MS = 1000 * 60;
+
 export const authQueryKeys = {
   me: ['auth', 'me'] as const,
 };
@@ -26,6 +28,6 @@ export function useMeQuery() {
     queryKey: authQueryKeys.me,
     queryFn: fetchMe,
     retry: false,
-    staleTime: Infinity,
+    staleTime: ME_STALE_TIME_MS,
   });
 }

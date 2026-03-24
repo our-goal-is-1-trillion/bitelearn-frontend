@@ -10,6 +10,14 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 
+import bulldogCharImage from '@/assets/roadmap/bulldog-char.png';
+import houseCharImage from '@/assets/roadmap/house-char.png';
+import houseShadowImage from '@/assets/roadmap/house-shadow.png';
+import mungmungCharImage from '@/assets/roadmap/mungmung-char.png';
+import mungmungShadowImage from '@/assets/roadmap/mungmung-shadow.png';
+import treeCharImage from '@/assets/roadmap/tree-char.png';
+import treeShadowImage from '@/assets/roadmap/tree-shadow.png';
+
 // ─── 타입 ────────────────────────────────────────────────────────────────────
 
 type ShadowConfig = {
@@ -97,13 +105,13 @@ const DECORATION_CONFIGS: Record<string, DecorationConfig> = {
   house: {
     containerSize: 180,
     shadow: {
-      src: '/assets/roadmap/house-shadow.png',
+      src: houseShadowImage,
       size: 176,
       offsetX: 4,
       offsetY: 0,
     },
     char: {
-      src: '/assets/roadmap/house-char.png',
+      src: houseCharImage,
       size: 128,
       offsetX: 24,
       offsetY: 26,
@@ -113,13 +121,13 @@ const DECORATION_CONFIGS: Record<string, DecorationConfig> = {
   mungmung: {
     containerSize: 180,
     shadow: {
-      src: '/assets/roadmap/mungmung-shadow.png',
+      src: mungmungShadowImage,
       size: 200,
       offsetX: -15,
       offsetY: -9,
     },
     char: {
-      src: '/assets/roadmap/mungmung-char.png',
+      src: mungmungCharImage,
       size: 168,
       offsetX: 12,
       offsetY: -5,
@@ -131,13 +139,13 @@ const DECORATION_CONFIGS: Record<string, DecorationConfig> = {
   bulldog: {
     containerSize: 180,
     shadow: {
-      src: '/assets/roadmap/mungmung-shadow.png',
+      src: mungmungShadowImage,
       size: 200,
       offsetX: -11,
       offsetY: -12,
     },
     char: {
-      src: '/assets/roadmap/bulldog-char.png',
+      src: bulldogCharImage,
       size: 168,
       offsetX: 8,
       offsetY: -10,
@@ -148,13 +156,13 @@ const DECORATION_CONFIGS: Record<string, DecorationConfig> = {
   tree: {
     containerSize: 180,
     shadow: {
-      src: '/assets/roadmap/tree-shadow.png',
+      src: treeShadowImage,
       size: 200,
       offsetX: -21,
       offsetY: -17,
     },
     char: {
-      src: '/assets/roadmap/tree-char.png',
+      src: treeCharImage,
       size: 128,
       offsetX: 23,
       offsetY: -11,

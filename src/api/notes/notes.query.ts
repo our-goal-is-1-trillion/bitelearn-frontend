@@ -3,6 +3,8 @@ import type { Category } from '@/api/learning/learning.types';
 import { getIncorrectNoteDetail, getNotes } from './notes.api';
 import { useIncorrectNotesInfiniteQuery } from './notes.infinite-query';
 
+const INCORRECT_NOTE_DETAIL_STALE_TIME_MS = 1000 * 60 * 30;
+
 export const notesQueryKeys = {
   // 카테고리별 오답노트 데이터를 서로 다른 캐시로 구분
   incorrect: (category: Category | null) =>
@@ -38,6 +40,6 @@ export function useIncorrectNoteDetailQuery(noteId: number) {
     queryKey: notesQueryKeys.incorrectDetail(noteId),
     queryFn: () => getIncorrectNoteDetail(noteId),
     enabled: Number.isFinite(noteId),
-    staleTime: Infinity,
+    staleTime: INCORRECT_NOTE_DETAIL_STALE_TIME_MS,
   });
 }

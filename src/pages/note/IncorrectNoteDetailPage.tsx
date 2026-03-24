@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
+import AppLoading from '@/components/common/AppLoading';
 import Header from '@/components/common/Header';
 import IncorrectNoteQuizViewer from '@/components/features/note/IncorrectNoteQuizViewer';
 import { useIncorrectNoteDetailQuery } from '@/api/notes/notes.query';
@@ -17,11 +18,7 @@ export default function IncorrectNoteDetailPage() {
   }
 
   if (detailQuery.isPending) {
-    return (
-      <main className="flex h-full min-h-0 items-center justify-center bg-white text-foreground">
-        <p className="text-sm text-slate-400">오답노트를 불러오는 중이에요.</p>
-      </main>
-    );
+    return <AppLoading message="오답노트를 불러오는 중이에요." className="bg-white" />;
   }
 
   if (detailQuery.isError || !detailQuery.data) {

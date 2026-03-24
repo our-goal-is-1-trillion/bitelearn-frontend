@@ -10,6 +10,9 @@ import { logError } from '@/lib/logError';
 import { getMockLearningChapters } from '@/mock/learning';
 import { lockLastChapter } from '@/lib/learningNavigation';
 
+const LEARNING_CATEGORIES_STALE_TIME_MS = 1000 * 60 * 30;
+const LEARNING_PROGRESS_STALE_TIME_MS = 1000 * 60 * 5;
+
 export const learningQueryKeys = {
   categories: ['learning', 'categories'] as const,
   chapters: (params: ChapterListRequest) =>
@@ -24,7 +27,7 @@ export function useLearningCategoriesQuery() {
   return useQuery({
     queryKey: learningQueryKeys.categories,
     queryFn: getLearningCategories,
-    staleTime: Infinity,
+    staleTime: LEARNING_CATEGORIES_STALE_TIME_MS,
   });
 }
 
@@ -37,6 +40,7 @@ export function useLearningChaptersQuery(
     queryKey: learningQueryKeys.chapters(params),
     queryFn: () => getLearningChapters(params),
     enabled,
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
   });
 }
 
@@ -46,6 +50,7 @@ export function useLearningChapterQuery(chapterId: number, enabled = true) {
     queryKey: learningQueryKeys.chapter(chapterId),
     queryFn: () => getLearningChapter(chapterId),
     enabled,
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
   });
 }
 
@@ -106,5 +111,6 @@ export function useLearningRoadmapQuery(
       return fetchLearningRoadmapChapters(params);
     },
     enabled: Boolean(params) && enabled,
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
   });
 }

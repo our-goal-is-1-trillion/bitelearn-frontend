@@ -104,7 +104,7 @@ export default function LearningChapterPage() {
   }
 
   if (chapterQuery.isPending) {
-    return <AppLoading message="학습 데이터를 불러오는 중입니다." />;
+    return <AppLoading message="학습 데이터를 불러오는 중이에요." />;
   }
 
   if (chapterQuery.error || !chapterQuery.data) {

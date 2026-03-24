@@ -7,6 +7,7 @@ import Header from '@/components/common/Header';
 import StageNode from '@/components/features/learning/roadmap/StageNode';
 import RoadmapDecoration from '@/components/features/learning/roadmap/RoadmapDecoration';
 import RoadmapCurve from '@/components/features/learning/roadmap/RoadmapCurve';
+import roadmapBackgroundImage from '@/assets/roadmap/roadmap-bg.png';
 import {
   getRoadmapLayoutHeight,
   getRoadmapOffset,
@@ -87,7 +88,7 @@ export default function LearningRoadmapPage() {
       */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-[length:auto_100%] bg-top bg-no-repeat"
-        style={{ backgroundImage: "url('/assets/roadmap-bg.png')" }}
+        style={{ backgroundImage: `url(${roadmapBackgroundImage})` }}
       />
 
       <Header
@@ -104,7 +105,8 @@ export default function LearningRoadmapPage() {
         >
           {isLoading && (
             <AppLoading
-              message="챕터 목록을 불러오는 중입니다."
+              message="챕터 목록을 불러오는 중이에요."
+              variant="section"
               className="min-h-full"
             />
           )}

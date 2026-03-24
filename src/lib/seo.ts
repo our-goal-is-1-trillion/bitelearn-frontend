@@ -3,7 +3,7 @@ import { matchPath } from 'react-router-dom';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
 import { mockArticles } from '@/mock/article';
 
-const SITE_NAME = 'bitelearn';
+export const SITE_NAME = 'bitelearn';
 const DEFAULT_TITLE = 'bitelearn | 한 입 퀴즈, 지식 한 조각';
 const DEFAULT_IMAGE_PATH = '/opengraph.png';
 const DEFAULT_DESCRIPTION =

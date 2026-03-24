@@ -122,6 +122,8 @@ export default function ChapterResult({
   onFinish,
   onRetryWrongAnswers,
 }: ChapterResultProps) {
+  void correct;
+  void total;
   void onRetryWrongAnswers;
   void chapterTitle;
 
@@ -131,11 +133,11 @@ export default function ChapterResult({
 
   // 결과 분기 기준
   const variant: ResultVariant = useMemo(() => {
-    if (total > 0 && correct === total) return 'perfect';
-    if (Math.round(accuracyRate) >= 100) return 'perfect';
-    if (accuracyRate >= 60) return 'close';
+    if (accuracyRate <= 28) return 'fail';
+    if (accuracyRate <= 64) return 'close';
+    if (accuracyRate > 64) return 'perfect';
     return 'fail';
-  }, [accuracyRate, correct, total]);
+  }, [accuracyRate]);
 
   const cfg = VARIANT_CONFIG[variant];
   const contentBottomPaddingClass = cfg.secondaryButtonLabel

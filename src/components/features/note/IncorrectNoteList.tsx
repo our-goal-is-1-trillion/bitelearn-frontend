@@ -3,12 +3,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import { CheckCircle2 } from 'lucide-react';
+import { toast } from 'sonner';
 import type { Category } from '@/api/learning/learning.types';
 import { getLearningChapter } from '@/api/learning/learning.api';
 import { learningQueryKeys } from '@/api/learning/learning.query';
 import type { Note } from '@/api/notes/notes.types';
 
+import AppLoading from '@/components/common/AppLoading';
 import IncorrectCard from '@/components/features/note/IncorrectCard';
+import { SERVICE_READY_MESSAGE } from '@/constants/service';
 
 type NoteCategory = {
   category: Category;
@@ -58,8 +61,12 @@ export default function IncorrectNoteList({
     [chapterIds, chapterTitleQueries]
   );
 
-  // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트를 구독한다.
-  // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구를 표시하기 위함.
+  const showServiceReadyToast = () => {
+    toast.info(SERVICE_READY_MESSAGE);
+  };
+
+  // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트 구독
+  // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구 표시
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
@@ -80,11 +87,10 @@ export default function IncorrectNoteList({
 
   if (isLoading) {
     return (
-      <div className="border-slate-100 py-20 text-center">
-        <p className="text-sm font-semibold text-slate-400">
-          오답노트를 불러오는 중이에요
-        </p>
-      </div>
+      <AppLoading
+        message="오답노트를 불러오는 중이에요."
+        variant="section"
+      />
     );
   }
 
@@ -114,14 +120,17 @@ export default function IncorrectNoteList({
           topic={note.topic}
           questionTitle={note.questionTitle}
           onSelect={() => navigate(`/notes/incorrect/${note.noteId}`)}
+          onRetry={showServiceReadyToast}
         />
       ))}
 
       <div className="pt-2 text-center">
         {isLoadingMore && (
-          <p className="text-sm font-medium text-slate-300">
-            오답노트를 더 불러오는 중이에요
-          </p>
+          <AppLoading
+            message="오답노트를 더 불러오는 중이에요."
+            variant="inline"
+            className="py-2"
+          />
         )}
 
         {!hasNext && notes.length > 0 && hasScrolled && (

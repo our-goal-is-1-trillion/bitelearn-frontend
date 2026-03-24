@@ -5,6 +5,7 @@ import {
   mockBookmarkedArticles,
   type BookmarkedArticleCardItem,
 } from '@/mock/bookmarkedArticle';
+import { logError } from '@/lib/logError';
 
 const BOOKMARK_STORAGE_KEY = 'bite-learn:bookmarked-articles';
 const BOOKMARK_STORAGE_EVENT = 'bite-learn:bookmarked-articles-updated';
@@ -38,7 +39,7 @@ function readBookmarkedArticles() {
     const parsed = JSON.parse(storedValue) as BookmarkedArticleCardItem[];
     return sortBookmarks(parsed);
   } catch (error) {
-    console.error('북마크 로컬 데이터 파싱 실패:', error);
+    logError('useBookmarkedArticles', '북마크 로컬 데이터 파싱 실패', error);
 
     const fallbackBookmarks = sortBookmarks(mockBookmarkedArticles);
     window.localStorage.setItem(

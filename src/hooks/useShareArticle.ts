@@ -1,4 +1,5 @@
 import { toast } from 'sonner';
+import { logError } from '@/lib/logError';
 
 type UseShareArticleParams = {
   title: string;
@@ -26,7 +27,7 @@ export default function useShareArticle({
         return;
       }
 
-      console.error('시스템 공유 실패', error);
+      logError('useShareArticle', '시스템 공유 실패', error);
       toast.error('공유를 지원하지 않는 브라우저이거나 공유에 실패했습니다');
     }
   };
@@ -41,7 +42,7 @@ export default function useShareArticle({
       await navigator.clipboard.writeText(url);
       toast.success('링크가 복사되었습니다');
     } catch (error) {
-      console.error('링크 복사 실패', error);
+      logError('useShareArticle', '링크 복사 실패', error);
       toast.error('링크 복사에 실패했습니다');
     }
   };
