@@ -7,6 +7,7 @@ import chapterResultFailImage from '@/assets/character/chapter_result_fail.png';
 import chapterResultPerfectImage from '@/assets/character/chapter_result_perfect.png';
 import Header from '@/components/common/Header';
 import LevelBadge from '@/components/features/level/LevelBadge';
+import useIndicatorShadow from '@/hooks/useIndicatorShadow';
 import {
   formatBytes,
   getLevelByteProgress,
@@ -119,6 +120,8 @@ export default function ChapterResult({
   void chapterTitle;
 
   const [isProgressVisible, setIsProgressVisible] = useState(false);
+  const { scrollRef, showIndicatorShadow } =
+    useIndicatorShadow<HTMLDivElement>();
 
   // 결과 분기 기준
   const variant: ResultVariant = useMemo(() => {
@@ -158,6 +161,7 @@ export default function ChapterResult({
       />
 
       <div
+        ref={scrollRef}
         className={`hide-scrollbar flex-1 overflow-y-auto px-5 pt-[60px] ${contentBottomPaddingClass}`}
       >
         <section className="mx-auto flex w-full max-w-[335px] flex-col items-center pt-5 text-center">
@@ -249,7 +253,11 @@ export default function ChapterResult({
         </motion.section>
       </div>
 
-      <footer className="absolute inset-x-0 bottom-0 z-20 bg-card px-5 pb-8 pt-4 backdrop-blur-sm">
+      <footer
+        className={`absolute inset-x-0 bottom-0 z-20 bg-card px-5 pb-8 pt-4 backdrop-blur-sm ${
+          showIndicatorShadow ? 'shadow-[0_-6px_12px_0_#EDEEF6]' : ''
+        }`}
+      >
         <div className="mx-auto flex w-full max-w-[335px] flex-col gap-[10px]">
           <Button
             className="relative h-[52px] w-full rounded-xl bg-primary px-4 text-base font-bold text-foreground shadow-none"
