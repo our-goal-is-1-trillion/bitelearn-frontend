@@ -19,7 +19,7 @@ type ConversationPassageViewProps = {
 };
 
 const SPEAKER_VISUALS = {
-  멍뭉이: {
+  멍멍이: {
     profileImageUrl: mungmungProfileImage,
     position: 'right' as const,
     imageClassName: 'left-[-14px] top-[-6px] h-16 w-16 max-w-none',
@@ -45,6 +45,46 @@ const SPEAKER_VISUALS = {
     imageClassName: 'left-[-12px] top-[-6px] h-[60px] w-[60px] max-w-none',
   },
 };
+
+type SpeakerVisual = (typeof SPEAKER_VISUALS)[keyof typeof SPEAKER_VISUALS];
+
+function resolveSpeakerVisual(speakerName: string): SpeakerVisual {
+  const trimmedSpeakerName = speakerName.trim();
+  const exactMatch =
+    SPEAKER_VISUALS[trimmedSpeakerName as keyof typeof SPEAKER_VISUALS];
+
+  if (exactMatch) {
+    return exactMatch;
+  }
+
+  const normalizedSpeakerName = trimmedSpeakerName.replace(/\s+/g, '');
+
+  if (
+    normalizedSpeakerName === '나' ||
+    normalizedSpeakerName.includes('멍멍') ||
+    normalizedSpeakerName.includes('주인공') ||
+    normalizedSpeakerName.includes('사용자')
+  ) {
+    return SPEAKER_VISUALS['멍멍이'];
+  }
+
+  if (
+    normalizedSpeakerName.includes('리트리버') ||
+    normalizedSpeakerName.includes('선배')
+  ) {
+    return SPEAKER_VISUALS['리트리버 선배'];
+  }
+
+  if (
+    normalizedSpeakerName.includes('공인중개사') ||
+    normalizedSpeakerName.includes('중개사') ||
+    normalizedSpeakerName.includes('불독')
+  ) {
+    return SPEAKER_VISUALS['불독 중개사'];
+  }
+
+  return SPEAKER_VISUALS['불독 중개사'];
+}
 
 function ConversationProfile({
   speaker,
@@ -102,9 +142,7 @@ export default function ConversationPassageView({
     () =>
       Array.from(new Set(dialogues.map((line) => line.speaker))).map(
         (speaker) => {
-          const speakerVisual =
-            SPEAKER_VISUALS[speaker as keyof typeof SPEAKER_VISUALS] ??
-            SPEAKER_VISUALS['불독 중개사'];
+          const speakerVisual = resolveSpeakerVisual(speaker);
 
           return {
             id: speaker,
@@ -171,7 +209,7 @@ export default function ConversationPassageView({
       top: scrollRef.current.scrollHeight,
       behavior: 'smooth',
     });
-  }, [visibleCount, showTyping]);
+  }, [scrollRef, visibleCount, showTyping]);
 
   const nextConversation = conversations[visibleCount];
   const nextSpeaker = conversationSpeakers.find(
