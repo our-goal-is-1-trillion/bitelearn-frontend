@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import byteIcon from '@/assets/icons/byte.svg';
 import chapterResultCloseImage from '@/assets/character/chapter_result_close.png';
 import chapterResultFailImage from '@/assets/character/chapter_result_fail.png';
 import chapterResultPerfectImage from '@/assets/character/chapter_result_perfect.png';
@@ -64,7 +65,7 @@ const VARIANT_CONFIG = {
   },
 } as const;
 
-// 코인 애니메이션 컴포넌트
+// 퍼펙트 결과에서 떨어지는 바이트 애니메이션
 function CelebrationParticles() {
   const coins = [
     { left: '10%', delay: 0, rotate: 15 },
@@ -80,7 +81,7 @@ function CelebrationParticles() {
       {coins.map((coin, index) => (
         <motion.div
           key={`coin-${index}`}
-          className="absolute text-[30px] leading-none"
+          className="absolute"
           initial={{ y: -40, opacity: 0 }}
           animate={{
             y: 820,
@@ -96,7 +97,12 @@ function CelebrationParticles() {
             left: coin.left,
           }}
         >
-          <span>🪙</span>
+          <img
+            src={byteIcon}
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8 object-contain"
+          />
         </motion.div>
       ))}
     </div>
