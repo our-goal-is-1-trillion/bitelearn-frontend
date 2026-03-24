@@ -58,8 +58,8 @@ export default function IncorrectNoteList({
     [chapterIds, chapterTitleQueries]
   );
 
-  // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트를 구독한다.
-  // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구를 표시하기 위함.
+  // 가장 가까운 스크롤 가능한 부모 요소를 찾아 scroll 이벤트 구독
+  // 스크롤이 발생한 적 있을 때만 "모두 확인했어요" 문구 표시
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
