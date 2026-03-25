@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { isAppError } from '@/api/error/appError';
 import {
   useLearningCategoriesQuery,
   useLearningRoadmapQuery,
@@ -223,9 +224,9 @@ export default function LearningRoadmapPage() {
 
           {!isLoading && loadError && count === 0 && (
             <div className="flex h-full items-center justify-center text-sm font-medium text-red-400">
-              {loadError instanceof Error
+              {isAppError(loadError)
                 ? loadError.message
-                : String(loadError ?? LEARNING_ROADMAP_ERROR_MESSAGE)}
+                : LEARNING_ROADMAP_ERROR_MESSAGE}
             </div>
           )}
 
