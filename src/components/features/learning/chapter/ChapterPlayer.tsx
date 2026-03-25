@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import QuizPlayer from '@/components/features/learning/quiz/QuizPlayer';
+import { resolveDocumentSubmitAnswer } from '@/components/features/learning/quiz/learningQuiz.utils';
 import ChapterDone from './ChapterDone';
 import ChapterResult from './ChapterResult';
 import ChapterIntro from './ChapterIntro';
@@ -20,6 +21,11 @@ import type {
 } from '@/api/learning/learning.types';
 import { isAppError } from '@/api/error/appError';
 import { CHAPTER_BLOCKED_TOAST_MESSAGE } from '@/lib/learningAccess';
+import {
+  getQuizPassageImageUrl,
+  getVocabImageUrl,
+  preloadImages,
+} from '@/lib/image';
 import { logError } from '@/lib/logError';
 import { toast } from 'sonner';
 
@@ -100,6 +106,19 @@ export default function ChapterPlayer({
     Array(quizzes.length).fill('none')
   );
 
+  useEffect(() => {
+    void preloadImages([
+      getVocabImageUrl(vocabs[0]),
+      getVocabImageUrl(vocabs[1]),
+      getQuizPassageImageUrl(quizzes[0]),
+      getQuizPassageImageUrl(quizzes[1]),
+    ]);
+  }, [vocabs, quizzes]);
+
+  useEffect(() => {
+    void preloadImages(quizzes.map((quiz) => getQuizPassageImageUrl(quiz)));
+  }, [quizzes]);
+
   // 챕터 결과 조회 및 챕터 완료 처리 준비
   const prepareQuizCompletion = async () => {
     try {
@@ -139,10 +158,7 @@ export default function ChapterPlayer({
   ) => {
     const selectedAnswer =
       question.type === 'DOC_CLICK'
-        ? (question.specificData?.documentElements?.[selectedAnswerIndex]
-            ?.key ??
-          question.specificData?.options?.[selectedAnswerIndex] ??
-          '')
+        ? resolveDocumentSubmitAnswer(question, selectedAnswerIndex)
         : (question.specificData?.options?.[selectedAnswerIndex] ?? '');
 
     if (typeof selectedAnswer !== 'string' || selectedAnswer.trim() === '') {

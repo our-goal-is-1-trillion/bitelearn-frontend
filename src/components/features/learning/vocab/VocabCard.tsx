@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 
 import type { VocabInfo } from '@/api/learning/learning.types';
 import defaultVocabImage from '@/assets/learning/vocab_default.png';
+import PreloadedImage from '@/components/common/PreloadedImage';
+import { normalizeImageUrl } from '@/lib/image';
 
 type VocabCardProps = {
   vocab: VocabInfo;
@@ -14,9 +16,7 @@ export default function VocabCard({
   isFlipped,
   onFlip,
 }: VocabCardProps) {
-  const resolvedFrontImageUrl = vocab.frontImageUrl?.trim()
-    ? vocab.frontImageUrl
-    : defaultVocabImage;
+  const frontImageUrl = normalizeImageUrl(vocab.frontImageUrl) ?? undefined;
   const descriptionLines = vocab.backMain
     .split('\n')
     .map((line) => line.trim())
@@ -32,14 +32,12 @@ export default function VocabCard({
       {/* Front */}
       <div className="backface-hidden group absolute inset-0 flex h-full w-full flex-col overflow-hidden rounded-[24px] border-2 border-slate-100 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.08)]">
         <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-slate-100">
-          <img
-            src={resolvedFrontImageUrl}
+          <PreloadedImage
+            src={frontImageUrl}
+            fallbackSrc={defaultVocabImage}
             alt={`${vocab.frontMain} 이미지`}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={(event) => {
-              event.currentTarget.onerror = null;
-              event.currentTarget.src = defaultVocabImage;
-            }}
+            skeletonClassName="bg-slate-100"
           />
         </div>
 

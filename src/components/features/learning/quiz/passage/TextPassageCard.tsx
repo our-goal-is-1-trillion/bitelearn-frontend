@@ -1,4 +1,6 @@
 import defaultPassageImage from '@/assets/learning/default_passage.png';
+import PreloadedImage from '@/components/common/PreloadedImage';
+import { normalizeImageUrl } from '@/lib/image';
 
 type TextPassageCardProps = {
   content: string;
@@ -13,21 +15,17 @@ export default function TextPassageCard({
   imageAlt,
   imageSrc,
 }: TextPassageCardProps) {
-  const resolvedImageSrc = imageSrc?.trim()
-    ? imageSrc
-    : DEFAULT_PASSAGE_IMAGE;
+  const resolvedImageSrc = normalizeImageUrl(imageSrc) ?? undefined;
 
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-bl-card">
-      <div className="aspect-[335/220] w-full overflow-hidden bg-[#f6f7fb]">
-        <img
+      <div className="aspect-[335/220] w-full overflow-hidden bg-slate-100">
+        <PreloadedImage
           src={resolvedImageSrc}
+          fallbackSrc={DEFAULT_PASSAGE_IMAGE}
           alt={imageAlt}
           className="h-full w-full object-cover"
-          onError={(event) => {
-            event.currentTarget.onerror = null;
-            event.currentTarget.src = DEFAULT_PASSAGE_IMAGE;
-          }}
+          skeletonClassName="bg-slate-100"
         />
       </div>
 
