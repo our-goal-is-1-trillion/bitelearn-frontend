@@ -3,82 +3,69 @@ import type {
   ChapterSummaryDto,
   LearningCategoryDto,
 } from '@/api/learning/learning.types';
-import {
-  getCategoryBaseMetaByCode,
-  LEARNING_CATEGORY_META,
-} from '@/constants/learningMeta';
+import { getCategoryUiMetaByCode } from '@/constants/learningMeta';
 import type {
   LearningCategoryMeta,
   LearningTopicMeta,
 } from '@/constants/learningNavigation';
-import type { MockCategorySummary, MockTopicSummary } from '@/mock/learning';
 
 export type NoteCategoryOption = {
   category: Category;
   categoryName: string;
 };
 
-export const MONTHLY_RENT_SUMMARY_PARAMS = {
-  category: 'REAL_ESTATE_HOUSING' as const,
-  topic: 'MONTHLY_RENT' as const,
+export type LearningTopicSummary = {
+  topicId: string;
+  topicName: string;
+  chapters: ChapterSummaryDto[];
 };
 
-// 학습 네비게이션 관련 유틸 함수들
-export function getDefaultLearningNavigation(): LearningCategoryMeta[] {
-  return LEARNING_CATEGORY_META.map((category) => ({
-    id: category.id,
-    code: category.code,
-    name: category.defaultName,
-    iconSrc: category.iconSrc,
-    tagline: category.tagline,
-    topics: category.topics.map((topic) => ({
-      id: topic.id,
-      code: topic.code,
-      name: topic.defaultName,
-    })),
-  }));
-}
+export type LearningCategorySummary = {
+  total: number;
+  progressed: number;
+  topics: LearningTopicSummary[];
+};
 
 // 카테고리 데이터를 FE 네비게이션 메타 구조로 변환
 export function buildLearningNavigation(
   categories?: LearningCategoryDto[] | null
 ): LearningCategoryMeta[] {
   if (!categories?.length) {
-    return getDefaultLearningNavigation();
+    return [];
   }
 
   return categories
     .map((category) => {
-      const fallbackCategory = getCategoryBaseMetaByCode(category.categoryCode);
+      const categoryUiMeta = getCategoryUiMetaByCode(category.categoryCode);
 
-      if (!fallbackCategory) {
+      if (!categoryUiMeta) {
         return null;
       }
 
       const topics = category.topics
         .map((topic) => {
-          const fallbackTopic = fallbackCategory.topics.find(
+          const topicUiMeta = categoryUiMeta.topics.find(
             (entry) => entry.code === topic.topicCode
           );
 
-          if (!fallbackTopic) {
+          if (!topicUiMeta) {
             return null;
           }
 
           return {
-            id: fallbackTopic.id,
-            code: fallbackTopic.code,
+            id: topicUiMeta.id,
+            code: topicUiMeta.code,
             name: topic.topicName,
           };
         })
         .filter((topic): topic is LearningTopicMeta => topic !== null);
 
       return {
-        id: fallbackCategory.id,
-        code: fallbackCategory.code,
+        id: categoryUiMeta.id,
+        code: categoryUiMeta.code,
         name: category.categoryName,
-        iconSrc: fallbackCategory.iconSrc,
-        tagline: fallbackCategory.tagline,
+        iconSrc: categoryUiMeta.iconSrc,
+        tagline: categoryUiMeta.tagline,
         topics,
       };
     })
@@ -95,70 +82,58 @@ export function getNoteCategoryOptions(
   }));
 }
 
+// 카테고리 ID와 토픽 ID로 요약 데이터 키 생성
+export function createLearningTopicSummaryKey(
+  categoryId: string,
+  topicId: string
+) {
+  return `${categoryId}:${topicId}`;
+}
+
+// 네비게이션 메타와 챕터 요약 데이터를 병합하여 카테고리별 토픽 요약 리스트 생성
+export function buildLearningSummaryByCategory(
+  navigation: LearningCategoryMeta[],
+  topicChaptersByKey: Record<string, ChapterSummaryDto[]>
+): Record<string, LearningCategorySummary> {
+  return Object.fromEntries(
+    navigation.map((category) => {
+      const topics = category.topics.map((topic) => ({
+        topicId: topic.id,
+        topicName: topic.name,
+        chapters:
+          topicChaptersByKey[
+            createLearningTopicSummaryKey(category.id, topic.id)
+          ] ?? [],
+      }));
+      const mergedChapters = topics.flatMap((topic) => topic.chapters);
+      const progressed = mergedChapters.filter(
+        (chapter) => chapter.status !== 'READY'
+      ).length;
+
+      return [
+        category.id,
+        {
+          total: mergedChapters.length,
+          progressed,
+          topics,
+        } satisfies LearningCategorySummary,
+      ];
+    })
+  );
+}
+
 // 카테고리 메타와 요약 데이터를 병합하여 토픽별 챕터 요약 리스트 생성
 export function mergeCategoryTopicsWithSummary(
   category: LearningCategoryMeta,
-  summary?: MockCategorySummary
-): MockTopicSummary[] {
+  summary?: LearningCategorySummary
+): LearningTopicSummary[] {
   const topicSummaryById = Object.fromEntries(
     (summary?.topics ?? []).map((topic) => [topic.topicId, topic])
-  ) as Record<string, MockTopicSummary>;
+  ) as Record<string, LearningTopicSummary>;
 
   return category.topics.map((topic) => ({
     topicId: topic.id,
     topicName: topic.name,
     chapters: topicSummaryById[topic.id]?.chapters ?? [],
   }));
-}
-
-export function lockLastChapter(
-  chapters: ChapterSummaryDto[]
-): ChapterSummaryDto[] {
-  if (chapters.length === 0) {
-    return [];
-  }
-
-  const lastChapterId = chapters[chapters.length - 1]?.chapterId;
-
-  return chapters.map((chapter) => ({
-    ...chapter,
-    isLocked: chapter.chapterId === lastChapterId,
-  }));
-}
-
-export function mergeMonthlyRentSummary(
-  summaryByCategory: Record<string, MockCategorySummary>,
-  monthlyRentChapters?: ChapterSummaryDto[]
-) {
-  if (!monthlyRentChapters?.length) {
-    return summaryByCategory;
-  }
-
-  const realEstateSummary = summaryByCategory['real-estate'];
-
-  if (!realEstateSummary) {
-    return summaryByCategory;
-  }
-
-  const topics = realEstateSummary.topics.map((topic) =>
-    topic.topicId === 'monthly-rent'
-      ? {
-          ...topic,
-          chapters: monthlyRentChapters,
-        }
-      : topic
-  );
-  const mergedChapters = topics.flatMap((topic) => topic.chapters);
-  const progressed = mergedChapters.filter(
-    (chapter) => chapter.status !== 'READY'
-  ).length;
-
-  return {
-    ...summaryByCategory,
-    'real-estate': {
-      total: mergedChapters.length,
-      progressed,
-      topics,
-    },
-  };
 }

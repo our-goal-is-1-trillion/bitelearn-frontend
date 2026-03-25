@@ -14,6 +14,7 @@ export type Note = {
   noteId: number;
   chapterId: number;
   chapterSequence: number;
+  chapterTitle: string;
   quizId: number;
   category: Category;
   topic: Topic;

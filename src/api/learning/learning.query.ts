@@ -6,9 +6,6 @@ import {
   getLearningChapters,
 } from './learning.api';
 import type { ChapterListRequest, ChapterSummaryDto } from './learning.types';
-import { logError } from '@/lib/logError';
-import { getMockLearningChapters } from '@/mock/learning';
-import { lockLastChapter } from '@/lib/learningNavigation';
 
 const LEARNING_CATEGORIES_STALE_TIME_MS = 1000 * 60 * 30;
 const LEARNING_PROGRESS_STALE_TIME_MS = 1000 * 60 * 5;
@@ -31,16 +28,22 @@ export function useLearningCategoriesQuery() {
   });
 }
 
+export function getLearningChaptersQueryOptions(params: ChapterListRequest) {
+  return {
+    queryKey: learningQueryKeys.chapters(params),
+    queryFn: () => getLearningChapters(params),
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
+  };
+}
+
 // 챕터 목록 조회 쿼리
 export function useLearningChaptersQuery(
   params: ChapterListRequest,
   enabled = true
 ) {
   return useQuery({
-    queryKey: learningQueryKeys.chapters(params),
-    queryFn: () => getLearningChapters(params),
+    ...getLearningChaptersQueryOptions(params),
     enabled,
-    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
   });
 }
 
@@ -63,35 +66,24 @@ type RoadmapQueryParams = {
 
 // 학습 로드맵 챕터 목록 조회 쿼리
 async function fetchLearningRoadmapChapters({
-  categoryId,
   categoryCode,
-  topicId,
   topicCode,
 }: RoadmapQueryParams): Promise<ChapterSummaryDto[]> {
-  const fallbackChapters = lockLastChapter(
-    getMockLearningChapters(categoryId, topicId)
-  );
+  const response = await getLearningChapters({
+    category: categoryCode,
+    topic: topicCode,
+  });
 
-  try {
-    const response = await getLearningChapters({
-      category: categoryCode,
-      topic: topicCode,
-    });
+  return response.chapters;
+}
 
-    if (response.chapters.length === 0) {
-      return fallbackChapters;
-    }
-
-    return lockLastChapter(response.chapters);
-  } catch (error) {
-    logError('LearningRoadmapPage', '챕터 목록 조회 실패', error);
-
-    if (fallbackChapters.length > 0) {
-      return fallbackChapters;
-    }
-
-    throw error;
-  }
+// 학습 로드맵 챕터 목록 조회 쿼리 옵션 생성 함수
+export function getLearningRoadmapQueryOptions(params: RoadmapQueryParams) {
+  return {
+    queryKey: learningQueryKeys.roadmap(params.categoryId, params.topicId),
+    queryFn: () => fetchLearningRoadmapChapters(params),
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
+  };
 }
 
 // 학습 로드맵 챕터 목록 조회 쿼리 훅
@@ -99,7 +91,7 @@ export function useLearningRoadmapQuery(
   params: RoadmapQueryParams | null,
   enabled = true
 ) {
-  return useQuery({
+  return useQuery<ChapterSummaryDto[]>({
     queryKey: params
       ? learningQueryKeys.roadmap(params.categoryId, params.topicId)
       : ['learning', 'roadmap', 'idle'],

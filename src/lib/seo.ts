@@ -1,6 +1,5 @@
 import { matchPath } from 'react-router-dom';
 
-import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
 import { mockArticles } from '@/mock/article';
 
 export const SITE_NAME = 'bitelearn';
@@ -83,19 +82,11 @@ export function resolveSeoMeta(pathname: string): ResolvedSeoMeta {
   );
 
   if (roadmapMatch) {
-    const { categoryId, topicId } = roadmapMatch.params;
-    const category = getCategoryMetaByRouteId(categoryId);
-    const topic = category?.topics.find((entry) => entry.id === topicId);
-
     return {
       ...defaultMeta,
-      title: buildTitle(
-        topic && category ? `${topic.name} 로드맵` : '학습 로드맵'
-      ),
+      title: buildTitle('학습 로드맵'),
       description: trimDescription(
-        topic && category
-          ? `${topic.name} 주제를 로드맵을 따라 학습해보세요.`
-          : 'bitelearn 로드맵을 따라 학습해보세요.'
+        'bitelearn 로드맵을 따라 학습해보세요.'
       ),
     };
   }

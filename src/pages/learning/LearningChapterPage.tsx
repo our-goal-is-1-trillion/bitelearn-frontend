@@ -2,17 +2,14 @@ import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { isAppError } from '@/api/error/appError';
 import ChapterPlayer from '@/components/features/learning/chapter/ChapterPlayer';
 import { getLearningChapterResult } from '@/api/learning/learning.api';
-import { useLearningChapterQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
 import { useLearningChapterProgress } from '@/hooks/useLearningChapterProgress';
-import { getTopicLabel } from '@/constants/learningMeta';
-import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
+import { useResolvedLearningChapterRoute } from '@/hooks/useResolvedLearningChapterRoute';
 import {
   CHAPTER_BLOCKED_TOAST_MESSAGE,
-  shouldBlockChapterRoute,
-  shouldBlockMonthlyRentIntroStart,
 } from '@/lib/learningAccess';
 import NotFoundPage from '@/pages/NotFoundPage';
 
@@ -30,47 +27,37 @@ export default function LearningChapterPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { categoryId, chapterId } = useParams();
-  const category = getCategoryMetaByRouteId(categoryId);
-  const chapterIdNumber = Number(chapterId);
   const locationState = (location.state ?? {}) as LearningChapterLocationState;
   const blockedRouteToastShownRef = useRef(false);
-  const chapterSequence =
-    locationState.chapterSequenceById?.[chapterIdNumber] ??
-    locationState.chapterSequence;
-  const isBlockedChapterRoute = shouldBlockChapterRoute(locationState.topicId);
-  const shouldBlockIntroStart = shouldBlockMonthlyRentIntroStart({
-    topicId: locationState.topicId,
-    chapterSequence,
-  });
-  const orderedChapterIds = locationState.chapterIds ?? [];
-  const currentChapterIndex = orderedChapterIds.findIndex(
-    (candidate) => candidate === chapterIdNumber
-  );
-  const nextChapterId =
-    currentChapterIndex >= 0
-      ? (orderedChapterIds[currentChapterIndex + 1] ?? null)
-      : null;
-  const chapterQuery = useLearningChapterQuery(
+  const {
+    routeCategory,
     chapterIdNumber,
-    Boolean(
-      category &&
-      categoryId &&
-      chapterId &&
-      !Number.isNaN(chapterIdNumber) &&
-      !isBlockedChapterRoute
-    )
-  );
+    chapterQuery,
+    resolvedTopicId,
+    resolvedTopicCode,
+    resolvedTopicName,
+    isBlockedChapterRoute,
+    shouldBlockIntroStart,
+    nextChapterId,
+    nextChapterNavigationState,
+  } = useResolvedLearningChapterRoute({
+    categoryId,
+    chapterId,
+    locationState,
+  });
   const { completeLearningVocab, submitLearningQuiz } =
     useLearningChapterProgress({
       chapterId: chapterIdNumber,
-      categoryId: category?.id,
-      topicId: locationState.topicId,
+      categoryId: routeCategory?.id,
+      topicId: resolvedTopicId,
+      categoryCode: routeCategory?.code,
+      topicCode: resolvedTopicCode,
     });
 
   // 챕터 접근 차단 처리
   useEffect(() => {
     if (
-      !category ||
+      !routeCategory ||
       !categoryId ||
       !chapterId ||
       Number.isNaN(chapterIdNumber)
@@ -88,22 +75,24 @@ export default function LearningChapterPage() {
 
     blockedRouteToastShownRef.current = true;
     toast.info(CHAPTER_BLOCKED_TOAST_MESSAGE);
-    navigate('/learning', { replace: true });
+    navigate(
+      resolvedTopicId
+        ? `/learning/${routeCategory.id}/topics/${resolvedTopicId}`
+        : '/learning',
+      { replace: true }
+    );
   }, [
-    category,
+    routeCategory,
     categoryId,
     chapterId,
     chapterIdNumber,
     isBlockedChapterRoute,
     navigate,
+    resolvedTopicId,
   ]);
 
-  if (!category || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
+  if (!routeCategory || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
     return <NotFoundPage />;
-  }
-
-  if (isBlockedChapterRoute) {
-    return null;
   }
 
   if (chapterQuery.isPending) {
@@ -114,7 +103,7 @@ export default function LearningChapterPage() {
     return (
       <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
         <p className="text-sm font-medium text-red-400">
-          {chapterQuery.error instanceof Error
+          {isAppError(chapterQuery.error)
             ? chapterQuery.error.message
             : LEARNING_CHAPTER_ERROR_MESSAGE}
         </p>
@@ -122,7 +111,11 @@ export default function LearningChapterPage() {
     );
   }
 
-  const chapterLabel = `${getTopicLabel(chapterQuery.data.topic)} Chapter ${chapterQuery.data.chapterSequence}`;
+  if (isBlockedChapterRoute) {
+    return null;
+  }
+
+  const chapterLabel = `${resolvedTopicName} Chapter ${chapterQuery.data.chapterSequence}`;
 
   return (
     <ChapterPlayer
@@ -153,14 +146,9 @@ export default function LearningChapterPage() {
       onBack={() => navigate(-1)}
       onComplete={() => {
         if (nextChapterId) {
-          navigate(`/learning/${category.id}/${nextChapterId}`, {
+          navigate(`/learning/${routeCategory.id}/${nextChapterId}`, {
             replace: true,
-            state: {
-              ...locationState,
-              chapterSequence:
-                locationState.chapterSequenceById?.[nextChapterId] ??
-                locationState.chapterSequence,
-            },
+            state: nextChapterNavigationState ?? undefined,
           });
           return;
         }

@@ -58,8 +58,6 @@ export type ChapterSummaryDto = {
   title: string;
   sequence: number;
   status: ChapterStatus;
-  // FE 로드맵 UI 확장 필드 (백엔드 응답에는 없음)
-  isLocked?: boolean;
 };
 
 // 단어 정보

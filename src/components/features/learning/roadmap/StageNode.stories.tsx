@@ -11,35 +11,24 @@ const roadmapChapters: ChapterSummaryDto[] = [
     title: '완료 챕터',
     status: 'COMPLETED',
     sequence: 1,
-    isLocked: false,
   },
   {
     chapterId: 1002,
     title: '진행 중 챕터',
     status: 'QUIZ_IN_PROGRESS',
     sequence: 2,
-    isLocked: false,
   },
   {
     chapterId: 1003,
     title: '학습 가능 챕터',
     status: 'READY',
     sequence: 3,
-    isLocked: false,
-  },
-  {
-    chapterId: 1004,
-    title: '잠금 챕터',
-    status: 'READY',
-    sequence: 4,
-    isLocked: true,
   },
 ];
 
 const completedChapter = roadmapChapters[0];
 const inProgressChapter = roadmapChapters[1];
 const availableChapter = roadmapChapters[2];
-const lockedChapter = roadmapChapters[3];
 
 const meta = {
   title: 'Learning/Roadmap/StageNode',
@@ -85,12 +74,5 @@ export const Available: Story = {
   render: (args) => renderNode(args),
   args: {
     chapter: availableChapter,
-  },
-};
-
-export const Locked: Story = {
-  render: (args) => renderNode(args),
-  args: {
-    chapter: lockedChapter,
   },
 };

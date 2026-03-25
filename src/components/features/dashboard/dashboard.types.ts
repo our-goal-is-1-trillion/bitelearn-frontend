@@ -1,7 +1,1 @@
-export type DashboardRecommendation = {
-  categoryId: string;
-  chapterId: string;
-  categoryName: string;
-  topicName: string;
-  chapterTitle: string;
-};
+export type { DashboardRecommendationResponse as DashboardRecommendation } from '@/api/dashboard/dashboard.types';
