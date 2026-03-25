@@ -2,11 +2,16 @@ import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import type { RecentLearningResponse } from '@/api/auth/auth.types';
 import { getLearningRoadmapQueryOptions } from '@/api/learning/learning.query';
 import TextBadge from '@/components/common/TextBadge';
 import { Button } from '@/components/ui/button';
 import { getCategoryMetaByCode } from '@/constants/learningNavigation';
+import {
+  CHAPTER_BLOCKED_TOAST_MESSAGE,
+  shouldBlockRoadmapChapterEntry,
+} from '@/lib/learningAccess';
 import { logError } from '@/lib/logError';
 import DashboardHeroCard from './DashboardHeroCard';
 
@@ -28,6 +33,11 @@ export default function MemberContinueLearningCard({
   // 학습 시작 페이지로 이동 (topic 페이지 or chapter 페이지)
   const handleContinueLearning = async () => {
     if (!category || !topic) {
+      return;
+    }
+
+    if (shouldBlockRoadmapChapterEntry(topic.id)) {
+      toast.info(CHAPTER_BLOCKED_TOAST_MESSAGE);
       return;
     }
 

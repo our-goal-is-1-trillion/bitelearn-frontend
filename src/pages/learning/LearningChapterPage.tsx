@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { isAppError } from '@/api/error/appError';
 import ChapterPlayer from '@/components/features/learning/chapter/ChapterPlayer';
 import { getLearningChapterResult } from '@/api/learning/learning.api';
 import AppLoading from '@/components/common/AppLoading';
@@ -74,7 +75,12 @@ export default function LearningChapterPage() {
 
     blockedRouteToastShownRef.current = true;
     toast.info(CHAPTER_BLOCKED_TOAST_MESSAGE);
-    navigate('/learning', { replace: true });
+    navigate(
+      resolvedTopicId
+        ? `/learning/${routeCategory.id}/topics/${resolvedTopicId}`
+        : '/learning',
+      { replace: true }
+    );
   }, [
     routeCategory,
     categoryId,
@@ -82,6 +88,7 @@ export default function LearningChapterPage() {
     chapterIdNumber,
     isBlockedChapterRoute,
     navigate,
+    resolvedTopicId,
   ]);
 
   if (!routeCategory || !categoryId || !chapterId || Number.isNaN(chapterIdNumber)) {
@@ -96,7 +103,7 @@ export default function LearningChapterPage() {
     return (
       <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
         <p className="text-sm font-medium text-red-400">
-          {chapterQuery.error instanceof Error
+          {isAppError(chapterQuery.error)
             ? chapterQuery.error.message
             : LEARNING_CHAPTER_ERROR_MESSAGE}
         </p>
