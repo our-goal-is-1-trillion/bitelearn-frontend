@@ -139,6 +139,7 @@ export function resolveDocumentSubmitAnswer(
   return buildDocumentPairAnswer(documentElement);
 }
 
+// 문서 카드 데이터를 생성하는 함수
 export function toDocumentCardData(quiz: QuizInfo): DocumentCardData | null {
   const documentElements = quiz.specificData?.documentElements;
   const documentTitle = quiz.specificData?.documentTitle;

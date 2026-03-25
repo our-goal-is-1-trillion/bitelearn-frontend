@@ -8,13 +8,19 @@ import {
   completeLearningVocab,
   submitLearningQuiz,
 } from '@/api/learning/learning.api';
+import { authQueryKeys } from '@/api/auth/auth.query';
 import { learningQueryKeys } from '@/api/learning/learning.query';
-import type { ChapterLearningResponse } from '@/api/learning/learning.types';
+import type {
+  ChapterLearningResponse,
+  ChapterListRequest,
+} from '@/api/learning/learning.types';
 
 type UseLearningChapterProgressParams = {
   chapterId: number;
   categoryId?: string;
   topicId?: string;
+  categoryCode?: ChapterListRequest['category'];
+  topicCode?: ChapterListRequest['topic'];
 };
 
 type SubmitLearningQuizParams = {
@@ -35,6 +41,33 @@ async function invalidateRoadmapQuery(
   await queryClient.invalidateQueries({
     queryKey: learningQueryKeys.roadmap(params.categoryId, params.topicId),
   });
+}
+
+async function invalidateChaptersQuery(
+  queryClient: QueryClient,
+  params: UseLearningChapterProgressParams
+) {
+  if (!params.categoryCode || !params.topicCode) {
+    return;
+  }
+
+  await queryClient.invalidateQueries({
+    queryKey: learningQueryKeys.chapters({
+      category: params.categoryCode,
+      topic: params.topicCode,
+    }),
+  });
+}
+
+async function invalidateLearningProgressQueries(
+  queryClient: QueryClient,
+  params: UseLearningChapterProgressParams
+) {
+  await Promise.all([
+    invalidateRoadmapQuery(queryClient, params),
+    invalidateChaptersQuery(queryClient, params),
+    queryClient.invalidateQueries({ queryKey: authQueryKeys.me }),
+  ]);
 }
 
 // 학습 챕터 진행 상태를 업데이트하는 함수
@@ -78,7 +111,7 @@ export function useLearningChapterProgress(
         resumeQuizSequence: 1,
       });
 
-      await invalidateRoadmapQuery(queryClient, params);
+      await invalidateLearningProgressQueries(queryClient, params);
     },
   });
 
@@ -98,7 +131,7 @@ export function useLearningChapterProgress(
           result.newStatus === 'COMPLETED' ? null : variables.nextQuizSequence,
       });
 
-      await invalidateRoadmapQuery(queryClient, params);
+      await invalidateLearningProgressQueries(queryClient, params);
     },
   });
 
