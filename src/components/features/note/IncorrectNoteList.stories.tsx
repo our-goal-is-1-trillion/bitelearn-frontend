@@ -31,6 +31,7 @@ const sampleNotes: Note[] = [
     noteId: 1,
     chapterId: 101,
     chapterSequence: 1,
+    chapterTitle: '전세 계약 전 꼭 확인해야 할 체크리스트',
     quizId: 1001,
     category: 'REAL_ESTATE_HOUSING',
     topic: 'JEONSE',

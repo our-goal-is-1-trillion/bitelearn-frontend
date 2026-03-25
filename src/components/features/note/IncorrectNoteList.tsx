@@ -1,12 +1,9 @@
 import type { RefCallback } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQueries } from '@tanstack/react-query';
 import { CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { Category } from '@/api/learning/learning.types';
-import { getLearningChapter } from '@/api/learning/learning.api';
-import { learningQueryKeys } from '@/api/learning/learning.query';
 import type { Note } from '@/api/notes/notes.types';
 
 import AppLoading from '@/components/common/AppLoading';
@@ -38,28 +35,6 @@ export default function IncorrectNoteList({
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const chapterIds = useMemo(
-    () => [...new Set(notes.map((note) => note.chapterId))],
-    [notes]
-  );
-  const chapterTitleQueries = useQueries({
-    queries: chapterIds.map((chapterId) => ({
-      queryKey: learningQueryKeys.chapter(chapterId),
-      queryFn: () => getLearningChapter(chapterId),
-      staleTime: Infinity,
-      retry: false,
-    })),
-  });
-  const chapterTitleById = useMemo(
-    () =>
-      Object.fromEntries(
-        chapterIds.map((chapterId, index) => [
-          chapterId,
-          chapterTitleQueries[index]?.data?.chapterTitle,
-        ])
-      ) as Record<number, string | undefined>,
-    [chapterIds, chapterTitleQueries]
-  );
 
   const showServiceReadyToast = () => {
     toast.info(SERVICE_READY_MESSAGE);
@@ -116,7 +91,7 @@ export default function IncorrectNoteList({
           }
           createdAt={note.createdAt}
           chapterSequence={note.chapterSequence}
-          chapterTitle={chapterTitleById[note.chapterId]}
+          chapterTitle={note.chapterTitle}
           topic={note.topic}
           questionTitle={note.questionTitle}
           onSelect={() => navigate(`/notes/incorrect/${note.noteId}`)}
