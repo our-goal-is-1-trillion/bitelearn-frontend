@@ -23,10 +23,12 @@ export default function StageNode({
 }: StageNodeProps) {
   // 현재 카테고리에 맞는 이모지 배열을 가져와서 시퀀스별로 로테이션
   const emojis = getCategoryEmojis(categoryCode);
-  const currentEmoji = emojis[(chapter.sequence - 1) % emojis.length];
+  const currentEmoji =
+    emojis && emojis.length > 0
+      ? emojis[(chapter.sequence - 1) % emojis.length]
+      : '📚';
   const isCompleted = chapter.status === 'COMPLETED';
   const isInProgress = chapter.status === 'QUIZ_IN_PROGRESS';
-  const isLocked = chapter.isLocked ?? false;
 
   return (
     <motion.div
@@ -41,12 +43,10 @@ export default function StageNode({
       }}
     >
       <Button
-        disabled={isLocked}
         onClick={onSelect}
         variant="ghost"
         className={cn(
-          'group relative z-10 flex h-20 w-20 items-center justify-center p-0 transition-all hover:bg-transparent disabled:opacity-100',
-          !isLocked ? 'active:scale-95' : ''
+          'group relative z-10 flex h-20 w-20 items-center justify-center p-0 transition-all hover:bg-transparent active:scale-95'
         )}
       >
         {/* 3D 하단 그림자 (Base) */}
@@ -59,10 +59,7 @@ export default function StageNode({
         {/* 3D 윗면 (사다리꼴 형태: perspective와 rotateX로 구현) */}
         <div
           className={cn(
-            'absolute inset-x-0 top-0 h-[72px] rounded-[24px] border-[1px] shadow-[inset_0_-2px_4px_rgba(0,0,0,0.05)]',
-            isLocked
-              ? 'border-white/60 bg-slate-100'
-              : 'border-white/80 bg-white'
+            'absolute inset-x-0 top-0 h-[72px] rounded-[24px] border-[1px] border-white/80 bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.05)]'
           )}
           style={{
             transformOrigin: 'top',
@@ -74,8 +71,6 @@ export default function StageNode({
         <div className="relative z-20 flex flex-col items-center justify-center">
           {isCompleted ? (
             <Check size={36} strokeWidth={4} className="-mt-2.5 text-primary" />
-          ) : isLocked ? (
-            <span className="tossface -mt-3 text-[36px]">🔒</span>
           ) : (
             <span className="tossface -mt-3 text-[36px]">{currentEmoji}</span>
           )}
@@ -111,7 +106,7 @@ export default function StageNode({
       <div
         className={cn(
           'mt-3 rounded-xl px-3 py-2 text-center transition-colors',
-          isCompleted || isLocked ? 'glass-label-dim' : 'glass-label'
+          isCompleted ? 'glass-label-dim' : 'glass-label'
         )}
       >
         <p

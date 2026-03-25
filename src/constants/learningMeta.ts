@@ -4,46 +4,42 @@ import investmentIcon from '@/assets/icons/category/investment.png';
 import realEstateIcon from '@/assets/icons/category/real_estate.png';
 import type { Category, Topic } from '@/api/learning/learning.types';
 
-export type LearningTopicBaseMeta = {
+export type LearningTopicUiMeta = {
   id: string;
   code: Topic;
-  defaultName: string;
   icon: string;
 };
 
-export type LearningCategoryBaseMeta = {
+export type LearningCategoryUiMeta = {
   id: string;
   code: Category;
-  defaultName: string;
   iconSrc: string;
   tagline: string;
   emojis: string[];
-  topics: LearningTopicBaseMeta[];
+  topics: LearningTopicUiMeta[];
 };
 
-export const LEARNING_CATEGORY_META: LearningCategoryBaseMeta[] = [
+// 학습 카테고리 및 토픽에 대한 UI 메타데이터 정의
+export const LEARNING_CATEGORY_META: LearningCategoryUiMeta[] = [
   {
     id: 'real-estate',
     code: 'REAL_ESTATE_HOUSING',
-    defaultName: '부동산 · 주거',
     iconSrc: realEstateIcon,
     tagline: '내 보증금, 내가 지킨다',
     emojis: ['🏠', '🏢', '🔑', '🚪', '🛋️'],
     topics: [
-      { id: 'jeonse', code: 'JEONSE', defaultName: '전세', icon: '🏦' },
+      { id: 'jeonse', code: 'JEONSE', icon: '🏦' },
       {
         id: 'monthly-rent',
         code: 'MONTHLY_RENT',
-        defaultName: '월세',
         icon: '💸',
       },
-      { id: 'buying', code: 'BUYING', defaultName: '매매', icon: '🏢' },
+      { id: 'buying', code: 'BUYING', icon: '🏢' },
     ],
   },
   {
     id: 'living-finance',
     code: 'LIVING_FINANCE_EMPLOYMENT',
-    defaultName: '생활금융 · 고용',
     iconSrc: financeIcon,
     tagline: '돈과 일, 내 편으로 만들기',
     emojis: ['💰', '💳', '🪙', '🏦', '🪙'],
@@ -51,19 +47,16 @@ export const LEARNING_CATEGORY_META: LearningCategoryBaseMeta[] = [
       {
         id: 'income-expenditure',
         code: 'INCOME_EXPENDITURE',
-        defaultName: '소득 및 지출',
         icon: '💵',
       },
       {
         id: 'credit-liabilities',
         code: 'CREDIT_LIABILITIES',
-        defaultName: '신용 및 부채',
         icon: '💳',
       },
       {
         id: 'work-welfare',
         code: 'WORK_WELFARE',
-        defaultName: '근로 및 복지',
         icon: '🧑‍💼',
       },
     ],
@@ -71,7 +64,6 @@ export const LEARNING_CATEGORY_META: LearningCategoryBaseMeta[] = [
   {
     id: 'career-tax',
     code: 'CAREER_TAX',
-    defaultName: '커리어 · 세무',
     iconSrc: careerIcon,
     tagline: '세금도 전략이다',
     emojis: ['🧑‍💼', '📄', '💼', '🤝', '🚀'],
@@ -79,19 +71,16 @@ export const LEARNING_CATEGORY_META: LearningCategoryBaseMeta[] = [
       {
         id: 'salary-real-income',
         code: 'SALARY_REAL_INCOME',
-        defaultName: '월급과 실수령액',
         icon: '🧾',
       },
       {
         id: 'income-tax-deduction',
         code: 'INCOME_TAX_DEDUCTION',
-        defaultName: '소득공제와 세액공제',
         icon: '🧮',
       },
       {
         id: 'comprehensive-income-tax',
         code: 'COMPREHENSIVE_INCOME_TAX',
-        defaultName: '종합소득세',
         icon: '📊',
       },
     ],
@@ -99,63 +88,71 @@ export const LEARNING_CATEGORY_META: LearningCategoryBaseMeta[] = [
   {
     id: 'investment',
     code: 'ASSET_MANAGEMENT_INVESTMENT',
-    defaultName: '자산운용 · 투자',
     iconSrc: investmentIcon,
     tagline: '투자는 언제나 똑똑히',
     emojis: ['📊', '📈', '💹', '🏛️', '📈'],
     topics: [
-      { id: 'stock', code: 'STOCK', defaultName: '주식', icon: '📉' },
+      { id: 'stock', code: 'STOCK', icon: '📉' },
       {
         id: 'bond-deposit',
         code: 'BOND_DEPOSIT',
-        defaultName: '채권 · 예금',
         icon: '🏦',
       },
-      { id: 'annuity', code: 'ANNUITY', defaultName: '연금', icon: '🏝️' },
+      { id: 'annuity', code: 'ANNUITY', icon: '🏝️' },
     ],
   },
 ];
 
-export function getCategoryBaseMetaByCode(categoryCode?: Category) {
+// 토픽 코드에 해당하는 라벨을 반환하는 함수
+const TOPIC_LABEL_BY_CODE: Record<Topic, string> = {
+  JEONSE: '전세',
+  MONTHLY_RENT: '월세',
+  BUYING: '매매',
+  INCOME_EXPENDITURE: '소득 및 지출',
+  CREDIT_LIABILITIES: '신용 및 부채',
+  WORK_WELFARE: '근로 및 복지',
+  SALARY_REAL_INCOME: '월급과 실수령액',
+  INCOME_TAX_DEDUCTION: '소득공제와 세액공제',
+  COMPREHENSIVE_INCOME_TAX: '종합소득세',
+  STOCK: '주식',
+  BOND_DEPOSIT: '채권 · 예금',
+  ANNUITY: '연금',
+};
+
+// 카테고리 코드를 기반으로 UI 메타데이터를 조회하는 함수
+export function getCategoryUiMetaByCode(categoryCode?: Category) {
   return LEARNING_CATEGORY_META.find(
     (category) => category.code === categoryCode
   );
 }
 
-export function getCategoryBaseMetaByRouteId(categoryId?: string) {
+// 라우트 ID를 기반으로 카테고리 UI 메타데이터를 조회하는 함수
+export function getCategoryUiMetaByRouteId(categoryId?: string) {
   return LEARNING_CATEGORY_META.find((category) => category.id === categoryId);
 }
 
-export function getTopicBaseMetaByCode(topicCode?: Topic) {
-  return LEARNING_CATEGORY_META.flatMap((category) => category.topics).find(
-    (topic) => topic.code === topicCode
-  );
-}
-
-export function getTopicBaseMetaByRouteId(topicId?: string) {
+// 라우트 ID를 기반으로 토픽 UI 메타데이터를 조회하는 함수
+export function getTopicUiMetaByRouteId(topicId?: string) {
   return LEARNING_CATEGORY_META.flatMap((category) => category.topics).find(
     (topic) => topic.id === topicId
   );
 }
 
+// 토픽 코드를 기반으로 표시용 라벨을 조회하는 함수
 export function getTopicLabel(topicCode?: string) {
-  return (
-    getTopicBaseMetaByCode(topicCode as Topic)?.defaultName ?? topicCode ?? ''
-  );
+  if (!topicCode) {
+    return '';
+  }
+
+  return TOPIC_LABEL_BY_CODE[topicCode as Topic] ?? topicCode;
 }
 
+// 라우트 ID를 기반으로 토픽 아이콘을 조회하는 함수
 export function getTopicIconByRouteId(topicId: string) {
-  return getTopicBaseMetaByRouteId(topicId)?.icon ?? '•';
+  return getTopicUiMetaByRouteId(topicId)?.icon ?? '•';
 }
 
+// 카테고리 코드를 기반으로 로드맵 이모지 배열을 조회하는 함수
 export function getCategoryEmojis(categoryCode?: Category) {
-  return (
-    getCategoryBaseMetaByCode(categoryCode)?.emojis ?? [
-      '💡',
-      '📚',
-      '🎯',
-      '🚀',
-      '⭐',
-    ]
-  );
+  return getCategoryUiMetaByCode(categoryCode)?.emojis;
 }

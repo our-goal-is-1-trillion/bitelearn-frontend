@@ -1,7 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
+import {
+  useLearningCategoriesQuery,
+  useLearningRoadmapQuery,
+} from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
 import Header from '@/components/common/Header';
 import StageNode from '@/components/features/learning/roadmap/StageNode';
@@ -14,7 +17,10 @@ import {
   STEP_Y,
   HALF_BTN,
 } from '@/components/features/learning/roadmap/roadmap.utils';
-import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
+import {
+  buildLearningNavigation,
+  getCategoryMetaByRouteId,
+} from '@/constants/learningNavigation';
 import {
   CHAPTER_BLOCKED_TOAST_MESSAGE,
   shouldBlockRoadmapChapterEntry,
@@ -28,25 +34,49 @@ export default function LearningRoadmapPage() {
   const navigate = useNavigate();
   const { categoryId, topicId } = useParams();
 
-  const category = getCategoryMetaByRouteId(categoryId);
-  const selectedTopic = category?.topics.find((topic) => topic.id === topicId);
-  const resolvedTopicId = selectedTopic?.id ?? category?.topics[0]?.id;
-  const resolvedTopic = category?.topics.find(
+  const routeCategory = getCategoryMetaByRouteId(categoryId);
+  const routeTopic = routeCategory?.topics.find(
+    (topic) => topic.id === topicId
+  );
+  const resolvedTopicId = routeTopic?.id ?? routeCategory?.topics[0]?.id;
+  const resolvedRouteTopic = routeCategory?.topics.find(
     (topic) => topic.id === resolvedTopicId
   );
+  const categoriesQuery = useLearningCategoriesQuery();
+  const navigation = buildLearningNavigation(categoriesQuery.data);
+  const category = navigation.find((entry) => entry.id === routeCategory?.id);
+  const selectedTopic = category?.topics.find((topic) => topic.id === topicId);
   const roadmapQuery = useLearningRoadmapQuery(
-    category && resolvedTopic
+    routeCategory && resolvedRouteTopic
       ? {
-          categoryId: category.id,
-          categoryCode: category.code,
-          topicId: resolvedTopic.id,
-          topicCode: resolvedTopic.code,
+          categoryId: routeCategory.id,
+          categoryCode: routeCategory.code,
+          topicId: resolvedRouteTopic.id,
+          topicCode: resolvedRouteTopic.code,
         }
       : null
   );
   const chapters = roadmapQuery.data ?? [];
   const isLoading = roadmapQuery.isPending;
   const loadError = roadmapQuery.error;
+
+  if (!routeCategory || !routeTopic) {
+    return <NotFoundPage />;
+  }
+
+  if (categoriesQuery.isPending) {
+    return <AppLoading message="학습 정보를 불러오는 중이에요." />;
+  }
+
+  if (categoriesQuery.error) {
+    return (
+      <main className="flex h-dvh items-center justify-center bg-slate-50 p-6">
+        <p className="text-sm font-medium text-red-400">
+          학습 카테고리 정보를 불러오지 못했습니다.
+        </p>
+      </main>
+    );
+  }
 
   if (!category || !selectedTopic) {
     return <NotFoundPage />;
@@ -63,7 +93,7 @@ export default function LearningRoadmapPage() {
       return;
     }
 
-    navigate(`/learning/${category.id}/${chapterId}`, {
+    navigate(`/learning/${routeCategory.id}/${chapterId}`, {
       state: {
         topicId: selectedTopic.id,
         chapterSequence,
@@ -128,7 +158,7 @@ export default function LearningRoadmapPage() {
                   <StageNode
                     chapter={chapter}
                     index={index}
-                    categoryCode={category.code}
+                    categoryCode={routeCategory.code}
                     onSelect={() =>
                       handleSelectChapter(chapter.chapterId, chapter.sequence)
                     }

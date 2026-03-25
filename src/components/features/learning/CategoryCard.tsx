@@ -3,10 +3,10 @@ import { ChevronDown, ChevronRight, ChevronUp } from 'lucide-react';
 import TextBadge from '@/components/common/TextBadge';
 import { cn } from '@/lib/utils';
 import { getTopicIconByRouteId } from '@/constants/learningMeta';
-import type { MockTopicSummary } from '@/mock/learning';
+import type { LearningTopicSummary } from '@/lib/learningNavigation';
 
 type TopicRowProps = {
-  topic: MockTopicSummary;
+  topic: LearningTopicSummary;
   onSelect: (topicId: string) => void;
 };
 
@@ -59,7 +59,7 @@ type CategoryCardProps = {
   categoryTagline: string;
   categoryIconSrc: string;
   progress: number;
-  topics: MockTopicSummary[];
+  topics: LearningTopicSummary[];
   isExpanded: boolean;
   onToggle: () => void;
   onSelectTopic: (topicId: string) => void;
