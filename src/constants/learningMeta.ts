@@ -119,6 +119,13 @@ const TOPIC_LABEL_BY_CODE: Record<Topic, string> = {
   ANNUITY: '연금',
 };
 
+const CATEGORY_LABEL_BY_CODE: Record<Category, string> = {
+  REAL_ESTATE_HOUSING: '부동산 · 주거',
+  LIVING_FINANCE_EMPLOYMENT: '생활금융 · 고용',
+  CAREER_TAX: '커리어 · 세무',
+  ASSET_MANAGEMENT_INVESTMENT: '자산운용 · 투자',
+};
+
 // 카테고리 코드를 기반으로 UI 메타데이터를 조회하는 함수
 export function getCategoryUiMetaByCode(categoryCode?: Category) {
   return LEARNING_CATEGORY_META.find(
@@ -145,6 +152,15 @@ export function getTopicLabel(topicCode?: string) {
   }
 
   return TOPIC_LABEL_BY_CODE[topicCode as Topic] ?? topicCode;
+}
+
+// 카테고리 코드를 기반으로 표시용 라벨을 조회하는 함수
+export function getCategoryLabel(categoryCode?: string) {
+  if (!categoryCode) {
+    return '';
+  }
+
+  return CATEGORY_LABEL_BY_CODE[categoryCode as Category] ?? categoryCode;
 }
 
 // 라우트 ID를 기반으로 토픽 아이콘을 조회하는 함수
