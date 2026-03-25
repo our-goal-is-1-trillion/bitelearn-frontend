@@ -94,12 +94,21 @@ async function fetchLearningRoadmapChapters({
   }
 }
 
+// 학습 로드맵 챕터 목록 조회 쿼리 옵션 생성 함수
+export function getLearningRoadmapQueryOptions(params: RoadmapQueryParams) {
+  return {
+    queryKey: learningQueryKeys.roadmap(params.categoryId, params.topicId),
+    queryFn: () => fetchLearningRoadmapChapters(params),
+    staleTime: LEARNING_PROGRESS_STALE_TIME_MS,
+  };
+}
+
 // 학습 로드맵 챕터 목록 조회 쿼리 훅
 export function useLearningRoadmapQuery(
   params: RoadmapQueryParams | null,
   enabled = true
 ) {
-  return useQuery({
+  return useQuery<ChapterSummaryDto[]>({
     queryKey: params
       ? learningQueryKeys.roadmap(params.categoryId, params.topicId)
       : ['learning', 'roadmap', 'idle'],

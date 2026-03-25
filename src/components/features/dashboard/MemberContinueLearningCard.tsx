@@ -1,10 +1,13 @@
 import { ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import type { RecentLearningResponse } from '@/api/auth/auth.types';
-import { useLearningRoadmapQuery } from '@/api/learning/learning.query';
+import { getLearningRoadmapQueryOptions } from '@/api/learning/learning.query';
 import TextBadge from '@/components/common/TextBadge';
 import { Button } from '@/components/ui/button';
 import { getCategoryMetaByCode } from '@/constants/learningNavigation';
+import { logError } from '@/lib/logError';
 import DashboardHeroCard from './DashboardHeroCard';
 
 type MemberContinueLearningCardProps = {
@@ -14,47 +17,56 @@ type MemberContinueLearningCardProps = {
 export default function MemberContinueLearningCard({
   recentLearning,
 }: MemberContinueLearningCardProps) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [isResolvingRoute, setIsResolvingRoute] = useState(false);
   const category = getCategoryMetaByCode(recentLearning.categoryCode);
   const topic = category?.topics.find(
     (entry) => entry.code === recentLearning.topicCode
   );
-  const roadmapQuery = useLearningRoadmapQuery(
-    category && topic
-      ? {
-          categoryId: category.id,
-          categoryCode: category.code,
-          topicId: topic.id,
-          topicCode: topic.code,
-        }
-      : null
-  );
-  const chapters = roadmapQuery.data ?? [];
-  const chapter = chapters.find(
-    (entry) => entry.chapterId === recentLearning.chapterId
-  );
 
   // 학습 시작 페이지로 이동 (topic 페이지 or chapter 페이지)
-  const handleContinueLearning = () => {
+  const handleContinueLearning = async () => {
     if (!category || !topic) {
       return;
     }
 
-    if (!chapter) {
-      navigate(`/learning/${category.id}/topics/${topic.id}`);
-      return;
-    }
+    setIsResolvingRoute(true);
 
-    navigate(`/learning/${category.id}/${recentLearning.chapterId}`, {
-      state: {
-        topicId: topic.id,
-        chapterSequence: chapter.sequence,
-        chapterIds: chapters.map((entry) => entry.chapterId),
-        chapterSequenceById: Object.fromEntries(
-          chapters.map((entry) => [entry.chapterId, entry.sequence])
-        ),
-      },
-    });
+    try {
+      const chapters = await queryClient.fetchQuery(
+        getLearningRoadmapQueryOptions({
+          categoryId: category.id,
+          categoryCode: category.code,
+          topicId: topic.id,
+          topicCode: topic.code,
+        })
+      );
+      const chapter = chapters.find(
+        (entry) => entry.chapterId === recentLearning.chapterId
+      );
+
+      if (!chapter) {
+        navigate(`/learning/${category.id}/topics/${topic.id}`);
+        return;
+      }
+
+      navigate(`/learning/${category.id}/${recentLearning.chapterId}`, {
+        state: {
+          topicId: topic.id,
+          chapterSequence: chapter.sequence,
+          chapterIds: chapters.map((entry) => entry.chapterId),
+          chapterSequenceById: Object.fromEntries(
+            chapters.map((entry) => [entry.chapterId, entry.sequence])
+          ),
+        },
+      });
+    } catch (error) {
+      logError('MemberContinueLearningCard', '최근 학습 경로 준비 실패', error);
+      navigate(`/learning/${category.id}/topics/${topic.id}`);
+    } finally {
+      setIsResolvingRoute(false);
+    }
   };
 
   return (
@@ -94,7 +106,7 @@ export default function MemberContinueLearningCard({
             className="relative h-10 w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-foreground shadow-none"
             onClick={handleContinueLearning}
             aria-label="이어서 학습하기"
-            disabled={!category || !topic}
+            disabled={!category || !topic || isResolvingRoute}
           >
             <span>이어서 학습하기</span>
             <ChevronRight className="absolute right-4 h-6 w-6" />
