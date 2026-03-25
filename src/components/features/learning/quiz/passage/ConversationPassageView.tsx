@@ -19,7 +19,7 @@ type ConversationPassageViewProps = {
 };
 
 const SPEAKER_VISUALS = {
-  멍멍이: {
+  멍뭉이: {
     profileImageUrl: mungmungProfileImage,
     position: 'right' as const,
     imageClassName: 'left-[-14px] top-[-6px] h-16 w-16 max-w-none',
@@ -55,32 +55,6 @@ function resolveSpeakerVisual(speakerName: string): SpeakerVisual {
 
   if (exactMatch) {
     return exactMatch;
-  }
-
-  const normalizedSpeakerName = trimmedSpeakerName.replace(/\s+/g, '');
-
-  if (
-    normalizedSpeakerName === '나' ||
-    normalizedSpeakerName.includes('멍멍') ||
-    normalizedSpeakerName.includes('주인공') ||
-    normalizedSpeakerName.includes('사용자')
-  ) {
-    return SPEAKER_VISUALS['멍멍이'];
-  }
-
-  if (
-    normalizedSpeakerName.includes('리트리버') ||
-    normalizedSpeakerName.includes('선배')
-  ) {
-    return SPEAKER_VISUALS['리트리버 선배'];
-  }
-
-  if (
-    normalizedSpeakerName.includes('공인중개사') ||
-    normalizedSpeakerName.includes('중개사') ||
-    normalizedSpeakerName.includes('불독')
-  ) {
-    return SPEAKER_VISUALS['불독 중개사'];
   }
 
   return SPEAKER_VISUALS['불독 중개사'];
@@ -146,7 +120,7 @@ export default function ConversationPassageView({
 
           return {
             id: speaker,
-            name: speaker,
+            name: speaker.trim(),
             profileImageUrl: speakerVisual.profileImageUrl,
             position: speakerVisual.position,
             imageClassName: speakerVisual.imageClassName,

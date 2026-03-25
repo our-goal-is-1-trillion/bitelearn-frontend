@@ -10,6 +10,7 @@ import QuizExitDialog from './shared/QuizExitDialog';
 import type { QuizSubmitResponse } from '@/api/learning/learning.types';
 import { isAppError } from '@/api/error/appError';
 import { logError } from '@/lib/logError';
+import { getQuizPassageImageUrl, preloadImages } from '@/lib/image';
 import { toast } from 'sonner';
 import { findDocumentFieldIndexByAnswerText } from './learningQuiz.utils';
 
@@ -72,7 +73,7 @@ export default function QuizPlayer({
   const isCorrect = currentResult?.correct ?? false;
   const isLastQuestion = currentIndex === questions.length - 1;
   const resolvedCorrectIndex = currentResult?.correctAnswerIndex ?? -1;
-  const shouldConfirmExit = phase !== 'result';
+  const shouldConfirmExit = phase !== 'result' || !isLastQuestion;
 
   useEffect(() => {
     onCurrentIndexChange(currentIndex);
@@ -81,6 +82,14 @@ export default function QuizPlayer({
   useEffect(() => {
     onMetricsChange(metrics);
   }, [metrics, onMetricsChange]);
+
+  useEffect(() => {
+    void preloadImages([
+      getQuizPassageImageUrl(questions[currentIndex]),
+      getQuizPassageImageUrl(questions[currentIndex + 1]),
+      getQuizPassageImageUrl(questions[currentIndex + 2]),
+    ]);
+  }, [questions, currentIndex]);
 
   const handleSolve = () => {
     if (

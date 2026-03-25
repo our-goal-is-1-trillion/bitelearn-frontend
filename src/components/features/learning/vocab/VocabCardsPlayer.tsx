@@ -12,6 +12,7 @@ import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import ChapterIndicator from '@/components/features/learning/chapter/ChapterIndicator';
 import useIndicatorShadow from '@/hooks/useIndicatorShadow';
+import { getVocabImageUrl, preloadImages } from '@/lib/image';
 import VocabCard from './VocabCard';
 
 import type { VocabInfo } from '@/api/learning/learning.types';
@@ -57,14 +58,26 @@ export default function VocabCardsPlayer({
   const showPrevSwipeHint = swipeHintDirection === 'right' && !isFirstVocab;
   const showNextSwipeHint = swipeHintDirection === 'left' && isFlipped;
 
+  // vocabIdx가 변경될 때마다 드래그 위치 초기화
   useEffect(() => {
     dragX.set(0);
   }, [vocabIdx, dragX]);
 
+  // vocabs 배열이 변경될 때마다 flippedStates 배열을 초기화하여 카드가 모두 앞면으로 시작하도록 설정
   useEffect(() => {
     setFlippedStates((prev) => vocabs.map((_, idx) => prev[idx] ?? false));
   }, [vocabs]);
 
+  // 현재 카드와 다음 카드, 다다음 카드의 이미지를 미리 불러오기
+  useEffect(() => {
+    void preloadImages([
+      getVocabImageUrl(vocabs[vocabIdx]),
+      getVocabImageUrl(vocabs[vocabIdx + 1]),
+      getVocabImageUrl(vocabs[vocabIdx + 2]),
+    ]);
+  }, [vocabs, vocabIdx]);
+
+  // 카드 프레임의 너비를 측정하여 스와이프 임계값 계산에 활용
   useEffect(() => {
     const element = cardFrameRef.current;
 
@@ -99,6 +112,7 @@ export default function VocabCardsPlayer({
   const swipeCommitThreshold = Math.max(72, Math.round(cardWidth * 0.22));
   const swipeVelocityThreshold = Math.max(500, Math.round(cardWidth * 1.4));
 
+  // 챕터 완료 처리 준비
   const slideVariants: Variants = {
     initial: (dir: number) => ({
       x: dir > 0 ? '110%' : '-110%',
@@ -126,6 +140,7 @@ export default function VocabCardsPlayer({
     }),
   };
 
+  // 다음 카드로 이동 처리
   const handleNext = async () => {
     if (isCompleting || !isFlipped) return;
 
@@ -143,6 +158,7 @@ export default function VocabCardsPlayer({
     onVocabIdxChange(vocabIdx + 1);
   };
 
+  // 이전 카드로 이동 처리
   const handlePrev = () => {
     if (isFirstVocab) return;
 
@@ -150,6 +166,7 @@ export default function VocabCardsPlayer({
     onVocabIdxChange(vocabIdx - 1);
   };
 
+  // 카드 뒤집기 처리
   const handleFlip = () => {
     setFlippedStates((prev) =>
       prev.map((value, idx) => (idx === vocabIdx ? !value : value))
@@ -223,7 +240,11 @@ export default function VocabCardsPlayer({
                   className="perspective-1000 z-10 aspect-[34/44] min-h-[440px] w-full shrink-0"
                 >
                   <motion.div
-                    style={{ x: dragX, rotate: cardRotate, touchAction: 'pan-y' }}
+                    style={{
+                      x: dragX,
+                      rotate: cardRotate,
+                      touchAction: 'pan-y',
+                    }}
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: 0, right: 0 }}
@@ -254,10 +275,8 @@ export default function VocabCardsPlayer({
                       ) {
                         handleNext();
                       } else if (
-                        (
-                          offset.x > swipeCommitThreshold ||
-                          velocity.x > swipeVelocityThreshold
-                        ) &&
+                        (offset.x > swipeCommitThreshold ||
+                          velocity.x > swipeVelocityThreshold) &&
                         !isFirstVocab
                       ) {
                         handlePrev();
