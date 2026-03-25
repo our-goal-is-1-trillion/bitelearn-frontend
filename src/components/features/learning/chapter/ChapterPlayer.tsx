@@ -58,7 +58,8 @@ type ChapterPlayerProps = {
   onVocabComplete?: () => Promise<void>;
   onSubmitQuiz: (
     quizId: number,
-    selectedAnswer: string
+    selectedAnswer: string,
+    nextQuizSequence: number | null
   ) => Promise<QuizSubmitResponse>;
   onFetchResult: () => Promise<ChapterResultResponse>;
   onComplete: (total: number, correct: number) => void;
@@ -165,7 +166,11 @@ export default function ChapterPlayer({
       throw new Error('퀴즈 제출에 필요한 데이터가 올바르지 않습니다.');
     }
 
-    return onSubmitQuiz(question.quizId, selectedAnswer);
+    return onSubmitQuiz(
+      question.quizId,
+      selectedAnswer,
+      question.sequence < quizzes.length ? question.sequence + 1 : null
+    );
   };
 
   // 단어 학습 단계 표시 정보 계산

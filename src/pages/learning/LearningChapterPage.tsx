@@ -3,13 +3,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import ChapterPlayer from '@/components/features/learning/chapter/ChapterPlayer';
-import {
-  completeLearningVocab,
-  getLearningChapterResult,
-  submitLearningQuiz,
-} from '@/api/learning/learning.api';
+import { getLearningChapterResult } from '@/api/learning/learning.api';
 import { useLearningChapterQuery } from '@/api/learning/learning.query';
 import AppLoading from '@/components/common/AppLoading';
+import { useLearningChapterProgress } from '@/hooks/useLearningChapterProgress';
 import { getTopicLabel } from '@/constants/learningMeta';
 import { getCategoryMetaByRouteId } from '@/constants/learningNavigation';
 import {
@@ -63,6 +60,12 @@ export default function LearningChapterPage() {
       !isBlockedChapterRoute
     )
   );
+  const { completeLearningVocab, submitLearningQuiz } =
+    useLearningChapterProgress({
+      chapterId: chapterIdNumber,
+      categoryId: category?.id,
+      topicId: locationState.topicId,
+    });
 
   // 챕터 접근 차단 처리
   useEffect(() => {
@@ -138,9 +141,13 @@ export default function LearningChapterPage() {
       initialQuizSequence={chapterQuery.data.resumeQuizSequence}
       blockedIntroStartMessage={CHAPTER_BLOCKED_TOAST_MESSAGE}
       shouldBlockIntroStart={shouldBlockIntroStart}
-      onVocabComplete={() => completeLearningVocab(chapterIdNumber)}
-      onSubmitQuiz={(quizId, selectedAnswer) =>
-        submitLearningQuiz(chapterIdNumber, quizId, { selectedAnswer })
+      onVocabComplete={completeLearningVocab}
+      onSubmitQuiz={(quizId, selectedAnswer, nextQuizSequence) =>
+        submitLearningQuiz({
+          quizId,
+          selectedAnswer,
+          nextQuizSequence,
+        })
       }
       onFetchResult={() => getLearningChapterResult(chapterIdNumber)}
       onBack={() => navigate(-1)}
