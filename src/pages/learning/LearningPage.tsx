@@ -15,10 +15,12 @@ import {
   mergeCategoryTopicsWithSummary,
 } from '@/lib/learningNavigation';
 
+const DEFAULT_EXPANDED_CATEGORY_ID = 'real-estate';
+
 export default function LearningPage() {
   const navigate = useNavigate();
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(
-    null
+    DEFAULT_EXPANDED_CATEGORY_ID
   );
   const categoriesQuery = useLearningCategoriesQuery();
   const navigation = useMemo(

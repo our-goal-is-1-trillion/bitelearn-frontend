@@ -127,7 +127,7 @@ export default function IncorrectNoteSection({
         isLoading={isLoading}
       />
 
-      <div className="relative sticky top-[50px] z-10 bg-[rgba(250,250,250,0.80)] py-3.5 backdrop-blur-[4px] supports-[backdrop-filter]:bg-[rgba(250,250,250,0.80)]">
+      <div className="sticky top-[50px] z-10 bg-[rgba(250,250,250,0.80)] py-3.5 backdrop-blur-[4px] supports-[backdrop-filter]:bg-[rgba(250,250,250,0.80)]">
         {canScrollLeft && (
           <ScrollEdgeOverlay
             direction="left"
