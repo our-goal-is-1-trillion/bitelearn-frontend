@@ -73,7 +73,7 @@ export default function QuizPlayer({
   const isCorrect = currentResult?.correct ?? false;
   const isLastQuestion = currentIndex === questions.length - 1;
   const resolvedCorrectIndex = currentResult?.correctAnswerIndex ?? -1;
-  const shouldConfirmExit = phase !== 'result';
+  const shouldConfirmExit = phase !== 'result' || !isLastQuestion;
 
   useEffect(() => {
     onCurrentIndexChange(currentIndex);
