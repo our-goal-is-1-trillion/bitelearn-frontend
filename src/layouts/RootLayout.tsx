@@ -37,10 +37,13 @@ export default function RootLayout() {
       <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col">
         <Outlet />
 
-        <OnboardingModal
-          isOpen={isOnboardingOpen}
-          onClose={handleCompleteOnboarding}
-        />
+        {isOnboardingOpen ? (
+          <OnboardingModal
+            key={`onboarding-${user.id}`}
+            isOpen
+            onClose={handleCompleteOnboarding}
+          />
+        ) : null}
 
         <Toaster position="top-center" />
       </div>
