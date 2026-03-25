@@ -63,8 +63,8 @@
 ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
 
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)
-![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
-![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge)
+![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge)
 
 ![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
 ![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)
@@ -87,7 +87,7 @@ src/
   hooks/              북마크, 그림자, URL 파라미터 등 커스텀 훅
   layouts/            루트/앱 레이아웃
   lib/                SEO, 에러 로깅, 학습 네비게이션 유틸
-  mock/               대시보드, 학습, 아티클 목업 데이터
+  mock/               아티클 목업 데이터
   pages/              라우트 단위 페이지
   router/             전체 라우팅 정의
   schemas/            폼 검증 스키마
@@ -138,8 +138,7 @@ npm run dev
 
 ## Current Status
 
-- 현재 프로젝트는 일부 화면에서 실제 API와 `mock` 데이터를 함께 사용합니다.
-- 인증, 학습 카테고리/챕터, 오답노트는 API 연동 구조를 기준으로 작성되어 있습니다.
+- 인증, 학습 카테고리/로드맵/챕터/오답노트/대시보드 추천은 API 연동 구조를 기준으로 작성되어 있습니다.
 - 실제 학습 진행은 월세 토픽 챕터 1, 2 데이터만 연결되어 있어 해당 범위에서만 플레이 가능합니다.
 - 오답노트는 복습용 조회와 문제 확인 중심으로 구현되어 있습니다.
 
