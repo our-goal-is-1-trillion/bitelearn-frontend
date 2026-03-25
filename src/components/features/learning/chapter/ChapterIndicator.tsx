@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { StepIndicatorInfo } from '../quiz/quiz.types';
 
@@ -29,6 +30,7 @@ function getIndicatorState(
 
   return 'quiz';
 }
+
 
 function getIndicatorClasses(state: IndicatorItemState, isCurrent: boolean) {
   switch (state) {
@@ -90,13 +92,20 @@ function IndicatorItem({
     <div className="relative h-[18px] w-[18px] shrink-0">
       <div
         className={cn(
-          'absolute left-1/2 top-1/2 rounded-full transition-all duration-300',
-          step.isCurrent
-            ? 'h-[18px] w-[18px] -translate-x-1/2 -translate-y-1/2'
-            : 'h-2 w-2 -translate-x-1/2 -translate-y-1/2',
-          outer
+          'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300',
+          step.isCurrent ? 'h-[18px] w-[18px]' : 'h-2 w-2'
         )}
-      />
+      >
+        <motion.div
+          className={cn('h-full w-full rounded-full', outer)}
+          animate={step.isCurrent ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+          transition={{
+            duration: step.isCurrent ? 1.4 : 0.3,
+            repeat: step.isCurrent ? Infinity : 0,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
       {step.isCurrent ? (
         <div
           className={cn(
