@@ -26,8 +26,14 @@ export default function OnboardingModal({
     if (!isLastStep) {
       setStep((p) => p + 1);
     } else {
+      setStep(initialStep);
       onClose();
     }
+  };
+
+  const handleClose = () => {
+    setStep(initialStep);
+    onClose();
   };
 
   return (
@@ -42,7 +48,7 @@ export default function OnboardingModal({
         {/* 닫기 버튼 */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-foreground shadow-sm transition-colors hover:bg-white"
         >
           <X className="h-5 w-5" />
