@@ -4,6 +4,7 @@ import type {
   QuizPhase,
   StepIndicatorInfo,
 } from '@/components/features/learning/quiz/quiz.types';
+import { findDocumentFieldIndexByAnswerText } from '@/components/features/learning/quiz/learningQuiz.utils';
 import QuizPassagePhase from '@/components/features/learning/quiz/phases/QuizPassagePhase';
 import QuizChoicesPhase from '@/components/features/learning/quiz/phases/QuizChoicesPhase';
 import QuizResultPhase from '@/components/features/learning/quiz/phases/QuizResultPhase';
@@ -24,11 +25,7 @@ function findSelectedDocumentIndex(
   userAnswer: string,
   documentElements: { key: string; value: string }[]
 ) {
-  return documentElements.findIndex(
-    (element) =>
-      element.key.trim() === userAnswer.trim() ||
-      element.value.trim() === userAnswer.trim()
-  );
+  return findDocumentFieldIndexByAnswerText(documentElements, userAnswer);
 }
 
 function resolveInitialSelectedChoice(quiz: QuizInfo, userAnswer: string) {
@@ -71,8 +68,9 @@ export default function IncorrectNoteQuizViewer({
   ];
   const correctAnswerIndex = useMemo(() => {
     if (quiz.type === 'DOC_CLICK') {
-      return (quiz.specificData?.documentElements ?? []).findIndex(
-        (element) => element.key.trim() === correctAnswer.trim()
+      return findDocumentFieldIndexByAnswerText(
+        quiz.specificData?.documentElements ?? [],
+        correctAnswer
       );
     }
 
